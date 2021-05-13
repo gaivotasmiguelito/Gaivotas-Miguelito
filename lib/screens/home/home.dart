@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/home/map.page.dart';
+import 'package:flutter_app/screens/home/map.dart';
+import 'package:flutter_app/screens/profile/edit_profile.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -39,6 +40,8 @@ class _HomePageState extends State<HomePage> {
               leading: Icon(Icons.account_circle_outlined),
               title: Text('Minha conta'),
               onTap: (){
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => SettingsUI()));
                 print('Conta');
               },
             ),

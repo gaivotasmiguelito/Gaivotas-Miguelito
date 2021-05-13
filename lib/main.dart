@@ -8,6 +8,7 @@ void main() {
     statusBarColor: Colors.transparent,
     statusBarBrightness: Brightness.light,
   ));
+
   runApp(MyApp());
 }
 
