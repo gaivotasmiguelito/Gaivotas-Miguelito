@@ -1,6 +1,6 @@
-# flutter_app
+# Gaivotas Miguelito
 
-A new Flutter application.
+App de Aluguer de Gaivotas.
 
 ## Getting Started
 
