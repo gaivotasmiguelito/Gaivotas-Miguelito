@@ -1,6 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirestoreService {
-  FirebaseFirestore _db = FirebaseFirestore.instance;
+/*
+Future<void> createUser() async {
+
 }
+
+class OurDatabase {
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<String> createUser(OurUser user) async {
+
+  }
+
+
+}*/
+
+
 

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/home/home.dart';
 import 'package:flutter_app/screens/profile/settings.dart';
@@ -10,6 +12,37 @@ class SettingsUI extends StatefulWidget {
 }
 
 class _SettingsUIState extends State<SettingsUI> {
+
+  String _email ='';
+  String _password='';
+  String _name='';
+
+
+  String uid = FirebaseAuth.instance.currentUser.uid;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
+
+  Future<void> _updateuser() async {
+    final formState = _formKey.currentState;
+
+    if(formState.validate()){
+
+      formState.save();
+
+      utilizadores.doc(uid).get();
+
+      await FirebaseAuth.instance.currentUser.updateProfile(displayName: _name);
+
+        return utilizadores
+            .doc(uid)
+            .update({'Nome': _name})
+            .then((value) => print("Utilizador atualizado"))
+            .catchError((error) => print("Failed to update user: $error"));
+
+    }
+
+  }
   bool showPassword = false;
   @override
   Widget build(BuildContext context) {
@@ -18,15 +51,14 @@ class _SettingsUIState extends State<SettingsUI> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.blue,
-          ),
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => HomePage()));
-
+            Navigator.pop(context);
           },
+          icon: Icon(Icons.arrow_back_ios,
+            size: 20,
+            color: Colors.black,),
+
+
         ),
         actions: [
           IconButton(
@@ -41,143 +73,149 @@ class _SettingsUIState extends State<SettingsUI> {
           ),
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.only(left: 16, top: 25, right: 16),
-        child: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: ListView(
-            children: [
-              Text(
-                "Editar Perfil",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Center(
-                child: Stack(
-                  children: [
-                    Container(
-                      width: 130,
-                      height: 130,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 4,
-                              color: Theme.of(context).scaffoldBackgroundColor),
-                          boxShadow: [
-                            BoxShadow(
-                                spreadRadius: 2,
-                                blurRadius: 10,
-                                color: Colors.black.withOpacity(0.1),
-                                offset: Offset(0, 10))
-                          ],
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage("assets/images/logo1.png"),
-                          )
-                      ),
-                    ),
-                    Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              width: 4,
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                            ),
-                            color: Colors.blue,
-                          ),
-                          child: Icon(
-                            Icons.edit,
-                            color: Colors.white,
-                          ),
-                        )),
+      body: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.white,
+
+        body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 40),
+            height: MediaQuery.of(context).size.height - 50,
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+            FutureBuilder<DocumentSnapshot>(
+            future: utilizadores.doc(uid).get(),
+            builder:
+                (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+
+                Map<String, dynamic> data = snapshot.data.data();
+                return Text("Nome: ${data['Nome']}");
+
+            },
+          ),
+                Column(
+                  children: <Widget>[
+                    Text("Editar conta",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+
+                      ),),
+
                   ],
                 ),
-              ),
-              SizedBox(
-                height: 35,
-              ),
-              buildTextField("Nome completo", "Jorge Jesus", false),
-              buildTextField("Email", "jj@gmail.com", false),
-              buildTextField("Password", "********", true),
-              SizedBox(
-                height: 35,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  OutlineButton(
-                    padding: EdgeInsets.symmetric(vertical: 15,horizontal: 50),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    onPressed: () {},
-                    child: Text("Cancelar",
-                        style: TextStyle(
-                            fontSize: 14,
-                            letterSpacing: 2.2,
-                            color: Colors.black)),
-                  ),
-                  RaisedButton(
-                    onPressed: () {},
-                    color: Colors.blue,
-                    padding: EdgeInsets.symmetric(vertical: 15,horizontal: 50),
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Text(
-                      "Guardar",
-                      style: TextStyle(
-                          fontSize: 14,
-                          letterSpacing: 2.2,
-                          color: Colors.white),
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
 
-  Widget buildTextField(
-      String labelText, String placeholder, bool isPasswordTextField) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 35.0),
-      child: TextField(
-        obscureText: isPasswordTextField ? showPassword : false,
-        decoration: InputDecoration(
-            suffixIcon: isPasswordTextField
-                ? IconButton(
-              onPressed: () {
-                setState(() {
-                  showPassword = !showPassword;
-                });
-              },
-              icon: Icon(
-                Icons.remove_red_eye,
-                color: Colors.grey,
-              ),
-            )
-                : null,
-            contentPadding: EdgeInsets.only(bottom: 3),
-            labelText: labelText,
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-            hintText: placeholder,
-            hintStyle: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            )),
+                  children: <Widget>[
+
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+
+                        children: <Widget>[
+
+                          Text(
+                            'Nome ( Primeiro e ultimo)',
+
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              color:Colors.black87,
+                            ),
+
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+
+                          TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (input){
+                              if(input.isEmpty){
+                                return 'Nome inválido!';
+                              }
+                            } ,
+                            onSaved: (input) => _name =input,
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(vertical: 0,
+                                    horizontal: 10),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.grey[400]
+                                  ),
+
+                                ),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey[400])
+                                )
+                            ),
+
+                          ),
+
+
+                        ],
+                      ),
+                    ),
+
+
+                  ],
+                ),
+                Container(
+                  decoration:
+                  BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      border: Border(
+                        bottom: BorderSide(color: Colors.black),
+                        top: BorderSide(color: Colors.black),
+                        left: BorderSide(color: Colors.black),
+                        right: BorderSide(color: Colors.black),
+
+
+
+                      )
+
+                  ),
+                  child: MaterialButton(
+                    minWidth: double.infinity,
+                    height: 60,
+                    onPressed: () {
+                      _updateuser();
+
+                    },
+                    color: Color(0xff0095FF),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+
+                    ),
+                    child: Text(
+                      "Editar conta", style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                      color: Colors.white,
+
+                    ),
+                    ),
+
+                  ),
+
+
+
+                ),
+
+              ],
+
+            ),
+
+
+          ),
+
+        ),
+
       ),
     );
   }

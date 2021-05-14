@@ -3,57 +3,35 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key key}) : super(key: key);
+class Review extends StatefulWidget {
+  const Review({Key key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _ReviewState createState() => _ReviewState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ReviewState extends State<Review> {
 
-  String _email ='';
-  String _password='';
+  String _userName = FirebaseAuth.instance.currentUser.displayName;
+  String _review;
 
+  CollectionReference ref = FirebaseFirestore.instance.collection('Reviews');
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
-
-  Future<void> _loginuser() async {
+  Future<void> _createReview() async {
     final formState = _formKey.currentState;
     if(formState.validate()){
-
       formState.save();
+      Map <String,dynamic> data = {"Conteudo":_review.toString(), "Nome":_userName};
 
-      try {
-
-        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
-        print("User: $userCredential");
-
-        //Firestore online
-        OnlineUser();
-
-        Navigator.of(context).pushReplacementNamed('/home');
-
-
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          print('Nenhum utilizador encontrado para esse e-mail.');
-        } else if (e.code == 'wrong-password') {
-          print('Password incorreta para este utilizador');
-
-        }
-      }
-
+      FirebaseFirestore.instance.collection("Reviews").add(data);
     }
 
   }
-
-
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -82,16 +60,17 @@ class _LoginPageState extends State<LoginPage> {
               children: <Widget>[
                 Column(
                   children: <Widget>[
-                    Text("Iniciar sessão",
+                    Text("Reviews",
                       style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 20,),
-                    Text("Inicie a sessão com a sua conta",
+                    Text("Deixe-nos a sua opinião!",
                       style: TextStyle(
                           fontSize: 15,
                           color:Colors.grey[700]),)
                   ],
                 ),
+
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 40),
                   child: Column(
@@ -107,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                           children: <Widget>[
 
                             Text(
-                              'Email',
+                              'Review',
 
                               style: TextStyle(
                                 fontSize: 15,
@@ -124,10 +103,10 @@ class _LoginPageState extends State<LoginPage> {
                               keyboardType: TextInputType.emailAddress,
                               validator: (input){
                                 if(input.isEmpty){
-                                  return 'Email inválido!';
+                                  return 'Insira a sua mensagem!';
                                 }
                               } ,
-                              onSaved: (input) => _email =input,
+                              onSaved: (input) => _review =input,
                               decoration: InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(vertical: 0,
                                       horizontal: 10),
@@ -143,43 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
 
                             ),
-                            SizedBox(height: 20,),
 
-                            Text(
-                              'Password',
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                  color:Colors.black87
-                              ),
-
-                            ),
-
-                            SizedBox(height: 10,),
-
-                            TextFormField(
-                              obscureText: true,
-                              validator: (input){
-                                if(input.length<6){
-                                  return 'A password deve ter no minimo 6 caracteres.';
-                                }
-                              } ,
-                              onSaved: (input) => _password =input,
-                              decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(vertical: 0,
-                                      horizontal: 10),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey[400]
-                                    ),
-
-                                  ),
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.grey[400])
-                                  )
-                              ),
-
-                            ),
                           ],
                         ),
                       ),
@@ -195,25 +138,19 @@ class _LoginPageState extends State<LoginPage> {
                     decoration:
                     BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
-                        border: Border(
-                          bottom: BorderSide(color: Colors.black),
-                          top: BorderSide(color: Colors.black),
-                          left: BorderSide(color: Colors.black),
-                          right: BorderSide(color: Colors.black),
-
-                        )
-
-
-
                     ),
+
+
                     child: MaterialButton(
                       minWidth: double.infinity,
                       height: 60,
                       onPressed: () {
 
-                        _loginuser();
+                        print(_review);
 
-                        //Navigator.of(context).pushReplacementNamed('/home');
+                        //await createReview();
+                        _createReview();
+
                       },
                       color: Color(0xff0095FF),
                       elevation: 0,
@@ -222,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
 
                       ),
                       child: Text(
-                        "Iniciar sessão", style: TextStyle(
+                        "Criar Review", style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 18,
                         color: Colors.white,
@@ -235,29 +172,41 @@ class _LoginPageState extends State<LoginPage> {
                 ),
 
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text("Não tem uma conta?"),
-                    Text(" Crie uma!", style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
-
-                    ),)
-                  ],
-                ),
-
-                Container(
-                  padding: EdgeInsets.only(top: 100),
-                  height: 200,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("assets/images/background.png"),
-                        fit: BoxFit.fitHeight
+                Padding(padding:
+                EdgeInsets.symmetric(horizontal: 40),
+                  child: Container(
+                    decoration:
+                    BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
                     ),
 
+
+                    child: MaterialButton(
+                      minWidth: double.infinity,
+                      height: 60,
+                      onPressed: () {
+
+
+
+                      },
+                      color: Color(0xff0095FF),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
+
+                      ),
+                      child: Text(
+                        "Testar", style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
+                        color: Colors.white,
+
+                      ),
+                      ),
+
+                    ),
                   ),
-                )
+                ),
 
               ],
             ))

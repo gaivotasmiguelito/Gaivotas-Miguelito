@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/services/firestoreUsers.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key key}) : super(key: key);
@@ -27,10 +28,20 @@ class _SignupPageState extends State<SignupPage> {
         UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
 
         //Atualizar o nome
+        //User updateUser = FirebaseAuth.instance.currentUser;
+        //updateUser.updateProfile(displayName: _name);
+
         await FirebaseAuth.instance.currentUser.updateProfile(displayName: _name);
         //await FirebaseAuth.instance.currentUser.reload();
 
         print("User: $userCredential");
+
+
+        //Guarda a informação no Firestore
+        FirestoreUser(_name);
+
+        //Firestore online
+        OnlineUser();
 
         //Definir rota
         Navigator.of(context).pushReplacementNamed('/home');
