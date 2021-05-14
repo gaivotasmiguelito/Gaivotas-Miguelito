@@ -14,7 +14,7 @@ Future<void>FirestoreUser (String displayName) async{
       .then((value) => print("Utilizador criado no Firestore"))
       .catchError((error) => print("Falha a criar utilizador no Firestor: $error"));
 
-  //users.add({'Email':email,'Nome':displayName,'Id':uid});
+  //users.add({'Email':email,'Nome':displayName,'Id':uid});rytty
   return;
 
 }
