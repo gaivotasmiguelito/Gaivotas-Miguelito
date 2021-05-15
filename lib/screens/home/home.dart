@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/home/map.dart';
 import 'package:flutter_app/screens/home/review.dart';
-import 'package:flutter_app/screens/profile/edit_profile.dart';
+import 'package:flutter_app/screens/profile/editProfile.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
 
 
@@ -57,6 +57,7 @@ class _HomePageState extends State<HomePage> {
                 print('Conta');
               },
             ),
+
             ListTile(
               leading: Icon(Icons.account_circle_outlined),
               title: Text('Reviews'),

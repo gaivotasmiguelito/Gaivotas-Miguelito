@@ -7,6 +7,7 @@ Future<void>FirestoreUser (String displayName) async{
   String uid = auth.currentUser.uid.toString();
   String email = auth.currentUser.email.toString();
 
+
   CollectionReference users = FirebaseFirestore.instance.collection('Utilizadores');
   users
       .doc(uid)
@@ -14,7 +15,7 @@ Future<void>FirestoreUser (String displayName) async{
       .then((value) => print("Utilizador criado no Firestore"))
       .catchError((error) => print("Falha a criar utilizador no Firestor: $error"));
 
-  //users.add({'Email':email,'Nome':displayName,'Id':uid});rytty
+  //users.add({'Email':email,'Nome':displayName,'Id':uid});
   return;
 
 }

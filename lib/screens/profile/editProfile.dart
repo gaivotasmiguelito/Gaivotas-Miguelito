@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/home/home.dart';
 import 'package:flutter_app/screens/profile/settings.dart';
 
 class SettingsUI extends StatefulWidget {
@@ -19,11 +18,17 @@ class _SettingsUIState extends State<SettingsUI> {
 
 
   String uid = FirebaseAuth.instance.currentUser.uid;
+  String uname = FirebaseAuth.instance.currentUser.displayName;
+  String uemail = FirebaseAuth.instance.currentUser.email;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
 
+
+
   Future<void> _updateuser() async {
+
+
     final formState = _formKey.currentState;
 
     if(formState.validate()){
@@ -33,6 +38,7 @@ class _SettingsUIState extends State<SettingsUI> {
       utilizadores.doc(uid).get();
 
       await FirebaseAuth.instance.currentUser.updateProfile(displayName: _name);
+      //await FirebaseAuth.instance.currentUser.reload();
 
         return utilizadores
             .doc(uid)
@@ -85,16 +91,7 @@ class _SettingsUIState extends State<SettingsUI> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-            FutureBuilder<DocumentSnapshot>(
-            future: utilizadores.doc(uid).get(),
-            builder:
-                (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
 
-                Map<String, dynamic> data = snapshot.data.data();
-                return Text("Nome: ${data['Nome']}");
-
-            },
-          ),
                 Column(
                   children: <Widget>[
                     Text("Editar conta",
@@ -134,12 +131,59 @@ class _SettingsUIState extends State<SettingsUI> {
 
                           TextFormField(
                             keyboardType: TextInputType.emailAddress,
+                            controller: TextEditingController(
+                              text: uname,
+                            ),
                             validator: (input){
                               if(input.isEmpty){
                                 return 'Nome inválido!';
                               }
                             } ,
                             onSaved: (input) => _name =input,
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(vertical: 0,
+                                    horizontal: 10),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.grey[400]
+                                  ),
+
+                                ),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey[400])
+                                )
+                            ),
+
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+
+                          Text(
+                            'Email',
+
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              color:Colors.black87,
+                            ),
+
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+
+                          TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            controller: TextEditingController(
+                              text: uemail,
+                            ),
+                            validator: (input){
+                              if(input.isEmpty){
+                                return 'Nome inválido!';
+                              }
+                            } ,
+                            onSaved: (input) => _email =input,
                             decoration: InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(vertical: 0,
                                     horizontal: 10),
