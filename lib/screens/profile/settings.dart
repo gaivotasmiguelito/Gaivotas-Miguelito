@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/profile/password.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -63,6 +64,60 @@ class _SettingsPageState extends State<SettingsPage> {
             buildAccountOptionRow(context, "Alterar Password"),
             buildAccountOptionRow(context, "Privacidade e Segurança"),
 
+            MaterialButton(
+              minWidth: double.infinity,
+              height: 60,
+              onPressed: () {
+
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => UPassword()));
+
+                //Navigator.of(context).pushReplacementNamed('/home');
+              },
+              color: Color(0xff0095FF),
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+
+              ),
+              child: Text(
+                "Alterar Conteudo", style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 18,
+                color: Colors.white,
+
+              ),
+              ),
+
+            ),
+
+            MaterialButton(
+              minWidth: double.infinity,
+              height: 60,
+              onPressed: () {
+
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => UPassword()));
+
+                //Navigator.of(context).pushReplacementNamed('/home');
+              },
+              color: Color(0xff0095FF),
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+
+              ),
+              child: Text(
+                "Alterar Password", style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 18,
+                color: Colors.white,
+
+              ),
+              ),
+
+            ),
+
             SizedBox(
               height: 50,
             ),
@@ -100,7 +155,9 @@ class _SettingsPageState extends State<SettingsPage> {
             scale: 0.7,
             child: CupertinoSwitch(
               value: isActive,
-              onChanged: (bool val) {},
+              onChanged: (bool val) {
+
+              },
             ))
       ],
     );

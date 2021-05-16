@@ -14,6 +14,7 @@ class _SignupPageState extends State<SignupPage> {
   String _email ='';
   String _password='';
   String _name='';
+  TextEditingController passwordText = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -203,6 +204,7 @@ class _SignupPageState extends State<SignupPage> {
                         SizedBox(height: 10,),
 
                         TextFormField(
+                          controller: passwordText,
                           obscureText: true,
                           validator: (input){
                             if(input.length<6){
@@ -242,9 +244,13 @@ class _SignupPageState extends State<SignupPage> {
 
                         TextFormField(
                           obscureText: true,
+
                           validator: (input){
                             if(input.length<6){
                               return 'A password deve ter no minimo 6 caracteres.';
+                            }
+                            if(input != passwordText.text){
+                              return 'As password não são iguais';
                             }
                           } ,
                           //onSaved: (input) => _password=input,

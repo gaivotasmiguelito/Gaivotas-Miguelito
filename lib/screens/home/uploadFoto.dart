@@ -63,15 +63,24 @@ class UploadFotoState extends State<UploadFoto> {
           child: Container(
             height: 10,
             width: 10,
+
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              border: Border.all(color: Colors.white, width: 3),
+
             ),
             child: Center(
-              child: Icon(Icons.arrow_back, size: 20),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.arrow_back_ios,
+                  size: 20,
+                  color: Colors.black,
+                ),
+              ),
             ),
           ),
         ),
+
         centerTitle: true,
         title: Text("Carregar Foto",
           style: TextStyle(color: Colors.white, fontSize: 24),),

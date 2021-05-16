@@ -1,34 +1,34 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter_app/screens/profile/settings.dart';
+import 'package:flutter_app/screens/auth/login.dart';
+import 'package:flutter_app/screens/auth/login.dart';
+import 'package:flutter_app/screens/home/home.dart';
 
-class SettingsUI extends StatefulWidget {
-  const SettingsUI({Key key}) : super(key: key);
+class UPassword extends StatefulWidget {
+  const UPassword({Key key}) : super(key: key);
 
   @override
-  _SettingsUIState createState() => _SettingsUIState();
+  _UPasswordState createState() => _UPasswordState();
 }
 
-class _SettingsUIState extends State<SettingsUI> {
+class _UPasswordState extends State<UPassword> {
 
-
-  String _email ='';
   String _password='';
-  String _name='';
 
 
   String uid = FirebaseAuth.instance.currentUser.uid;
   String uname = FirebaseAuth.instance.currentUser.displayName;
   String uemail = FirebaseAuth.instance.currentUser.email;
 
+
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
 
 
 
-  Future<void> _updateuser() async {
+  Future<void> _updatePassword() async {
 
 
     final formState = _formKey.currentState;
@@ -37,23 +37,20 @@ class _SettingsUIState extends State<SettingsUI> {
 
       formState.save();
 
-      utilizadores.doc(uid).get();
+      User user = FirebaseAuth.instance.currentUser;
 
-      await FirebaseAuth.instance.currentUser.updateProfile(displayName: _name);
-      //await FirebaseAuth.instance.currentUser.reload();
+      //var user = firebase.auth().currentUser;
+      user.updatePassword(_password);
 
-        return utilizadores
-            .doc(uid)
-            .update({'Nome': _name})
-            .then((value) => print("Utilizador atualizado"))
-            .catchError((error) => print("Failed to update user: $error"));
+
+
+
+
 
     }
 
   }
   bool showPassword = false;
-
-
 
 
   @override
@@ -70,18 +67,7 @@ class _SettingsUIState extends State<SettingsUI> {
             color: Colors.black,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.settings,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => SettingsPage()));
-            },
-          ),
-        ],
+
       ),
       body: Scaffold(
 
@@ -100,7 +86,7 @@ class _SettingsUIState extends State<SettingsUI> {
                 Column(
                   children: <Widget>[
                     Text(
-                      'Dados Pessoais',
+                      'ALterar Password',
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
@@ -109,47 +95,6 @@ class _SettingsUIState extends State<SettingsUI> {
                     ),
                     SizedBox(
                       height: 30,
-                    ),
-                    Center(
-                      child: Stack(
-                        children: [
-                          Container(
-                            width: 130,
-                            height: 130,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 2,
-                                    color: Theme.of(context).backgroundColor
-                                ),
-
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage(
-                                      "assets/images/logo1.png",
-                                    ))),
-                          ),
-                          Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: Container(
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    width: 4,
-                                    color: Theme.of(context).scaffoldBackgroundColor,
-                                  ),
-                                  color: Colors.blue,
-                                ),
-                                child: Icon(
-                                  Icons.edit,
-                                  color: Colors.white,
-                                ),
-                              )),
-                        ],
-                      ),
                     ),
 
                   ],
@@ -167,7 +112,7 @@ class _SettingsUIState extends State<SettingsUI> {
                         children: <Widget>[
 
                           Text(
-                            'Nome',
+                            'Password Atual',
 
                             style: TextStyle(
                               fontSize: 15,
@@ -181,15 +126,13 @@ class _SettingsUIState extends State<SettingsUI> {
                           ),
 
                           TextFormField(
-                            initialValue: uname,
-
 
                             validator: (input){
-                              if(input.isEmpty){
-                                return 'Nome inválido!';
+                              if(input != _password){
+                                return 'A Password não é a atual!';
                               }
                             } ,
-                            onSaved: (input) => _name =input,
+                            //onSaved: (input) => _name =input,
                             decoration: InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(vertical: 0,
                                     horizontal: 10),
@@ -210,7 +153,7 @@ class _SettingsUIState extends State<SettingsUI> {
                           ),
 
                           Text(
-                            'Email',
+                            'Nova password',
 
                             style: TextStyle(
                               fontSize: 15,
@@ -224,15 +167,53 @@ class _SettingsUIState extends State<SettingsUI> {
                           ),
 
                           TextFormField(
-                            initialValue: uemail,
-
 
                             validator: (input){
                               if(input.isEmpty){
                                 return 'Nome inválido!';
                               }
                             } ,
-                            onSaved: (input) => _email =input,
+                            //onSaved: (input) => _email =input,
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(vertical: 0,
+                                    horizontal: 10),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.grey[400]
+                                  ),
+
+                                ),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey[400])
+                                )
+                            ),
+
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'Repetir password',
+
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              color:Colors.black87,
+                            ),
+
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+
+                          TextFormField(
+
+                            validator: (input){
+                              if(input.isEmpty){
+                                return 'Nome inválido!';
+                              }
+                            } ,
+                            onSaved: (input) => _password =input,
                             decoration: InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(vertical: 0,
                                     horizontal: 10),
@@ -250,6 +231,7 @@ class _SettingsUIState extends State<SettingsUI> {
                           ),
 
 
+
                         ],
                       ),
                     ),
@@ -260,14 +242,15 @@ class _SettingsUIState extends State<SettingsUI> {
                 Container(
                   decoration:
                   BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
+                    borderRadius: BorderRadius.circular(50),
 
                   ),
                   child: MaterialButton(
                     minWidth: double.infinity,
                     height: 60,
                     onPressed: () {
-                      _updateuser();
+                      _updatePassword();
+
 
                     },
                     color: Color(0xff0095FF),
@@ -277,7 +260,7 @@ class _SettingsUIState extends State<SettingsUI> {
 
                     ),
                     child: Text(
-                      "Editar conta", style: TextStyle(
+                      "Editar password", style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
                       color: Colors.white,

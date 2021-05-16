@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/home/map.dart';
 import 'package:flutter_app/screens/home/review.dart';
+import 'package:flutter_app/screens/home/uploadFoto.dart';
 import 'package:flutter_app/screens/profile/editProfile.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
 import 'package:intl/intl.dart';
@@ -81,6 +82,15 @@ class _HomePageState extends State<HomePage> {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => Review()));
                 print('Review');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.rate_review_outlined),
+              title: Text('Fotos'),
+              onTap: (){
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => UploadFoto()));
+                print('SOS');
               },
             ),
             ListTile(

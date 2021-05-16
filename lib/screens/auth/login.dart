@@ -17,7 +17,6 @@ class _LoginPageState extends State<LoginPage> {
   String _password='';
 
 
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
@@ -34,8 +33,6 @@ class _LoginPageState extends State<LoginPage> {
 
         UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
         print("User: $userCredential");
-
-
 
 
         //Firestore online
@@ -172,7 +169,10 @@ class _LoginPageState extends State<LoginPage> {
                                   return 'A password deve ter no minimo 6 caracteres.';
                                 }
                               } ,
-                              onSaved: (input) => _password =input,
+                              onSaved: (input) {
+                                _password =input;
+
+                                },
                               decoration: InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(vertical: 0,
                                       horizontal: 10),
