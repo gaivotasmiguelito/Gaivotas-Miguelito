@@ -65,7 +65,6 @@ class _SettingsUIState extends State<SettingsUI> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,
         leading: IconButton(
           onPressed: () {
@@ -73,15 +72,14 @@ class _SettingsUIState extends State<SettingsUI> {
           },
           icon: Icon(Icons.arrow_back_ios,
             size: 20,
-            color: Colors.black,),
-
-
+            color: Colors.black,
+          ),
         ),
         actions: [
           IconButton(
             icon: Icon(
               Icons.settings,
-              color: Colors.blue,
+              color: Colors.black,
             ),
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
@@ -91,13 +89,14 @@ class _SettingsUIState extends State<SettingsUI> {
         ],
       ),
       body: Scaffold(
+
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
 
         body: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 40),
-            height: MediaQuery.of(context).size.height - 50,
+            height: MediaQuery.of(context).size.height - 200,
             width: double.infinity,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -105,12 +104,58 @@ class _SettingsUIState extends State<SettingsUI> {
 
                 Column(
                   children: <Widget>[
-                    Text("Editar conta",
+                    Text(
+                      'Dados Pessoais',
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
 
-                      ),),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Center(
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: 130,
+                            height: 130,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 2,
+                                    color: Theme.of(context).backgroundColor
+                                ),
+
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(
+                                      "assets/images/logo1.png",
+                                    ))),
+                          ),
+                          Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    width: 4,
+                                    color: Theme.of(context).scaffoldBackgroundColor,
+                                  ),
+                                  color: Colors.blue,
+                                ),
+                                child: Icon(
+                                  Icons.edit,
+                                  color: Colors.white,
+                                ),
+                              )),
+                        ],
+                      ),
+                    ),
 
                   ],
                 ),
@@ -127,7 +172,7 @@ class _SettingsUIState extends State<SettingsUI> {
                         children: <Widget>[
 
                           Text(
-                            'Nome ( Primeiro e ultimo)',
+                            'Nome',
 
                             style: TextStyle(
                               fontSize: 15,
@@ -184,10 +229,9 @@ class _SettingsUIState extends State<SettingsUI> {
                           ),
 
                           TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            controller: TextEditingController(
-                              text: uemail,
-                            ),
+                            initialValue: uemail,
+
+
                             validator: (input){
                               if(input.isEmpty){
                                 return 'Nome inválido!';

@@ -1,17 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 Future<void>FirestoreUser (String displayName) async{
   FirebaseAuth auth = FirebaseAuth.instance;
 
   String uid = auth.currentUser.uid.toString();
-  String email = auth.currentUser.email.toString();
+  String uemail = auth.currentUser.email.toString();
+  String udateCreation = DateFormat('MM-dd-yyyy  kk:mm').format(FirebaseAuth.instance.currentUser.metadata.creationTime);
 
 
   CollectionReference users = FirebaseFirestore.instance.collection('Utilizadores');
   users
       .doc(uid)
-      .set({'Email':email,'Nome':displayName,'Id':uid})
+      .set({'Email':uemail,'Nome':displayName,'Id':uid,'Criado':udateCreation})
       .then((value) => print("Utilizador criado no Firestore"))
       .catchError((error) => print("Falha a criar utilizador no Firestore: $error"));
 

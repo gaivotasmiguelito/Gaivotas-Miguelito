@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/home/map.dart';
 import 'package:flutter_app/screens/home/review.dart';
@@ -19,10 +20,8 @@ class _HomePageState extends State<HomePage> {
   String _userEmail = FirebaseAuth.instance.currentUser.email;
   String _userName = FirebaseAuth.instance.currentUser.displayName;
 
-  String _dateCreation = DateFormat('yyyy-MM-dd – kk:mm').format(FirebaseAuth.instance.currentUser.metadata.creationTime);
-  String _dateLastSigned = DateFormat('yyyy-MM-dd – kk:mm').format(FirebaseAuth.instance.currentUser.metadata.lastSignInTime);
-
-
+  String _dateCreation = DateFormat('MM-dd-yyyy').format(FirebaseAuth.instance.currentUser.metadata.creationTime);
+  //String _dateLastSigned = DateFormat('MM-dd-yyyy – kk:mm').format(FirebaseAuth.instance.currentUser.metadata.lastSignInTime);
 
 
   Future<void> _logoutuser() async {
@@ -44,30 +43,39 @@ class _HomePageState extends State<HomePage> {
           children: [
 
             UserAccountsDrawerHeader(
-              accountName: Text(_userName),
+              currentAccountPicture:CircleAvatar(
+                backgroundImage:
+                AssetImage('assets/images/logo1.png'),
+              ),
+              accountName: Text(
+                  _userName,
+                textAlign: TextAlign.center,
+              ),
               accountEmail: Text(_userEmail),
             ),
-            Text('Criado a '+_dateCreation),
-            Text('Ultimo login '+_dateLastSigned),
+
             ListTile(
               leading: Icon(Icons.home),
               title: Text('Inicio'),
+              subtitle: Text('Página principal'),
               onTap: (){
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => HomePage()));
                 print('home');
               },
             ),
             ListTile(
               leading: Icon(Icons.account_circle_outlined),
               title: Text('Minha conta'),
+              subtitle: Text('Perfil e definições de conta'),
               onTap: (){
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => SettingsUI()));
                 print('Conta');
               },
             ),
-
             ListTile(
-              leading: Icon(Icons.account_circle_outlined),
+              leading: Icon(Icons.rate_review_outlined),
               title: Text('Reviews'),
               onTap: (){
                 Navigator.of(context).push(MaterialPageRoute(
@@ -82,8 +90,13 @@ class _HomePageState extends State<HomePage> {
               onTap: () async {
                 print('Sair');
                 _logoutuser();
-
               },
+            ),
+            SizedBox(
+              height: 60,
+            ),
+            ListTile(
+              subtitle: Text('Criado a '+_dateCreation),
             ),
           ],
         ),
