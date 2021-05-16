@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
+import 'package:flutter_app/services/firestore_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -16,12 +17,15 @@ class _LoginPageState extends State<LoginPage> {
   String _password='';
 
 
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
 
   Future<void> _loginuser() async {
     final formState = _formKey.currentState;
+
+
     if(formState.validate()){
 
       formState.save();
@@ -31,8 +35,12 @@ class _LoginPageState extends State<LoginPage> {
         UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
         print("User: $userCredential");
 
+
+
+
         //Firestore online
         OnlineUser();
+
 
         Navigator.of(context).pushReplacementNamed('/home');
 

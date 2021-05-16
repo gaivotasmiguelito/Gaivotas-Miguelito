@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/home/home.dart';
 import 'package:flutter_app/screens/auth/login.dart';
 import 'package:flutter_app/screens/auth/signup.dart';
+import 'package:flutter_app/screens/home/homeClient.dart';
 import 'package:flutter_app/screens/welcome.dart';
 import 'package:flutter_app/screens/home/uploadFoto.dart';
 
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         '/sign': (context) => SignupPage(),
         '/welcome': (context) => Welcome(),
         'upload' : (context) => UploadFoto(),
+        'admin' : (context) => HomePageClient(),
 
       },
     );

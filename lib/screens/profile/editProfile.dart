@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_app/screens/profile/settings.dart';
 
 class SettingsUI extends StatefulWidget {
@@ -11,6 +12,8 @@ class SettingsUI extends StatefulWidget {
 }
 
 class _SettingsUIState extends State<SettingsUI> {
+
+  TextEditingController myController = TextEditingController();
 
   String _email ='';
   String _password='';
@@ -50,6 +53,14 @@ class _SettingsUIState extends State<SettingsUI> {
 
   }
   bool showPassword = false;
+
+
+  void dispose() {
+    myController?.dispose();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,10 +141,9 @@ class _SettingsUIState extends State<SettingsUI> {
                           ),
 
                           TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            controller: TextEditingController(
-                              text: uname,
-                            ),
+                            initialValue: uname,
+
+
                             validator: (input){
                               if(input.isEmpty){
                                 return 'Nome inválido!';
@@ -212,15 +222,6 @@ class _SettingsUIState extends State<SettingsUI> {
                   decoration:
                   BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
-                      border: Border(
-                        bottom: BorderSide(color: Colors.black),
-                        top: BorderSide(color: Colors.black),
-                        left: BorderSide(color: Colors.black),
-                        right: BorderSide(color: Colors.black),
-
-
-
-                      )
 
                   ),
                   child: MaterialButton(

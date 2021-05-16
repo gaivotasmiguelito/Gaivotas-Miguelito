@@ -5,25 +5,19 @@ import 'package:flutter_app/screens/home/map.dart';
 import 'package:flutter_app/screens/home/review.dart';
 import 'package:flutter_app/screens/profile/editProfile.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
-import 'package:intl/intl.dart';
 
 
-class HomePage extends StatefulWidget {
+class HomePageClient extends StatefulWidget {
+  const HomePageClient({Key key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomePageClientState createState() => _HomePageClientState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageClientState extends State<HomePageClient> {
 
   String _userEmail = FirebaseAuth.instance.currentUser.email;
   String _userName = FirebaseAuth.instance.currentUser.displayName;
-
-  String _dateCreation = DateFormat('yyyy-MM-dd – kk:mm').format(FirebaseAuth.instance.currentUser.metadata.creationTime);
-  String _dateLastSigned = DateFormat('yyyy-MM-dd – kk:mm').format(FirebaseAuth.instance.currentUser.metadata.lastSignInTime);
-
-
-
 
   Future<void> _logoutuser() async {
 
@@ -33,11 +27,8 @@ class _HomePageState extends State<HomePage> {
     Navigator.of(context).pushReplacementNamed('/welcome');
 
   }
-
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       drawer: Drawer(
         child: Column(
@@ -47,8 +38,6 @@ class _HomePageState extends State<HomePage> {
               accountName: Text(_userName),
               accountEmail: Text(_userEmail),
             ),
-            Text('Criado a '+_dateCreation),
-            Text('Ultimo login '+_dateLastSigned),
             ListTile(
               leading: Icon(Icons.home),
               title: Text('Inicio'),

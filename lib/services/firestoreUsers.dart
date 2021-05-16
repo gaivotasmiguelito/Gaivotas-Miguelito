@@ -13,7 +13,7 @@ Future<void>FirestoreUser (String displayName) async{
       .doc(uid)
       .set({'Email':email,'Nome':displayName,'Id':uid})
       .then((value) => print("Utilizador criado no Firestore"))
-      .catchError((error) => print("Falha a criar utilizador no Firestor: $error"));
+      .catchError((error) => print("Falha a criar utilizador no Firestore: $error"));
 
   //users.add({'Email':email,'Nome':displayName,'Id':uid});
   return;
