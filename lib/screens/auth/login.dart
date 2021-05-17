@@ -3,6 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/auth/passwordReset.dart';
 import 'package:flutter_app/screens/auth/signup.dart';
+import 'package:flutter_app/screens/home/home.dart';
+import 'package:flutter_app/screens/home/homeClient.dart';
+import 'package:flutter_app/screens/profile/profile.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
 import 'package:flutter_app/services/firestore_service.dart';
 
@@ -22,6 +25,31 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
+  Future<void> GetUser(BuildContext context)  async {
+
+    FirebaseAuth auth = FirebaseAuth.instance;
+
+    String _uid = auth.currentUser.uid;
+    FirebaseFirestore.instance.collection('Utilizadores').doc(_uid).get().then((data) {
+
+      if(data['Funcao'] == 'Admin'){
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) => HomePage()));
+      }else{
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) => HomePageClient()));
+
+      }
+      // use ds as a snapshot
+
+      print(data['Funcao']);
+      String name = data['Funcao'];
+      print('String'+name);
+
+
+    });
+
+  }
 
   Future<void> _loginuser() async {
     final formState = _formKey.currentState;
@@ -40,8 +68,32 @@ class _LoginPageState extends State<LoginPage> {
         //Firestore online
         OnlineUser();
 
+        FirebaseAuth auth = FirebaseAuth.instance;
 
-        Navigator.of(context).pushReplacementNamed('/home');
+        String _uid = auth.currentUser.uid;
+        FirebaseFirestore.instance.collection('Utilizadores').doc(_uid).get().then((data) {
+
+          if(data['Funcao'] == 'Admin'){
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => HomePage()));
+            print('Home Page');
+          }else{
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => HomePageClient()));
+            print('Estou aqui');
+
+          }
+          // use ds as a snapshot
+
+          print(data['Funcao']);
+          String name = data['Funcao'];
+          print('String'+name);
+
+
+        });
+
+
+        //Navigator.of(context).pushReplacementNamed('/home');
 
 
       } on FirebaseAuthException catch (e) {

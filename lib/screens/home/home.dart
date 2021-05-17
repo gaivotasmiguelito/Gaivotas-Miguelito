@@ -22,12 +22,16 @@ class _HomePageState extends State<HomePage> {
 
   String _userEmail = FirebaseAuth.instance.currentUser.email;
   String _userName = FirebaseAuth.instance.currentUser.displayName;
+  String _uid = FirebaseAuth.instance.currentUser.uid;
 
   String _dateCreation = DateFormat('MM-dd-yyyy').format(FirebaseAuth.instance.currentUser.metadata.creationTime);
   //String _dateLastSigned = DateFormat('MM-dd-yyyy – kk:mm').format(FirebaseAuth.instance.currentUser.metadata.lastSignInTime);
 
 
   Future<void> _logoutuser() async {
+
+
+
 
     //Firestore offline
     OfflineUser();

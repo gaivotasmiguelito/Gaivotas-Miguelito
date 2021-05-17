@@ -48,7 +48,7 @@ class _SettingsUIState extends State<SettingsUI> {
             .doc(uid)
             .update({'Nome': _name, 'Email':_email})
             .then((value) => print("Utilizador atualizado"))
-            .catchError((error) => print("Falhha a atualizar: $error"));
+            .catchError((error) => print("Falha a atualizar: $error"));
 
     }
 
