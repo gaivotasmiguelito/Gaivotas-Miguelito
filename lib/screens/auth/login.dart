@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/auth/passwordReset.dart';
+import 'package:flutter_app/screens/auth/signup.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
 import 'package:flutter_app/services/firestore_service.dart';
 
@@ -193,6 +195,23 @@ class _LoginPageState extends State<LoginPage> {
                       ),
 
                       SizedBox(height: 10,),
+                      MaterialButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) => PasswordReset(),
+                          ),
+                          );
+                        },
+                        child: Text(
+                          "Esqueceu-se da palavra passe?", style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          color: Colors.black,
+
+
+                        ),
+                        ),
+                      ),
 
                     ],
                   ),
@@ -242,18 +261,35 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
 
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text("Não tem uma conta?"),
-                    Text(" Crie uma!", style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
+                    MaterialButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) => SignupPage(),
+                        ),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            'Não tem uma conta?'
+                          ),
+                          Text(
+                            ' Crie uma!', style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                          ),
 
-                    ),)
+                        ],
+                      )
+                    ),
                   ],
                 ),
+
 
                 Container(
                   padding: EdgeInsets.only(top: 100),

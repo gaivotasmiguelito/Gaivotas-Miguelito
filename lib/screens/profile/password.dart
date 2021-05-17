@@ -15,6 +15,7 @@ class UPassword extends StatefulWidget {
 class _UPasswordState extends State<UPassword> {
 
   String _password='';
+  TextEditingController passwordText = TextEditingController();
 
 
   String uid = FirebaseAuth.instance.currentUser.uid;
@@ -41,8 +42,6 @@ class _UPasswordState extends State<UPassword> {
 
       //var user = firebase.auth().currentUser;
       user.updatePassword(_password);
-
-
 
 
 
@@ -86,7 +85,7 @@ class _UPasswordState extends State<UPassword> {
                 Column(
                   children: <Widget>[
                     Text(
-                      'ALterar Password',
+                      'Alterar Password',
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
@@ -111,46 +110,6 @@ class _UPasswordState extends State<UPassword> {
 
                         children: <Widget>[
 
-                          Text(
-                            'Password Atual',
-
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                              color:Colors.black87,
-                            ),
-
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-
-                          TextFormField(
-
-                            validator: (input){
-                              if(input != _password){
-                                return 'A Password não é a atual!';
-                              }
-                            } ,
-                            //onSaved: (input) => _name =input,
-                            decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(vertical: 0,
-                                    horizontal: 10),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.grey[400]
-                                  ),
-
-                                ),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.grey[400])
-                                )
-                            ),
-
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
 
                           Text(
                             'Nova password',
@@ -167,10 +126,12 @@ class _UPasswordState extends State<UPassword> {
                           ),
 
                           TextFormField(
+                            obscureText: true,
+                            controller: passwordText,
 
                             validator: (input){
-                              if(input.isEmpty){
-                                return 'Nome inválido!';
+                              if(input.length<6){
+                                return 'A password deve ter no minimo 6 caracteres.';
                               }
                             } ,
                             //onSaved: (input) => _email =input,
@@ -208,9 +169,14 @@ class _UPasswordState extends State<UPassword> {
 
                           TextFormField(
 
+                            obscureText: true,
+
                             validator: (input){
-                              if(input.isEmpty){
-                                return 'Nome inválido!';
+                              if(input.length<6){
+                                return 'A password deve ter no minimo 6 caracteres.';
+                              }
+                              if(input != passwordText.text){
+                                return 'As password não são iguais';
                               }
                             } ,
                             onSaved: (input) => _password =input,

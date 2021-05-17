@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter_app/screens/profile/settings.dart';
 
 class SettingsUI extends StatefulWidget {
   const SettingsUI({Key key}) : super(key: key);
@@ -15,7 +14,6 @@ class _SettingsUIState extends State<SettingsUI> {
 
 
   String _email ='';
-  String _password='';
   String _name='';
 
 
@@ -23,9 +21,10 @@ class _SettingsUIState extends State<SettingsUI> {
   String uname = FirebaseAuth.instance.currentUser.displayName;
   String uemail = FirebaseAuth.instance.currentUser.email;
 
+  User user = FirebaseAuth.instance.currentUser;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
-
 
 
   Future<void> _updateuser() async {
@@ -37,23 +36,23 @@ class _SettingsUIState extends State<SettingsUI> {
 
       formState.save();
 
-      utilizadores.doc(uid).get();
 
       await FirebaseAuth.instance.currentUser.updateProfile(displayName: _name);
+
+      //var user = firebase.auth().currentUser;
+      user.updateEmail(_email);
+
       //await FirebaseAuth.instance.currentUser.reload();
 
         return utilizadores
             .doc(uid)
-            .update({'Nome': _name})
+            .update({'Nome': _name, 'Email':_email})
             .then((value) => print("Utilizador atualizado"))
-            .catchError((error) => print("Failed to update user: $error"));
+            .catchError((error) => print("Falhha a atualizar: $error"));
 
     }
 
   }
-  bool showPassword = false;
-
-
 
 
   @override
@@ -66,22 +65,9 @@ class _SettingsUIState extends State<SettingsUI> {
             Navigator.pop(context);
           },
           icon: Icon(Icons.arrow_back_ios,
-            size: 20,
             color: Colors.black,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.settings,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => SettingsPage()));
-            },
-          ),
-        ],
       ),
       body: Scaffold(
 

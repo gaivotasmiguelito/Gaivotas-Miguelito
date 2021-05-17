@@ -6,6 +6,7 @@ import 'package:flutter_app/screens/home/map.dart';
 import 'package:flutter_app/screens/home/review.dart';
 import 'package:flutter_app/screens/home/uploadFoto.dart';
 import 'package:flutter_app/screens/profile/editProfile.dart';
+import 'package:flutter_app/screens/profile/profile.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
 import 'package:intl/intl.dart';
 
@@ -49,58 +50,80 @@ class _HomePageState extends State<HomePage> {
                 AssetImage('assets/images/logo1.png'),
               ),
               accountName: Text(
-                  _userName,
-                textAlign: TextAlign.center,
+                  'Bem-vindo '+_userName,style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
               ),
-              accountEmail: Text(_userEmail),
+
+              ),
             ),
 
             ListTile(
               leading: Icon(Icons.home),
-              title: Text('Inicio'),
+              title: Text('Inicio',style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  ),),
               subtitle: Text('Página principal'),
               onTap: (){
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => HomePage()));
                 print('home');
               },
+              trailing: Icon(Icons.arrow_forward_ios_outlined),
             ),
             ListTile(
               leading: Icon(Icons.account_circle_outlined),
-              title: Text('Minha conta'),
+              title: Text('Minha conta',style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),),
               subtitle: Text('Perfil e definições de conta'),
               onTap: (){
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => SettingsUI()));
+                    builder: (BuildContext context) => Profile()));
                 print('Conta');
               },
+              trailing: Icon(Icons.arrow_forward_ios_outlined),
             ),
             ListTile(
               leading: Icon(Icons.rate_review_outlined),
-              title: Text('Reviews'),
+              title: Text('Reviews',style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),),
               onTap: (){
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => Review()));
                 print('Review');
               },
+              trailing: Icon(Icons.arrow_forward_ios_outlined),
             ),
             ListTile(
               leading: Icon(Icons.rate_review_outlined),
-              title: Text('Fotos'),
+              title: Text('Fotos',style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),),
               onTap: (){
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => UploadFoto()));
                 print('SOS');
               },
+              trailing: Icon(Icons.arrow_forward_ios_outlined),
             ),
             ListTile(
               leading: Icon(Icons.logout),
-              title: Text('Sair'),
+              title: Text('Sair',style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),),
               subtitle: Text('Finalizar sessão'),
               onTap: () async {
                 print('Sair');
                 _logoutuser();
               },
+              trailing: Icon(Icons.arrow_forward_ios_outlined),
             ),
             SizedBox(
               height: 60,

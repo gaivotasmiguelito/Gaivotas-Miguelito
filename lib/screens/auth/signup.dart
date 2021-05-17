@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/auth/login.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
 
 class SignupPage extends StatefulWidget {
@@ -323,16 +324,27 @@ class _SignupPageState extends State<SignupPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text("Já têm uma conta?"),
-                  Text(" Iniciar sessão", style:TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18
+                  MaterialButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) => LoginPage(),
+                        ),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Text("Já têm uma conta?"),
+                          Text(" Iniciar sessão", style:TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18
+                          ),
+                          )
+
+                        ],
+                      )
                   ),
-                  )
                 ],
-              )
-
-
+              ),
 
             ],
 
