@@ -7,6 +7,7 @@ import 'package:flutter_app/screens/home/review.dart';
 import 'package:flutter_app/screens/home/uploadFoto.dart';
 import 'package:flutter_app/screens/profile/editProfile.dart';
 import 'package:flutter_app/screens/profile/profile.dart';
+import 'package:flutter_app/screens/reviews/add_review.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
 import 'package:intl/intl.dart';
 
@@ -94,7 +95,7 @@ class _HomePageState extends State<HomePage> {
               ),),
               onTap: (){
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => Review()));
+                    builder: (BuildContext context) => AddReview()));
                 print('Review');
               },
               trailing: Icon(Icons.arrow_forward_ios_outlined),
