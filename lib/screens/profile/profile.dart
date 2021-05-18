@@ -3,9 +3,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_app/screens/home/home.dart';
+import 'package:flutter_app/screens/home/homeClient.dart';
 import 'package:flutter_app/screens/profile/settings.dart';
 
 
+const kLargeTextStyle = TextStyle(
+  fontSize: 28,
+  fontWeight: FontWeight.bold,
+);
+const kTitleTextStyle = TextStyle(
+  fontSize: 16,
+  color: Color.fromRGBO(129, 165, 168, 1),
+);
+const kSmallTextStyle = TextStyle(
+  fontSize: 16,
+);
 class Profile extends StatefulWidget {
   const Profile({Key key}) : super(key: key);
 
@@ -16,44 +28,36 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
 
 
-  String _email ='';
-  String _password='';
-  String _name='';
-
-
-  String uid = FirebaseAuth.instance.currentUser.uid;
   String uname = FirebaseAuth.instance.currentUser.displayName;
   String uemail = FirebaseAuth.instance.currentUser.email;
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
 
+  Future<void> _homeNavigation() async {
 
+      try {
 
-  Future<void> _updateuser() async {
+        FirebaseFirestore.instance
+            .collection("Utilizadores")
+            .doc(FirebaseAuth.instance.currentUser.uid.toString())
+            .get()
+            .then((DocumentSnapshot snapshot) {
+          if (snapshot['Funcao'] == "Admin") {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => HomePage()));
+          } else {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => HomePageClient()));
+          }
+        });
+      } catch (e) {
+        print(e.message);
 
-
-    final formState = _formKey.currentState;
-
-    if(formState.validate()){
-
-      formState.save();
-
-      utilizadores.doc(uid).get();
-
-      await FirebaseAuth.instance.currentUser.updateProfile(displayName: _name);
-      //await FirebaseAuth.instance.currentUser.reload();
-
-      return utilizadores
-          .doc(uid)
-          .update({'Nome': _name})
-          .then((value) => print("Utilizador atualizado"))
-          .catchError((error) => print("Failed to update user: $error"));
-
+      }
     }
 
-  }
-  bool showPassword = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +66,8 @@ class _ProfileState extends State<Profile> {
         elevation: 1,
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => HomePage()));
+            _homeNavigation();
+
           },
           icon: Icon(Icons.arrow_back_ios,
 
@@ -83,105 +87,128 @@ class _ProfileState extends State<Profile> {
           ),
         ],
       ),
-      body: Scaffold(
-
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
-
-        body: SingleChildScrollView(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 40),
-            height: MediaQuery.of(context).size.height - 200,
-            width: double.infinity,
+            padding: EdgeInsets.fromLTRB(15, 35, 15, 15),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-
-                Column(
-                  children: <Widget>[
-                    Text(
-                      'Meu Perfil',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-
+                Center(
+                  child: Container(
+                    width: 140,
+                    height: 140,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/logo1.png'),
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Center(
-                      child: Stack(
-                        children: [
-                          Container(
-                            width: 130,
-                            height: 130,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 2,
-                                    color: Theme.of(context).backgroundColor
-                                ),
-
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage(
-                                      "assets/images/logo1.png",
-                                    ))),
-                          ),
-                          Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: Container(
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    width: 4,
-                                    color: Theme.of(context).scaffoldBackgroundColor,
-                                  ),
-                                  color: Colors.blue,
-                                ),
-                                child: Icon(
-                                  Icons.edit,
-                                  color: Colors.white,
-                                ),
-                              )),
-                        ],
-                      ),
-                    ),
-
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-
-                  children: <Widget>[
-                    Text(uname),
-                    Text(uemail),
-
-                  ],
-                ),
-                Container(
-                  decoration:
-                  BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-
                   ),
-
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  uname,
+                  style: kLargeTextStyle,
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  uemail,
+                  style: kTitleTextStyle,
+                ),
+                SizedBox(
+                  height: 50,
                 ),
 
+                Padding(
+                  padding:  EdgeInsets.only(top: 3),
+                  child: Text("Meu album", style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20
+                  ),),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                GridView.count(
+                  crossAxisCount: 3,
+                  shrinkWrap: true,
+                  crossAxisSpacing: 15,
+                  mainAxisSpacing: 10,
+                  children: <Widget>[
+                    GalleryImage(
+                      imagePath: 'assets/images/logo1.png',
+                    ),
+                    GalleryImage(
+                      imagePath: 'assets/images/logo1.png',
+                    ),
+                    GalleryImage(
+                      imagePath: 'assets/images/logo1.png',
+                    ),
+                    GalleryImage(
+                      imagePath: 'assets/images/logo1.png',
+                    ),
+                    GalleryImage(
+                      imagePath: 'assets/images/logo1.png',
+                    ),
+                    GalleryImage(
+                      imagePath: 'assets/images/logo1.png',
+                    ),
+                  ],
+                ),
               ],
-
             ),
-
-
           ),
-
         ),
-
       ),
+    );
+  }
+}
+
+class GalleryImage extends StatelessWidget {
+  final String imagePath;
+
+  GalleryImage({@required this.imagePath});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        image: DecorationImage(
+          image: AssetImage(imagePath),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+}
+
+class PostFollower extends StatelessWidget {
+  final int number;
+  final String title;
+
+  PostFollower({@required this.number, @required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Text(
+          number.toString(),
+          style: kLargeTextStyle,
+        ),
+        Text(
+          title,
+          style: kSmallTextStyle,
+        ),
+      ],
     );
   }
 }

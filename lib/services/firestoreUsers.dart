@@ -16,7 +16,7 @@ Future<void>FirestoreUser (String displayName) async{
   CollectionReference users = FirebaseFirestore.instance.collection('Utilizadores');
   users
       .doc(uid)
-      .set({'Email':uemail,'Nome':displayName,'Id':uid,'Criado':udateCreation})
+      .set({'Email':uemail,'Nome':displayName,'Id':uid,'Criado':udateCreation,'Funcao':'Cliente'})
       .then((value) => print("Utilizador criado no Firestore"))
       .catchError((error) => print("Falha a criar utilizador no Firestore: $error"));
 

@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/auth/login.dart';
+import 'package:flutter_app/screens/home/homeClient.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
 
 class SignupPage extends StatefulWidget {
@@ -27,6 +29,7 @@ class _SignupPageState extends State<SignupPage> {
 
       formState.save();
       try {
+
         UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
 
         //Atualizar o nome
@@ -46,7 +49,8 @@ class _SignupPageState extends State<SignupPage> {
         OnlineUser();
 
         //Definir rota
-        Navigator.of(context).pushReplacementNamed('/home');
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) => HomePageClient()));
 
       } on FirebaseAuthException catch(e) {
         print("Error: $e");

@@ -68,12 +68,12 @@ class LandingPage extends StatelessWidget {
                   return Welcome();
                 } else {
                   print('O utilizador está conectado!');
-                  return HomePage();
+                  return HomePageClient();
                 }
               }
               return Scaffold(
                 body: Center(
-                  child: Text("Verificando a conexão..."),
+                  child: Text("A verificar a conexão..."),
                 ),
               );
             },
@@ -83,7 +83,7 @@ class LandingPage extends StatelessWidget {
         // Otherwise, show something whilst waiting for initialization to complete
         return Scaffold(
           body: Center(
-            child: Text("Conectando a aplicação..."),
+            child: Text("A conectar a aplicação..."),
           ),
         );
       },

@@ -25,41 +25,18 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
-  Future<void> GetUser(BuildContext context)  async {
 
-    FirebaseAuth auth = FirebaseAuth.instance;
-
-    String _uid = auth.currentUser.uid;
-    FirebaseFirestore.instance.collection('Utilizadores').doc(_uid).get().then((data) {
-
-      if(data['Funcao'] == 'Admin'){
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (BuildContext context) => HomePage()));
-      }else{
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (BuildContext context) => HomePageClient()));
-
-      }
-      // use ds as a snapshot
-
-      print(data['Funcao']);
-      String name = data['Funcao'];
-      print('String'+name);
-
-
-    });
-
-  }
 
   Future<void> _loginuser() async {
     final formState = _formKey.currentState;
-
 
     if(formState.validate()){
 
       formState.save();
 
       try {
+
+        //await Firebase.initializeApp();
 
         UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
         print("User: $userCredential");

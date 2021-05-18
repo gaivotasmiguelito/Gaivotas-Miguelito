@@ -30,9 +30,6 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _logoutuser() async {
 
-
-
-
     //Firestore offline
     OfflineUser();
     await FirebaseAuth.instance.signOut();
@@ -61,7 +58,9 @@ class _HomePageState extends State<HomePage> {
               ),
 
               ),
+              accountEmail: Text('Administração'),
             ),
+
 
             ListTile(
               leading: Icon(Icons.home),
@@ -140,7 +139,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       appBar: AppBar(
-        title: Text('Gaivotas Miguelito'),
+        title: Text('GM - Administração'),
       ),
       body: MapPage(),
     );
