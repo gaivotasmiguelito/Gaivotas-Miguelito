@@ -1,58 +1,48 @@
 import 'dart:io';
-
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'package:permission_handler/permission_handler.dart';
 
 class UploadFoto extends StatefulWidget {
   @override
   UploadFotoState createState() => UploadFotoState();
 }
-final _picker = ImagePicker();
 
 class UploadFotoState extends State<UploadFoto> {
-  File imageFile;
+  String imageUrl;
+  var file;
+  final _firebaseStorage = FirebaseStorage.instance;
 
-  _abrirGaleria() async {
-    var imagem = await _picker.getImage(source: ImageSource.gallery);
-    this.setState(() {
-      imageFile = imagem as File;
-    });
+  uploadImage() async {
+    final _imagePicker = ImagePicker();
+    PickedFile image;
+    //Check Permissions
+    await Permission.photos.request();
+
+    var permissionStatus = await Permission.photos.status;
+
+    if (permissionStatus.isGranted) {
+      //Select Image
+      image = await _imagePicker.getImage(source: ImageSource.gallery);
+      file = File(image.path);
+    }
+  }
+  Widget _ImageView ()  {
+    if (file == null) return Text ("Não foi selecionada nenhuma imagem");
+    return SafeArea(child: Image.file(file, height: 350, width: 350));
   }
 
-  _abrirCamera() async {
-    var imagem = await _picker.getImage(source: ImageSource.camera);
-    this.setState(() {
-      imageFile = imagem as File;
-    });
-  }
-
-  Future<void> _opcoes(BuildContext context) {
-    return showDialog(context: context, builder: (BuildContext context) {
-      return AlertDialog(
-          title: Text("Escolha a opção pretendida: "),
-          content: SingleChildScrollView(
-              child: ListBody(
-                  children: <Widget>[
-                    GestureDetector(
-                      child: Text("Galeria"),
-                      onTap: () {
-                        _abrirGaleria();
-                      },
-                    ),
-                    Padding(padding: EdgeInsets.all(9.00)),
-                    GestureDetector(
-                      child: Text("Câmera"),
-                      onTap: () {
-                        _abrirCamera();
-                      },
-                    )
-                  ]
-              )
-          )
-      );
-    });
-  }
+  sendImage() async {
+   var snapshot = await _firebaseStorage.ref()
+       .child(DateTime.now().toString())
+       .putFile(file);
+   var downloadUrl = await snapshot.ref.getDownloadURL();
+   setState(() {
+     imageUrl = downloadUrl;
+   });
+   if (imageUrl!=null) return print("Imagem enviada com sucesso");
+ }
 
   @override
   Widget build(BuildContext context) {
@@ -113,10 +103,8 @@ class UploadFotoState extends State<UploadFoto> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Fotos Carregadas",
+                    Text("Fotografia Carregada",
                       style: TextStyle(color: Colors.teal, fontSize: 20),),
-                    Text("3/3",
-                        style: TextStyle(color: Colors.teal, fontSize: 20)),
                   ],
                 ),
               ),
@@ -126,36 +114,41 @@ class UploadFotoState extends State<UploadFoto> {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text("Não foi selecionada nenhuma imagem"),
-              ElevatedButton(
-                onPressed: () {
-                  _opcoes(context);
-                },
-                child: Text("Carregar Imagem", style: TextStyle(fontSize: 20),),
+              _ImageView(),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    uploadImage();
+                  },
+                  child: Text("Carregar Imagem", style: TextStyle(fontSize: 21),),
+                ),
               )
             ],
+
           ),
           SizedBox(height: 40.0),
           InkWell(
-            onTap: () {
-              //  Navigator.push(
-              //   context,
-              //  MaterialPageRoute(builder: (context) => ()),
-              //);
-            },
             child: Container(
               height: 50,
               width: 250,
               decoration: BoxDecoration(
                 color: Colors.teal,
+                borderRadius: BorderRadius.circular(30.0),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Enviar Fotos", style: TextStyle(color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),),
+                  MaterialButton(
+                    onPressed: () {
+                      sendImage();
+                      },
+                    child: Text("Enviar Fotografia", style: TextStyle(color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                    ),
+                  ),
                   SizedBox(width: 20),
                   Container(
                     height: 25,
