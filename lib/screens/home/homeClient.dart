@@ -100,7 +100,7 @@ class _HomePageClientState extends State<HomePageClient> {
               trailing: Icon(Icons.arrow_forward_ios_outlined),
             ),
             ListTile(
-              leading: Icon(Icons.rate_review_outlined),
+              leading: Icon(Icons.photo_camera_outlined),
               title: Text('Fotos',style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,

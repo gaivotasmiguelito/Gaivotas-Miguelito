@@ -127,7 +127,7 @@ class _ProfileState extends State<Profile> {
 
                 Padding(
                   padding:  EdgeInsets.only(top: 3),
-                  child: Text("Meu album", style: TextStyle(
+                  child: Text("Meu álbum", style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 20

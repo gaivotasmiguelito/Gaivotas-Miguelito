@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
               trailing: Icon(Icons.arrow_forward_ios_outlined),
             ),
             ListTile(
-              leading: Icon(Icons.rate_review_outlined),
+              leading: Icon(Icons.photo_camera_outlined),
               title: Text('Fotos',style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
@@ -113,6 +113,18 @@ class _HomePageState extends State<HomePage> {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => UploadFoto()));
                 print('SOS');
+              },
+              trailing: Icon(Icons.arrow_forward_ios_outlined),
+            ),
+            ListTile(
+              leading: Icon(Icons.admin_panel_settings_rounded),
+              title: Text('Administração',style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),),
+              onTap: () async {
+                print('Administração');
+
               },
               trailing: Icon(Icons.arrow_forward_ios_outlined),
             ),
