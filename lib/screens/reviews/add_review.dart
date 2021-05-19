@@ -16,20 +16,56 @@ class _AddReviewState extends State<AddReview> {
   String _review;
   CollectionReference ref = FirebaseFirestore.instance.collection('Reviews');
 
+  CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
+  CollectionReference reviews = FirebaseFirestore.instance.collection('Reviews');
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Future<void> _createReview() async {
-    final formState = _formKey.currentState;
-    if (formState.validate()) {
-      formState.save();
-      Map <String, dynamic> data = {
-        "Conteudo": _review.toString(),
-        "Nome": _userName
-      };
 
-      FirebaseFirestore.instance.collection("Reviews").add(data);
+  Future<void> CreateReview() async {
+    final formState = _formKey.currentState;
+
+    if(formState.validate()){
+
+      formState.save();
+
+      try {
+
+
+        FirebaseAuth auth = FirebaseAuth.instance;
+        String uid =auth.currentUser.uid;
+
+
+        utilizadores.doc(uid).get().then((data) {
+
+          String ufoto;
+          ufoto= data['Foto'] ;
+
+          reviews
+              .doc(uid)
+              .set({'Nome':_userName,'Conteudo':_review,'Foto':ufoto})
+              .then((value) => print("Utilizador criado no Firestore"))
+              .catchError((error) => print("Falha a criar utilizador no Firestore: $error"));
+
+
+        });
+
+
+
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          print('Nenhum utilizador encontrado para esse e-mail.');
+        } else if (e.code == 'wrong-password') {
+          print('Password incorreta para este utilizador');
+
+        }
+      }
+
     }
+
   }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,7 +137,7 @@ class _AddReviewState extends State<AddReview> {
             ),
             MaterialButton(
                     onPressed: () async {
-                  await _createReview();
+                  await CreateReview();
                   if (_review.isNotEmpty) return Navigator.push(context, MaterialPageRoute(builder: (context)=> Reviews()));
                 },
               child: Container( // BOTÃO TEMPLATE
@@ -117,7 +153,7 @@ class _AddReviewState extends State<AddReview> {
                       minWidth: double.infinity,
                       height: 60,
                       onPressed: () async {
-                          await _createReview();
+                          await CreateReview();
                           if (_review.isNotEmpty) return Navigator.push(context, MaterialPageRoute(builder: (context)=> Reviews()));
                       },
                       color: Color(0xff0095FF),

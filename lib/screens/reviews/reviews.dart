@@ -69,6 +69,7 @@ class _ReviewsState extends State<Reviews> {
            ),
           ),
 
+
           Padding(
             padding: const EdgeInsets.only(bottom: 35.0),
             child: Container(
@@ -113,7 +114,7 @@ class _ReviewsState extends State<Reviews> {
                                 border: Border.all(color: Colors.lightBlue, width: 5.0),
                                 color: Colors.lightBlue,
                                    ),
-                              child: Image.asset("assets/images/av.png", alignment: Alignment.bottomCenter),
+                              //child: Image.asset("assets/images/av.png", alignment: Alignment.bottomCenter),
                             ),
                           ),
                   Container(
