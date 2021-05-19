@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_app/services/firestoreReviews.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -62,6 +63,9 @@ class _SettingsUIState extends State<SettingsUI> {
       imageUrl = downloadUrl;
     });
     if (imageUrl!=null){
+      //Atualizar foto da review
+      FirestoreReviewFoto(imageUrl);
+
       return utilizadores
           .doc(uid)
           .update({'Foto': imageUrl})
@@ -87,6 +91,9 @@ class _SettingsUIState extends State<SettingsUI> {
 
       //var user = firebase.auth().currentUser;
       user.updateEmail(_email);
+
+      //Atualizar nome da review
+      FirestoreReviewNome(_name);
 
       //await FirebaseAuth.instance.currentUser.reload();
 

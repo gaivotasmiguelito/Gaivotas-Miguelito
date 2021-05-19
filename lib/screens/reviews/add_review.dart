@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/home/home.dart';
-import 'package:flutter_app/screens/home/review.dart';
 import 'package:flutter_app/screens/reviews/reviews.dart';
 
 class AddReview extends StatefulWidget {

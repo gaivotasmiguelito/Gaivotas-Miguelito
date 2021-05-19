@@ -12,6 +12,11 @@ class Reviews extends StatefulWidget {
 enum Opcoes {Editar, Apagar }
 class _ReviewsState extends State<Reviews> {
 
+  CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
+  CollectionReference reviews = FirebaseFirestore.instance.collection('Reviews');
+  String uid = FirebaseAuth.instance.currentUser.uid;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   //final _firestore = FirebaseFirestore.instance;
   //final _auth = FirebaseAuth.instance;
   //String reviewText;
@@ -86,9 +91,34 @@ class _ReviewsState extends State<Reviews> {
               ),
             ),
           ),
+
+          FutureBuilder<DocumentSnapshot>(
+            future: reviews.doc(uid).get(),
+            builder:
+                (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+
+              if (snapshot.hasError) {
+                return Text("Something went wrong");
+              }
+
+              if (snapshot.hasData && !snapshot.data.exists) {
+                return Text("Sem nenhuma review");
+              }
+
+              if (snapshot.connectionState == ConnectionState.done) {
+                Map<String, dynamic> data = snapshot.data.data();
+                return Text("Nome: ${data['Nome']} \nConteudo: ${data['Conteudo']}");
+              }
+
+              return Text("loading");
+            },
+          ),
+
+
+
           Flexible(
             child: new StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection('Reviews').snapshots(),
+            stream: FirebaseFirestore.instance.collection('Reviews').where('Conteudo', isNotEqualTo: '').snapshots(),
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) return Center(child: new Text('A carregar Reviews...'));
                 return new ListView(
@@ -108,20 +138,19 @@ class _ReviewsState extends State<Reviews> {
                       Padding(
                           padding: const EdgeInsets.only(left: 5.0, right: 15.0),
                               child: Container(
-                                height: 75,
-                                width: 75,
+                                width: 80,
+                                height: 80,
                                 decoration: BoxDecoration(
-                                border: Border.all(color: Colors.lightBlue, width: 5.0),
-                                color: Colors.lightBlue,
-                                   ),
-                              //child: Image.asset("assets/images/av.png", alignment: Alignment.bottomCenter),
-                            ),
+                                    shape: BoxShape.rectangle,
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage("${document['Foto']}"),
+                                    )
+                                ),
+                              ),
                           ),
                   Container(
-                  height: 150,
-                  width: MediaQuery.of(context).size.width / 1.45,
-                  // color: Colors.blue,
-                  child: Column(
+                    child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -129,21 +158,11 @@ class _ReviewsState extends State<Reviews> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                          Text(document['Nome'], style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),),
-                          Spacer(),
-                          PopupMenuButton<Opcoes>(
-                            onSelected: (Opcoes result) { setState(() { selecao = result; }); },
-                            itemBuilder: (BuildContext context) => <PopupMenuEntry<Opcoes>>[
-                          const PopupMenuItem<Opcoes>(
-                            value: Opcoes.Editar,
-                            child: Center(child: Text('Editar')),
+                          Text(document['Nome'], style:
+                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
                           ),
-                      const PopupMenuItem<Opcoes>(
-                        value: Opcoes.Apagar,
-                        child: Center(child: Text('Apagar')),
-                       ),
-                            ],
-                              child: Icon(Icons.more_vert_outlined, size: 25, color: Colors.black,)),
+                        SizedBox(height: 20),
+
                         ],
                       ),
                     new Text(document['Conteudo'], style: TextStyle(fontSize: 16, color: Colors.black),),
@@ -167,6 +186,8 @@ class _ReviewsState extends State<Reviews> {
               },
             ),
           ),
+
+
         ],
       ),
     );

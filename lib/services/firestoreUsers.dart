@@ -10,7 +10,7 @@ Future<void>FirestoreUser (String displayName) async{
 
   String uid = auth.currentUser.uid.toString();
   String uemail = auth.currentUser.email.toString();
-  String udateCreation = DateFormat('MM-dd-yyyy  kk:mm').format(FirebaseAuth.instance.currentUser.metadata.creationTime);
+  String udateCreation = DateFormat('dd-MM-yyyy  kk:mm').format(FirebaseAuth.instance.currentUser.metadata.creationTime);
   String ufotoDefault = 'https://firebasestorage.googleapis.com/v0/b/gaivotasmiguelito-firebase.appspot.com/o/logo1.png?alt=media&token=72797896-a793-496c-bdb8-fd99224f99ef';
 
 

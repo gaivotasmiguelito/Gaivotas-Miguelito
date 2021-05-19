@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/home/homeClient.dart';
+import 'package:flutter_app/screens/sos/sos.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
@@ -56,29 +58,29 @@ void _onMapCreated (GoogleMapController controller) {
               markers: markers,
             ),
           ),
-          Container(
-            padding: new EdgeInsets.only(top: 50.0),
-            child:  Material(
-              color: Colors.blueGrey,
-              borderRadius: BorderRadius.circular(30.0),
-              elevation: 5.0,
-              child: MaterialButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, 'sos');
-                },
-                minWidth: 300.0,
-                height: 70.0,
-
-                child: Text(
-                  'Pedir Socorro',
-                  style: TextStyle(
-                    fontSize: 30.0,
-                    color: Colors.white,
-                  ),
-                ),
+          
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                shape: CircleBorder(),
+                primary: Colors.red
+            ),
+            child: Container(
+              width: 50,
+              height: 50,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(shape: BoxShape.circle),
+              child: Text(
+                'SOS',
+                style: TextStyle(fontSize: 24),
               ),
             ),
-          ),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => Sos()));
+            },
+          )
+
+
         ],
       )
     );

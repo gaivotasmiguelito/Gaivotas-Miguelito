@@ -12,6 +12,7 @@ class UploadFoto extends StatefulWidget {
 class UploadFotoState extends State<UploadFoto> {
   String imageUrl;
   var file;
+  File _mostrafoto;
   final _firebaseStorage = FirebaseStorage.instance;
 
   uploadImage() async {
@@ -24,13 +25,17 @@ class UploadFotoState extends State<UploadFoto> {
 
     if (permissionStatus.isGranted) {
       //Select Image
-      image = await _imagePicker.getImage(source: ImageSource.gallery);
+     final image = await _imagePicker.getImage(source: ImageSource.gallery);
       file = File(image.path);
+
+      setState(() {
+        _mostrafoto = file;
+      });
     }
   }
   Widget _ImageView ()  {
-    if (file == null) return Text ("Não foi selecionada nenhuma imagem");
-    return SafeArea(child: Image.file(file, height: 350, width: 350));
+    if (_mostrafoto == null) return Text ("Não foi selecionada nenhuma imagem");
+    return SafeArea(child: Image.file(_mostrafoto, height: 350, width: 350));
   }
 
   sendImage() async {
@@ -41,7 +46,34 @@ class UploadFotoState extends State<UploadFoto> {
    setState(() {
      imageUrl = downloadUrl;
    });
-   if (imageUrl!=null) return print("Imagem enviada com sucesso");
+
+   Future<void> _showDialog() async {
+     return showDialog<void>(
+       context: context,
+       barrierDismissible: false, // user must tap button!
+       builder: (BuildContext context) {
+         return AlertDialog(
+           title: const Text('Operação Bem-Sucedida!'),
+           content: SingleChildScrollView(
+             child: ListBody(
+               children: const <Widget>[
+                 Text('A sua fotografia foi enviada, e em breve estará disponível!'),
+               ],
+             ),
+           ),
+           actions: <Widget>[
+             TextButton(
+               child: Center(child: const Text('OK')),
+               onPressed: () {
+                 Navigator.of(context).pop();
+               },
+             ),
+           ],
+         );
+       },
+     );
+   }
+   if (imageUrl!=null) return _showDialog();
  }
 
   @override
