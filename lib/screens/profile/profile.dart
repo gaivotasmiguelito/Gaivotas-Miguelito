@@ -30,6 +30,7 @@ class _ProfileState extends State<Profile> {
 
   String uname = FirebaseAuth.instance.currentUser.displayName;
   String uemail = FirebaseAuth.instance.currentUser.email;
+  String uid = FirebaseAuth.instance.currentUser.uid;
 
 
   CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
@@ -94,18 +95,48 @@ class _ProfileState extends State<Profile> {
             padding: EdgeInsets.fromLTRB(15, 35, 15, 15),
             child: Column(
               children: <Widget>[
-                Center(
-                  child: Container(
-                    width: 140,
-                    height: 140,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/logo1.png'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+                FutureBuilder<DocumentSnapshot>(
+                  future: utilizadores.doc(uid).get(),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+
+                    if (snapshot.hasError) {
+                      return Text("Something went wrong");
+                    }
+
+                    if (snapshot.hasData && !snapshot.data.exists) {
+                      return Text("Document does not exist");
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      Map<String, dynamic> data = snapshot.data.data();
+                      return Center(
+                        child: Stack(
+                          children: [
+                            Container(
+                              width: 130,
+                              height: 130,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 2,
+                                      color: Theme.of(context).backgroundColor
+                                  ),
+
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage("${data['Foto']}"),
+                                  )
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      );
+                    }
+
+                    return Text("A carregar...");
+                  },
                 ),
                 SizedBox(
                   height: 20,

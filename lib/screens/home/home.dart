@@ -22,7 +22,8 @@ class _HomePageState extends State<HomePage> {
 
   String _userEmail = FirebaseAuth.instance.currentUser.email;
   String _userName = FirebaseAuth.instance.currentUser.displayName;
-  String _uid = FirebaseAuth.instance.currentUser.uid;
+  String uid = FirebaseAuth.instance.currentUser.uid;
+  CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
 
   String _dateCreation = DateFormat('MM-dd-yyyy').format(FirebaseAuth.instance.currentUser.metadata.creationTime);
   //String _dateLastSigned = DateFormat('MM-dd-yyyy – kk:mm').format(FirebaseAuth.instance.currentUser.metadata.lastSignInTime);
@@ -47,9 +48,48 @@ class _HomePageState extends State<HomePage> {
           children: [
 
             UserAccountsDrawerHeader(
-              currentAccountPicture:CircleAvatar(
-                backgroundImage:
-                AssetImage('assets/images/logo1.png'),
+              currentAccountPicture:FutureBuilder<DocumentSnapshot>(
+                future: utilizadores.doc(uid).get(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+
+                  if (snapshot.hasError) {
+                    return Text("Something went wrong");
+                  }
+
+                  if (snapshot.hasData && !snapshot.data.exists) {
+                    return Text("Document does not exist");
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    Map<String, dynamic> data = snapshot.data.data();
+                    return Center(
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: 130,
+                            height: 130,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 1,
+                                    //color: Theme.of(context).backgroundColor
+                                ),
+
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage("${data['Foto']}"),
+                                )
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    );
+                  }
+
+                  return Text("A carregar...");
+                },
               ),
               accountName: Text(
                   'Bem-vindo '+_userName,style: TextStyle(

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/profile/password.dart';
@@ -11,6 +13,27 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+
+  CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
+
+  String ufoto;
+
+
+  Future<void> _getFotoUser() async {
+
+        FirebaseAuth auth = FirebaseAuth.instance;
+
+        String _uid = auth.currentUser.uid;
+        FirebaseFirestore.instance.collection('Utilizadores').doc(_uid).get().then((data) {
+
+          ufoto=data['Foto'];
+
+
+
+        });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

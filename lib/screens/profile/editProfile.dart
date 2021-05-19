@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SettingsUI extends StatefulWidget {
   const SettingsUI({Key key}) : super(key: key);
@@ -9,6 +14,8 @@ class SettingsUI extends StatefulWidget {
   @override
   _SettingsUIState createState() => _SettingsUIState();
 }
+
+
 
 class _SettingsUIState extends State<SettingsUI> {
 
@@ -25,6 +32,45 @@ class _SettingsUIState extends State<SettingsUI> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
+
+
+
+  String imageUrl;
+  var file;
+  final _firebaseStorage = FirebaseStorage.instance;
+
+  uploadImage() async {
+    final _imagePicker = ImagePicker();
+    PickedFile image;
+    //Check Permissions
+    await Permission.photos.request();
+
+    var permissionStatus = await Permission.photos.status;
+
+    if (permissionStatus.isGranted) {
+
+      //Select Image
+      image = await _imagePicker.getImage(source: ImageSource.gallery);
+      file = File(image.path);
+    }
+
+    var snapshot = await _firebaseStorage.ref()
+        .child(uid.toString())
+        .putFile(file);
+    var downloadUrl = await snapshot.ref.getDownloadURL();
+    setState(() {
+      imageUrl = downloadUrl;
+    });
+    if (imageUrl!=null){
+      return utilizadores
+          .doc(uid)
+          .update({'Foto': imageUrl})
+          .then((value) => print("Foto atualizada com sucesso"))
+          .catchError((error) => print("Falha a atualizar a foto: $error"));
+
+    }
+
+  }
 
 
   Future<void> _updateuser() async {
@@ -44,19 +90,21 @@ class _SettingsUIState extends State<SettingsUI> {
 
       //await FirebaseAuth.instance.currentUser.reload();
 
-        return utilizadores
-            .doc(uid)
-            .update({'Nome': _name, 'Email':_email})
-            .then((value) => print("Utilizador atualizado"))
-            .catchError((error) => print("Falha a atualizar: $error"));
+      return utilizadores
+          .doc(uid)
+          .update({'Nome': _name, 'Email':_email})
+          .then((value) => print("Utilizador atualizado"))
+          .catchError((error) => print("Falha a atualizar: $error"));
 
     }
 
   }
 
 
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -96,46 +144,73 @@ class _SettingsUIState extends State<SettingsUI> {
                     SizedBox(
                       height: 30,
                     ),
-                    Center(
-                      child: Stack(
-                        children: [
-                          Container(
-                            width: 130,
-                            height: 130,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 2,
-                                    color: Theme.of(context).backgroundColor
-                                ),
+                    FutureBuilder<DocumentSnapshot>(
+                      future: utilizadores.doc(uid).get(),
+                      builder:
+                          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
 
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage(
-                                      "assets/images/logo1.png",
-                                    ))),
-                          ),
-                          Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: Container(
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    width: 4,
-                                    color: Theme.of(context).scaffoldBackgroundColor,
+                        if (snapshot.hasError) {
+                          return Text("Something went wrong");
+                        }
+
+                        if (snapshot.hasData && !snapshot.data.exists) {
+                          return Text("Document does not exist");
+                        }
+
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          Map<String, dynamic> data = snapshot.data.data();
+                          return Center(
+                            child: Stack(
+                              children: [
+                                Container(
+                                  width: 160,
+                                  height: 160,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 2,
+                                          color: Theme.of(context).backgroundColor
+                                      ),
+
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage("${data['Foto']}"),
+                                      )
                                   ),
-                                  color: Colors.blue,
                                 ),
-                                child: Icon(
-                                  Icons.edit,
-                                  color: Colors.white,
-                                ),
-                              )),
-                        ],
-                      ),
+                                Positioned(
+                                    bottom: 0,
+                                    right: 0,
+                                    child: Container(
+                                      height: 45,
+                                      width: 50,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          width: 4,
+                                          color: Theme.of(context).scaffoldBackgroundColor,
+                                        ),
+                                        color: Colors.blue,
+                                      ),
+                                      child: Center(
+                                        child:IconButton(
+                                          onPressed: () {
+                                            uploadImage();
+                                          },
+                                          icon: Icon(Icons.edit,
+                                            color: Colors.black,
+                                            size: 25,
+                                          ),
+                                        ),
+                                      ),
+                                    )),
+                              ],
+                            ),
+                          );
+                        }
+
+                        return Text("A carregar...");
+                      },
                     ),
 
                   ],
