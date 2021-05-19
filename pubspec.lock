@@ -153,6 +153,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_phone_direct_caller:
+    dependency: "direct main"
+    description:
+      name: flutter_phone_direct_caller
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -316,7 +323,7 @@ packages:
       name: permission_handler_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.3.0"
+    version: "3.4.0"
   plugin_platform_interface:
     dependency: transitive
     description:

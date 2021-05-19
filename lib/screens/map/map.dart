@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/home/homeClient.dart';
 import 'package:flutter_app/screens/sos/sos.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 
 
 class MapPage extends StatefulWidget {
@@ -17,6 +19,161 @@ class _MapPageState extends State<MapPage> {
   Set<Marker> markers = new Set<Marker>();
   double lat = 40.45055321730234;
   double long = -8.797889649868011;
+
+
+  Future<void> _showDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.red[400],
+          title: const Text(
+              'Pedido de Socorro',style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 30,
+            color: Colors.black,
+          ),
+
+
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                SizedBox(height: 30),
+                MaterialButton(
+                    height: 60,
+                    onPressed: () {
+
+                    },
+                    color: Colors.black12,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                      children: [
+
+
+                        Text(
+                          'GNR', style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20,
+                          color: Colors.black,
+                        ),
+                        ),
+                        Icon(
+
+                            Icons.local_police,
+                            size: 40),
+
+                      ],
+                    )
+                ),
+                SizedBox(height: 20),
+                MaterialButton(
+                    height: 60,
+                    onPressed: () {
+
+                    },
+                    color: Colors.black12,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                      children: [
+
+                        Text(
+                          'Bombeiros', style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20,
+                          color: Colors.black,
+                        ),
+                        ),
+                        Icon(
+
+                            Icons.fire_extinguisher,
+                            size: 40),
+
+                      ],
+                    )
+                ),
+                SizedBox(height: 20),
+                MaterialButton(
+                    height: 60,
+                    onPressed: () {
+                      FlutterPhoneDirectCaller.callNumber('+351919191919');
+
+
+                    },
+                    color: Colors.black12,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                      children: [
+
+                        Text(
+                          'Empresa', style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20,
+                          color: Colors.black,
+                        ),
+                        ),
+                        Icon(
+
+                            Icons.directions_boat_outlined,
+                            size: 40),
+
+                      ],
+                    )
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            MaterialButton(
+                height: 60,
+                onPressed: () {
+                  Navigator.of(context).pop();
+
+                },
+
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                  children: [
+
+                    Icon(
+                        Icons.arrow_forward_ios_outlined,
+                        size: 30,color: Colors.black,),
+
+                  ],
+                )
+            ),
+
+          ],
+        );
+      },
+    );
+  }
+
 
 void _onMapCreated (GoogleMapController controller) {
   mapController = controller;
@@ -34,13 +191,16 @@ void _onMapCreated (GoogleMapController controller) {
     markers.add(marker);
   });
 }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
           Container(
-          height: 500,
+          height: 620,
             child: GoogleMap(
               //mapType: MapType.hybrid,
               onMapCreated: _onMapCreated,
@@ -75,8 +235,7 @@ void _onMapCreated (GoogleMapController controller) {
               ),
             ),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => Sos()));
+              _showDialog();
             },
           )
 
