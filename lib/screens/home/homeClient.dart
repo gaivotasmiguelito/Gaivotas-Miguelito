@@ -5,6 +5,7 @@ import 'package:flutter_app/screens/map/map.dart';
 import 'package:flutter_app/screens/profile/editProfile.dart';
 import 'package:flutter_app/screens/profile/profile.dart';
 import 'package:flutter_app/screens/reviews/add_review.dart';
+import 'package:flutter_app/screens/reviews/reviews.dart';
 import 'package:flutter_app/screens/upload/uploadFoto.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
 import 'package:intl/intl.dart';
@@ -23,7 +24,7 @@ class _HomePageClientState extends State<HomePageClient> {
   String _userName = FirebaseAuth.instance.currentUser.displayName;
   String _uid = FirebaseAuth.instance.currentUser.uid;
 
-  String _dateCreation = DateFormat('MM-dd-yyyy').format(FirebaseAuth.instance.currentUser.metadata.creationTime);
+  String _dateCreation = DateFormat('dd-MM-yyyy').format(FirebaseAuth.instance.currentUser.metadata.creationTime);
   //String _dateLastSigned = DateFormat('MM-dd-yyyy – kk:mm').format(FirebaseAuth.instance.currentUser.metadata.lastSignInTime);
 
 
@@ -93,7 +94,7 @@ class _HomePageClientState extends State<HomePageClient> {
               ),),
               onTap: (){
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => AddReview()));
+                    builder: (BuildContext context) => Reviews()));
                 print('Review');
               },
               trailing: Icon(Icons.arrow_forward_ios_outlined),

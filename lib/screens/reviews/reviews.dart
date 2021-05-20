@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/home/home.dart';
+import 'package:flutter_app/screens/home/homeClient.dart';
 import 'package:flutter_app/screens/reviews/add_review.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app/services/firestoreReviews.dart';
@@ -24,13 +25,36 @@ class _ReviewsState extends State<Reviews> {
   //String _userName = FirebaseAuth.instance.currentUser.displayName;
   var selecao;
 
+  Future<void> _homeNavigation() async {
+
+    try {
+
+      FirebaseFirestore.instance
+          .collection("Utilizadores")
+          .doc(FirebaseAuth.instance.currentUser.uid.toString())
+          .get()
+          .then((DocumentSnapshot snapshot) {
+        if (snapshot['Funcao'] == "Admin") {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => HomePage()));
+        } else {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => HomePageClient()));
+        }
+      });
+    } catch (e) {
+      print(e.message);
+
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
+            _homeNavigation();
           },
           icon: Icon(Icons.arrow_back_outlined
             ,
