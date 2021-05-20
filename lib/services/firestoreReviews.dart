@@ -36,4 +36,16 @@ Future<void>FirestoreReviewFoto(String Foto) async{
 
 }
 
+Future<void>FirestoreReviewDelete(String uid) async{
+
+
+  CollectionReference users = FirebaseFirestore.instance.collection('Reviews');
+  return users
+      .doc(uid)
+      .delete()
+      .then((value) => print("Review apagada!"))
+      .catchError((error) => print("Failed to delete user: $error"));
+
+}
+
 

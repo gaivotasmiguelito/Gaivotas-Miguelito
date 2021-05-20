@@ -21,6 +21,14 @@ class _MapPageState extends State<MapPage> {
   double long = -8.797889649868011;
 
 
+
+
+  _callNumber() async{
+    const number = '919191919'; //set the number here
+    bool res = await FlutterPhoneDirectCaller.callNumber(number);
+  }
+
+
   Future<void> _showDialog() async {
     return showDialog<void>(
       context: context,
@@ -44,6 +52,7 @@ class _MapPageState extends State<MapPage> {
                 MaterialButton(
                     height: 60,
                     onPressed: () {
+                      _callNumber();
 
                     },
                     color: Colors.black12,
@@ -56,7 +65,6 @@ class _MapPageState extends State<MapPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
                       children: [
-
 
                         Text(
                           'GNR', style: TextStyle(
@@ -77,6 +85,7 @@ class _MapPageState extends State<MapPage> {
                 MaterialButton(
                     height: 60,
                     onPressed: () {
+                      _callNumber();
 
                     },
                     color: Colors.black12,
@@ -109,7 +118,6 @@ class _MapPageState extends State<MapPage> {
                 MaterialButton(
                     height: 60,
                     onPressed: () {
-                      FlutterPhoneDirectCaller.callNumber('+351919191919');
 
 
                     },
@@ -191,6 +199,7 @@ void _onMapCreated (GoogleMapController controller) {
     markers.add(marker);
   });
 }
+
 
 
 

@@ -9,8 +9,10 @@ class Welcome extends StatefulWidget {
   @override
   _WelcomeState createState() => _WelcomeState();
 }
-///COMENTARIO
+
 class _WelcomeState extends State<Welcome> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +34,7 @@ class _WelcomeState extends State<Welcome> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+
               SizedBox(
                 height: 100,
               ),

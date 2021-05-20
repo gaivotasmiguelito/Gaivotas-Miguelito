@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/home/home.dart';
 import 'package:flutter_app/screens/reviews/add_review.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_app/services/firestoreReviews.dart';
 
 class Reviews extends StatefulWidget {
   @override
@@ -161,6 +162,8 @@ class _ReviewsState extends State<Reviews> {
                           Text(document['Nome'], style:
                             TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
                           ),
+
+
                         SizedBox(height: 20),
 
                         ],
@@ -169,12 +172,20 @@ class _ReviewsState extends State<Reviews> {
                   ],
                     ),
                       ),
-             /*         Container(
-                        child: Divider(
-                          height: 50,
-                          thickness: 52,
-                        ),
-                      ),*/
+                      MaterialButton(
+                        onPressed: () {
+                          String _id = document.id;
+
+                          FirestoreReviewDelete(_id);
+
+
+
+                          //Navigator.of(context).pushReplacementNamed('/home');
+                        },
+                        child: Text('Apagar'),
+
+                      )
+
                         ],
                           ),
                         ),
