@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/map/map.dart';
+import 'package:flutter_app/screens/map/mapClient.dart';
 import 'package:flutter_app/screens/profile/editProfile.dart';
 import 'package:flutter_app/screens/profile/profile.dart';
 import 'package:flutter_app/screens/reviews/add_review.dart';
@@ -137,7 +138,7 @@ class _HomePageClientState extends State<HomePageClient> {
       appBar: AppBar(
         title: Text('Gaivotas Miguelito'),
       ),
-      body: MapPage(),
+      body: MapPageClient(),
 
     );
   }
