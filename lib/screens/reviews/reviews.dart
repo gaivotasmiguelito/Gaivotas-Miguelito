@@ -81,60 +81,61 @@ class _ReviewsState extends State<Reviews> {
 
           Flexible(
             child: new StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection('Reviews').where('Conteudo', isNotEqualTo: '').snapshots(),
-            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              stream: FirebaseFirestore.instance.collection('Reviews').snapshots(),
+              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) return Center(child: new Text('A carregar Reviews...'));
                 return new ListView(
 
-                children: snapshot.data.docs.map((DocumentSnapshot document) {
-              return new SafeArea(
-              child:  Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                      height: 120,
-                      width: MediaQuery.of(context).size.width,
-                // color: Colors.green,
-                child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                          padding: const EdgeInsets.only(left: 5.0, right: 15.0),
-                              child: Container(
-                                width: 80,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.rectangle,
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage("${document['Foto']}"),
-                                    )
+                  children: snapshot.data.docs.map((DocumentSnapshot document) {
+                    return new SafeArea(
+                      child:  Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+
+                          width: MediaQuery.of(context).size.width,
+                          // color: Colors.green,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5.0, right: 15.0),
+                                child: Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage("${document['Foto']}"),
+                                      )
+                                  ),
                                 ),
                               ),
-                          ),
-                  Container(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                          Text(document['Nome'], style:
-                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-                          ),
+                              Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text(document['Nome'], style:
+                                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+                                        ),
 
 
-                        SizedBox(height: 20),
-
-                        ],
-                      ),
-                    new Text(document['Conteudo'], style: TextStyle(fontSize: 16, color: Colors.black),),
-                  ],
-                    ),
-                      ),
-                        ],
+                                      ],
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(document['Data']+' '+document['Hora'], style: TextStyle(fontSize: 16, color: Colors.black),),
+                                    SizedBox(height: 5),
+                                    Text(document['Conteudo'], style: TextStyle(fontSize: 16, color: Colors.black),),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
 

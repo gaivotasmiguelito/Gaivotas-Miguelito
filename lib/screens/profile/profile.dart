@@ -95,6 +95,17 @@ class _ProfileState extends State<Profile> {
             padding: EdgeInsets.fromLTRB(15, 35, 15, 15),
             child: Column(
               children: <Widget>[
+                Container(
+                  child: Column(
+                    children: [
+                      Center(child: Text('Meu Perfil', style:
+                        TextStyle(color: Colors.black, fontSize: 30,fontWeight: FontWeight.bold),
+                      ),
+                      ),
+                      SizedBox(height: 20,),
+                    ],
+                  ),
+                ),
                 FutureBuilder<DocumentSnapshot>(
                   future: utilizadores.doc(uid).get(),
                   builder:

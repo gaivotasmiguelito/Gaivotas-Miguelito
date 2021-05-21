@@ -10,8 +10,12 @@ Future<void> FirestoreCreateSos (String displayName) async {
       String uid =auth.currentUser.uid;
       CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
       CollectionReference sos = FirebaseFirestore.instance.collection('Sos');
-      String _dateCreation = DateFormat('dd-MM-yyyy').format(DateTime.now());
-      String _timeCreation = DateFormat('HH:mm').format(DateTime.now());
+
+      var today = new DateTime.now();
+      var dateTimeNow = today.add(new Duration(hours: 1));
+
+      String _dateCreation = DateFormat('dd-MM-yyyy').format(dateTimeNow);
+      String _timeCreation = DateFormat('HH:mm').format(dateTimeNow);
 
 
       utilizadores.doc(uid).get().then((data) {

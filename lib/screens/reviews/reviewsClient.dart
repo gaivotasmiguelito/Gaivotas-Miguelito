@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/home/homeClient.dart';
 
+
 import 'add_review.dart';
 
 class ReviewsClient extends StatefulWidget {
@@ -91,7 +92,7 @@ class _ReviewsClientState extends State<ReviewsClient> {
                       }
 
                       if (snapshot.hasData && !snapshot.data.exists) {
-                      return Text("Document does not exist");
+                      return Text("Sem nenhuma review de momento!");
                       }
 
                       if (snapshot.connectionState == ConnectionState.done) {
@@ -99,15 +100,15 @@ class _ReviewsClientState extends State<ReviewsClient> {
                       return Container(
                         child: Column(
                           children: [
-                            Icon(Icons.person, size: 40, color: Colors.teal),
+                            Icon(Icons.person, size: 40, color: Colors.blue),
                             SizedBox(width: 5),
-                            Text("${data.length}", style: TextStyle(fontSize: 30, color: Colors.teal, fontWeight: FontWeight.bold),),
+                            Text("${data.length}", style: TextStyle(fontSize: 30, color: Colors.blue, fontWeight: FontWeight.bold),),
                           ],
                         ),
                       );
                       }
 
-                      return Text("loading");
+                      return Text("Aguarde");
                     },
                   ),
                 ],
@@ -134,7 +135,7 @@ class _ReviewsClientState extends State<ReviewsClient> {
                   child:  Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
-                      height: 50,
+                      height: MediaQuery.of(context).size.height / 10,
                       width: MediaQuery.of(context).size.width,
                       // color: Colors.green,
                       child: Row(
@@ -144,10 +145,10 @@ class _ReviewsClientState extends State<ReviewsClient> {
                           Padding(
                             padding: const EdgeInsets.only(left: 5.0, right: 15.0),
                             child: Container(
-                              width: 50,
-                              height: 50,
+                              width: 60,
+                              height: 60,
                               decoration: BoxDecoration(
-                                  shape: BoxShape.rectangle,
+                                  shape: BoxShape.circle,
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
                                     image: NetworkImage("${data['Foto']}"),
@@ -169,11 +170,12 @@ class _ReviewsClientState extends State<ReviewsClient> {
                                     ),
 
 
-                                    SizedBox(height: 20),
-
                                   ],
                                 ),
-                                new Text(data['Conteudo'], style: TextStyle(fontSize: 16, color: Colors.black),),
+                                SizedBox(height: 5),
+                                Text(data['Data']+' '+data['Hora'], style: TextStyle(fontSize: 16, color: Colors.black),),
+                                SizedBox(height: 5),
+                                Text(data['Conteudo'], style: TextStyle(fontSize: 16, color: Colors.black),),
                               ],
                             ),
                           ),
@@ -192,11 +194,9 @@ class _ReviewsClientState extends State<ReviewsClient> {
 
           Divider(height: 10,thickness: 1, color: Colors.black,),
 
-
-
           Flexible(
             child: new StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection('Reviews').where('Conteudo', isNotEqualTo: '').snapshots(),
+              stream: FirebaseFirestore.instance.collection('Reviews').snapshots(),
               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) return Center(child: new Text('A carregar Reviews...'));
                 return new ListView(
@@ -206,7 +206,7 @@ class _ReviewsClientState extends State<ReviewsClient> {
                       child:  Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          height: 80,
+
                           width: MediaQuery.of(context).size.width,
                           // color: Colors.green,
                           child: Row(
@@ -241,11 +241,12 @@ class _ReviewsClientState extends State<ReviewsClient> {
                                         ),
 
 
-                                        SizedBox(height: 20),
-
                                       ],
                                     ),
-                                    new Text(document['Conteudo'], style: TextStyle(fontSize: 16, color: Colors.black),),
+                                    SizedBox(height: 5),
+                                    Text(document['Data']+' '+document['Hora'], style: TextStyle(fontSize: 16, color: Colors.black),),
+                                    SizedBox(height: 5),
+                                    Text(document['Conteudo'], style: TextStyle(fontSize: 16, color: Colors.black),),
                                   ],
                                 ),
                               ),

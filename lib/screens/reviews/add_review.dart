@@ -4,6 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/home/home.dart';
 import 'package:flutter_app/screens/reviews/reviews.dart';
+import 'package:flutter_app/screens/reviews/reviewsClient.dart';
+import 'package:intl/intl.dart';
+
+
 
 class AddReview extends StatefulWidget {
   @override
@@ -33,6 +37,12 @@ class _AddReviewState extends State<AddReview> {
 
         FirebaseAuth auth = FirebaseAuth.instance;
         String uid =auth.currentUser.uid;
+        var today = new DateTime.now();
+        var dateTimeNow = today.add(new Duration(hours: 1));
+
+        String _dateCreation = DateFormat('dd-MM-yyyy').format(dateTimeNow);
+        String _timeCreation = DateFormat('HH:mm').format(dateTimeNow);
+
 
 
         utilizadores.doc(uid).get().then((data) {
@@ -42,9 +52,9 @@ class _AddReviewState extends State<AddReview> {
 
           reviews
               .doc(uid)
-              .set({'Nome':_userName,'Conteudo':_review,'Foto':ufoto})
-              .then((value) => print("Utilizador criado no Firestore"))
-              .catchError((error) => print("Falha a criar utilizador no Firestore: $error"));
+              .set({'Nome':_userName,'Conteudo':_review,'Foto':ufoto,'Data':_dateCreation,'Hora':_timeCreation})
+              .then((value) => print("Review criada no Firestore"))
+              .catchError((error) => print("Falha a criar uma review no Firestore: $error"));
 
 
         });
@@ -73,7 +83,7 @@ class _AddReviewState extends State<AddReview> {
         leading: IconButton(
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => Reviews()));
+                builder: (BuildContext context) => ReviewsClient()));
           },
           icon: Icon(Icons.arrow_back_outlined
             ,
@@ -138,7 +148,7 @@ class _AddReviewState extends State<AddReview> {
             MaterialButton(
                     onPressed: () async {
                   await CreateReview();
-                  if (_review.isNotEmpty) return Navigator.push(context, MaterialPageRoute(builder: (context)=> Reviews()));
+                  if (_review.isNotEmpty) return Navigator.push(context, MaterialPageRoute(builder: (context)=> ReviewsClient()));
                 },
               child: Container( // BOTÃO TEMPLATE
                 height: 90,
@@ -154,7 +164,7 @@ class _AddReviewState extends State<AddReview> {
                       height: 60,
                       onPressed: () async {
                           await CreateReview();
-                          if (_review.isNotEmpty) return Navigator.push(context, MaterialPageRoute(builder: (context)=> Reviews()));
+                          if (_review.isNotEmpty) return Navigator.push(context, MaterialPageRoute(builder: (context)=> ReviewsClient()));
                       },
                       color: Color(0xff0095FF),
                       elevation: 0,
