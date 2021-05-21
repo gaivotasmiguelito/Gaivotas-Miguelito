@@ -7,6 +7,8 @@ import 'package:flutter_app/screens/profile/editProfile.dart';
 import 'package:flutter_app/screens/profile/profile.dart';
 import 'package:flutter_app/screens/reviews/add_review.dart';
 import 'package:flutter_app/screens/reviews/reviews.dart';
+import 'package:flutter_app/screens/reviews/reviewsClient.dart';
+import 'package:flutter_app/screens/sos/sosClient.dart';
 import 'package:flutter_app/screens/upload/uploadFoto.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
 import 'package:intl/intl.dart';
@@ -23,7 +25,8 @@ class _HomePageClientState extends State<HomePageClient> {
 
   String _userEmail = FirebaseAuth.instance.currentUser.email;
   String _userName = FirebaseAuth.instance.currentUser.displayName;
-  String _uid = FirebaseAuth.instance.currentUser.uid;
+  String uid = FirebaseAuth.instance.currentUser.uid;
+  CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
 
   String _dateCreation = DateFormat('dd-MM-yyyy').format(FirebaseAuth.instance.currentUser.metadata.creationTime);
   //String _dateLastSigned = DateFormat('MM-dd-yyyy – kk:mm').format(FirebaseAuth.instance.currentUser.metadata.lastSignInTime);
@@ -46,9 +49,47 @@ class _HomePageClientState extends State<HomePageClient> {
           children: [
 
             UserAccountsDrawerHeader(
-              currentAccountPicture:CircleAvatar(
-                backgroundImage:
-                AssetImage('assets/images/logo1.png'),
+              currentAccountPicture:FutureBuilder<DocumentSnapshot>(
+                future: utilizadores.doc(uid).get(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+
+                  if (snapshot.hasError) {
+                    return Text("Something went wrong");
+                  }
+
+                  if (snapshot.hasData && !snapshot.data.exists) {
+                    return Text("Document does not exist");
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    Map<String, dynamic> data = snapshot.data.data();
+                    return Center(
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: 130,
+                            height: 130,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 1,
+                                  //color: Theme.of(context).backgroundColor
+                                ),
+
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage("${data['Foto']}"),
+                                )
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+
+                  return Text("A carregar...");
+                },
               ),
               accountName: Text(
                 'Bem-vindo '+_userName,style: TextStyle(
@@ -95,7 +136,7 @@ class _HomePageClientState extends State<HomePageClient> {
               ),),
               onTap: (){
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => Reviews()));
+                    builder: (BuildContext context) => ReviewsClient()));
                 print('Review');
               },
               trailing: Icon(Icons.arrow_forward_ios_outlined),
@@ -110,6 +151,20 @@ class _HomePageClientState extends State<HomePageClient> {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => UploadFoto()));
                 print('SOS');
+              },
+              trailing: Icon(Icons.arrow_forward_ios_outlined),
+            ),
+            ListTile(
+              leading: Icon(Icons.warning_amber_outlined),
+              title: Text('Sos',style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),),
+              subtitle: Text('Pedidos de sos à empresa'),
+              onTap: (){
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => SosClientPage()));
+                print('Conta');
               },
               trailing: Icon(Icons.arrow_forward_ios_outlined),
             ),

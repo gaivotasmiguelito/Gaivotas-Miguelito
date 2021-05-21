@@ -72,7 +72,8 @@ class _AddReviewState extends State<AddReview> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => Reviews()));
           },
           icon: Icon(Icons.arrow_back_outlined
             ,

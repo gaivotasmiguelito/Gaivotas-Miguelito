@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/home/homeClient.dart';
-import 'package:flutter_app/screens/sos/sos.dart';
+import 'package:flutter_app/screens/sos/sosClient.dart';
+import 'package:flutter_app/services/firestoreSos.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -20,8 +22,7 @@ class _MapPageState extends State<MapPageClient> {
   double lat = 40.45055321730234;
   double long = -8.797889649868011;
 
-
-
+  String _uname = FirebaseAuth.instance.currentUser.displayName;
 
   _callNumber() async{
     const number = '919191919'; //set the number here
@@ -35,7 +36,7 @@ class _MapPageState extends State<MapPageClient> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Colors.red[400],
+          backgroundColor: Colors.red[100],
           title: const Text(
               'Pedido de Socorro',style: TextStyle(
             fontWeight: FontWeight.w600,
@@ -118,6 +119,7 @@ class _MapPageState extends State<MapPageClient> {
                 MaterialButton(
                     height: 60,
                     onPressed: () {
+                      FirestoreCreateSos(_uname,);
 
 
                     },
@@ -206,10 +208,11 @@ void _onMapCreated (GoogleMapController controller) {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.blue,
       body: Column(
         children: [
           Container(
-          height: 620,
+          height: MediaQuery.of(context).size.height / 1.3,
             child: GoogleMap(
               //mapType: MapType.hybrid,
               onMapCreated: _onMapCreated,
@@ -227,6 +230,7 @@ void _onMapCreated (GoogleMapController controller) {
               markers: markers,
             ),
           ),
+          SizedBox(height: 15,),
           
           ElevatedButton(
             style: ElevatedButton.styleFrom(

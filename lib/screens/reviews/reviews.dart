@@ -52,16 +52,16 @@ class _ReviewsState extends State<Reviews> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 1,
         leading: IconButton(
           onPressed: () {
-            _homeNavigation();
+            //_homeNavigation();
+            Navigator.of(context).pop();
           },
-          icon: Icon(Icons.arrow_back_outlined
-            ,
-            size: 30,
-            color: Colors.white,),
+          icon: Icon(Icons.arrow_back_ios,
 
-
+            color: Colors.black,
+          ),
         ),
         centerTitle: true,
         title: Text(
@@ -77,69 +77,7 @@ class _ReviewsState extends State<Reviews> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Padding	(
-            padding: const EdgeInsets.only(left: 2.0, bottom: 2.0),
-            child:  IconButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> AddReview()));
-              },
-              icon: Icon(Icons.add,
-                size: 38,
-                color: Colors.blueAccent,),
-            ),
-          ),
-          Center(child: Text(
-          'Gaivotas Miguelito',
-          style: TextStyle(
-            fontFamily: 'Source Sans Pro',
-          fontSize: 40.0,
-          color: Colors.blueAccent,
-          fontWeight: FontWeight.bold,
-            ),
-           ),
-          ),
-
-
-          Padding(
-            padding: const EdgeInsets.only(bottom: 35.0),
-            child: Container(
-              height: 50,
-              width: MediaQuery.of(context).size.width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(Icons.person, size: 40, color: Colors.teal),
-                  SizedBox(width: 5),
-                  Text("3,342", style: TextStyle(fontSize: 30, color: Colors.teal, fontWeight: FontWeight.bold),),
-                ],
-              ),
-            ),
-          ),
-
-          FutureBuilder<DocumentSnapshot>(
-            future: reviews.doc(uid).get(),
-            builder:
-                (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-
-              if (snapshot.hasError) {
-                return Text("Something went wrong");
-              }
-
-              if (snapshot.hasData && !snapshot.data.exists) {
-                return Text("Sem nenhuma review");
-              }
-
-              if (snapshot.connectionState == ConnectionState.done) {
-                Map<String, dynamic> data = snapshot.data.data();
-                return Text("Nome: ${data['Nome']} \nConteudo: ${data['Conteudo']}");
-              }
-
-              return Text("loading");
-            },
-          ),
-
-
+          SizedBox(height: 30,),
 
           Flexible(
             child: new StreamBuilder<QuerySnapshot>(
@@ -196,20 +134,6 @@ class _ReviewsState extends State<Reviews> {
                   ],
                     ),
                       ),
-                      MaterialButton(
-                        onPressed: () {
-                          String _id = document.id;
-
-                          FirestoreReviewDelete(_id);
-
-
-
-                          //Navigator.of(context).pushReplacementNamed('/home');
-                        },
-                        child: Text('Apagar'),
-
-                      )
-
                         ],
                           ),
                         ),

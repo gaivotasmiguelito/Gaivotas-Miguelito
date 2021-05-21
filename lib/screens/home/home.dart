@@ -2,11 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/admin/admin.dart';
+import 'package:flutter_app/screens/admin/reviewsAdmin.dart';
 import 'package:flutter_app/screens/map/map.dart';
 import 'package:flutter_app/screens/profile/editProfile.dart';
 import 'package:flutter_app/screens/profile/profile.dart';
 import 'package:flutter_app/screens/reviews/add_review.dart';
 import 'package:flutter_app/screens/reviews/reviews.dart';
+import 'package:flutter_app/screens/reviews/reviewsClient.dart';
 import 'package:flutter_app/screens/upload/uploadFoto.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
 import 'package:intl/intl.dart';
@@ -25,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   String uid = FirebaseAuth.instance.currentUser.uid;
   CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
 
-  String _dateCreation = DateFormat('MM-dd-yyyy').format(FirebaseAuth.instance.currentUser.metadata.creationTime);
+  String _dateCreation = DateFormat('dd-MM-yyyy').format(FirebaseAuth.instance.currentUser.metadata.creationTime);
   //String _dateLastSigned = DateFormat('MM-dd-yyyy – kk:mm').format(FirebaseAuth.instance.currentUser.metadata.lastSignInTime);
 
 
@@ -162,6 +165,9 @@ class _HomePageState extends State<HomePage> {
                 fontWeight: FontWeight.w500,
               ),),
               onTap: () async {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => AdminPage()));
+
                 print('Administração');
 
               },
