@@ -37,10 +37,12 @@ class _AdminPageState extends State<AdminPage> {
               //controller: _tabControler,
               isScrollable: true,
               tabs: [
+                Tab(icon: Icon(Icons.warning_amber_outlined), text: 'Pedidos de SOS'),
                 Tab(icon: Icon(Icons.supervised_user_circle_rounded), text: 'Utilizadores',),
                 Tab(icon: Icon(Icons.rate_review_outlined), text: 'Reviews'),
                 Tab(icon: Icon(Icons.photo_camera_outlined), text: 'Fotos'),
-                Tab(icon: Icon(Icons.warning_amber_outlined), text: 'Pedidos de SOS'),
+
+
 
               ],
             ),
@@ -48,6 +50,10 @@ class _AdminPageState extends State<AdminPage> {
           ),
           body: TabBarView(
             children: [
+              Container(
+                child: SosAdmin(),
+
+              ),
               Container(
                 child: UsersAdmin(),
 
@@ -60,11 +66,6 @@ class _AdminPageState extends State<AdminPage> {
 
 
               ),
-              Container(
-                child: SosAdmin(),
-
-              ),
-
 
             ],
           ),

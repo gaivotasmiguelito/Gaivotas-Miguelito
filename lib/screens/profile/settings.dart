@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/profile/password.dart';
+import 'package:flutter_app/screens/profile/privacy.dart';
 import 'package:flutter_app/screens/profile/profile.dart';
 
 import 'editProfile.dart';
@@ -126,8 +127,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
               ),
               onTap: (){
-                /*Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => HomePage()));*/
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => Privacy()));
                 print('Privacidade e Segurança');
               },
               trailing: Icon(Icons.arrow_forward_ios_outlined),
@@ -136,19 +137,7 @@ class _SettingsPageState extends State<SettingsPage> {
             SizedBox(
               height: 50,
             ),
-            Center(
-              child: OutlineButton(
-                padding: EdgeInsets.symmetric(horizontal: 40),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                onPressed: () {},
-                child: Text("Finalizar Sessão",
-                    style: TextStyle(
-                        fontSize: 16, color: Colors.black
-                    ),
-                ),
-              ),
-            )
+
           ],
         ),
       ),

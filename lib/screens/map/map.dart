@@ -54,7 +54,7 @@ void _onMapCreated (GoogleMapController controller) {
       body: Column(
         children: [
           Container(
-          height: MediaQuery.of(context).size.height / 1.8,
+          height: MediaQuery.of(context).size.height / 1.7,
 
             child: GoogleMap(
               //mapType: MapType.hybrid,
@@ -109,7 +109,8 @@ void _onMapCreated (GoogleMapController controller) {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        Text('O utilizador ', style:
+                                        Icon(Icons.warning, size: 20,),
+                                        Text('  O utilizador ', style:
                                         TextStyle(fontSize: 17, color: Colors.black)),
                                         Text(document['Nome'], style:
                                         TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.black),
