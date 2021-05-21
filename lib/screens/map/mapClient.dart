@@ -1,10 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/home/homeClient.dart';
+import 'package:flutter_app/screens/map/timer.dart';
 import 'package:flutter_app/screens/sos/sosClient.dart';
 import 'package:flutter_app/services/firestoreSos.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 
 
@@ -16,6 +19,8 @@ class MapPageClient extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPageClient> {
+  final _isHours = true;
+
 
   GoogleMapController mapController;
   Set<Marker> markers = new Set<Marker>();
@@ -212,7 +217,7 @@ void _onMapCreated (GoogleMapController controller) {
       body: Column(
         children: [
           Container(
-          height: MediaQuery.of(context).size.height / 1.3,
+          height: MediaQuery.of(context).size.height / 1.45,
             child: GoogleMap(
               //mapType: MapType.hybrid,
               onMapCreated: _onMapCreated,
@@ -230,29 +235,37 @@ void _onMapCreated (GoogleMapController controller) {
               markers: markers,
             ),
           ),
-          SizedBox(height: 15,),
-          
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                shape: CircleBorder(),
-                primary: Colors.red
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: Row(
+              children: [
+                TimePage(),
+                Padding(
+                  padding: const EdgeInsets.only(top:24.0, left: 7),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      alignment: Alignment.centerRight,
+                        shape: CircleBorder(),
+                        primary: Colors.red
+                    ),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width/3.6,
+                      height: MediaQuery.of(context).size.height/11,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(shape: BoxShape.circle),
+                      child: Text(
+                        'SOS',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    ),
+                    onPressed: () {
+                      _showDialog();
+                    },
+                  ),
+                ),
+              ],
             ),
-            child: Container(
-              width: 50,
-              height: 50,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(shape: BoxShape.circle),
-              child: Text(
-                'SOS',
-                style: TextStyle(fontSize: 24),
-              ),
-            ),
-            onPressed: () {
-              _showDialog();
-            },
           )
-
-
         ],
       )
     );
