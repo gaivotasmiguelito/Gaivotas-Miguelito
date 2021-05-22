@@ -40,7 +40,7 @@ class _AdminPageState extends State<AdminPage> {
               isScrollable: true,
               tabs: [
                 Tab(icon: Icon(Icons.warning_amber_outlined), text: 'Pedidos de SOS'),
-                Tab(icon: Icon(Icons.supervised_user_circle_rounded), text: 'Utilizadores',),
+                Tab(icon: Icon(Icons.account_circle_outlined), text: 'Utilizadores',),
                 Tab(icon: Icon(Icons.rate_review_outlined), text: 'Reviews'),
                 Tab(icon: Icon(Icons.photo_camera_outlined), text: 'Fotos'),
 
@@ -56,17 +56,101 @@ class _AdminPageState extends State<AdminPage> {
                 child: SosAdmin(),
 
               ),
+
               Container(
-                child: UsersAdmin(),
+                child: DefaultTabController(
+                  length: 3,
+                  child: Scaffold(
+                    extendBodyBehindAppBar: true,
+                    appBar: AppBar(
+                      toolbarHeight: 50,
+                      toolbarTextStyle: TextStyle(color: Colors.black),
+                      backgroundColor: Colors.blue,
+
+
+                      bottom: TabBar(
+                        //controller: _tabControler,
+                        isScrollable: true,
+                        tabs: [
+                          Tab( text: 'Online'),
+                          Tab( text: 'Offline'),
+                          Tab( text: 'Total'),
+
+                        ],
+                      ),
+                    ),
+                    body: TabBarView(
+                      children: [
+                        Container(
+                          child: OnlineUsers(),
+
+                        ),
+                        Container(
+                          child: OfflineUsers(),
+
+                        ),
+                        Container(
+                          child: UsersAdmin(),
+
+                        ),
+
+
+                      ],
+                    ),
+
+                  ),
+                )
 
               ),
+
+
               Container(
                 child: ReviewsAdmin(),
 
               ),
               Container(
-                child: PhotosAdmin(),
+                  child: DefaultTabController(
+                    length: 3,
+                    child: Scaffold(
+                      extendBodyBehindAppBar: true,
+                      appBar: AppBar(
+                        toolbarHeight: 50,
+                        toolbarTextStyle: TextStyle(color: Colors.black),
+                        backgroundColor: Colors.blue,
 
+
+                        bottom: TabBar(
+                          //controller: _tabControler,
+                          isScrollable: true,
+                          tabs: [
+                            Tab( text: 'Não validas'),
+                            Tab( text: 'Validas'),
+                            Tab( text: 'Total'),
+
+                          ],
+                        ),
+                      ),
+                      body: TabBarView(
+                        children: [
+                          Container(
+                            child: NaoValido(),
+
+                          ),
+                          Container(
+                            child: Valido(),
+
+                          ),
+                          Container(
+                            child: PhotosAdmin(),
+
+                          ),
+
+
+                        ],
+                      ),
+
+                    ),
+                  )
 
               ),
 

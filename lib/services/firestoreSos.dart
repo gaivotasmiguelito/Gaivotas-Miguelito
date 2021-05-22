@@ -59,7 +59,7 @@ Future<void>FirestoreSosFoto(String Foto) async{
   return sos
       .doc(uid)
       .update({'Foto':Foto})
-      .then((value) => print("Sos atualizada"))
+      .then((value) => print("Sos atualizada com sucesso!"))
       .catchError((error) => print("Falha a atualizar. Não existe nenhuma sos: $error"));
 
 }
@@ -71,7 +71,7 @@ Future<void>FirestoreSosDelete(String uid) async{
   return sos
       .doc(uid)
       .delete()
-      .then((value) => print("Review apagada!"))
-      .catchError((error) => print("Failed to delete user: $error"));
+      .then((value) => print("Sos apagada com sucesso!"))
+      .catchError((error) => print("Falha a apagar a Sos: $error"));
 
 }

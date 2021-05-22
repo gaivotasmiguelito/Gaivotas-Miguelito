@@ -18,9 +18,6 @@ Future<void>FirestoreUser (String displayName) async{
       .then((value) => print("Utilizador criado no Firestore"))
       .catchError((error) => print("Falha a criar utilizador no Firestore: $error"));
 
-  //users.add({'Email':email,'Nome':displayName,'Id':uid});
-  return;
-
 }
 
 Future<void>OnlineUser() async{
@@ -34,7 +31,7 @@ Future<void>OnlineUser() async{
       .doc(uid)
       .update({'Estado':'Online'})
       .then((value) => print("Utilizador online"))
-      .catchError((error) => print("Failed to update user: $error"));
+      .catchError((error) => print("Falha a atualizar o estado do utilizador: $error"));
 
 }
 
@@ -48,7 +45,7 @@ Future<void>OfflineUser() async{
       .doc(uid)
       .update({'Estado':'Offline'})
       .then((value) => print("Utilizador offline"))
-      .catchError((error) => print("Failed to update user: $error"));
+      .catchError((error) => print("Falha a atualizar o estado do utilizador: $error"));
 
 }
 

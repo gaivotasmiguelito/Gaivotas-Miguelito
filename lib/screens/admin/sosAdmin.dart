@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/services/firestoreSos.dart';
 
 class SosAdmin extends StatefulWidget {
   const SosAdmin({Key key}) : super(key: key);
@@ -77,6 +78,25 @@ class _SosAdminState extends State<SosAdmin> {
                                   ],
                                 ),
                               ),
+                              MaterialButton(
+                                  onPressed: () {
+
+                                    String idSos= '${document.id}';
+                                    FirestoreSosDelete(idSos);
+
+
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                          'Apagar'
+                                      ),
+
+
+                                    ],
+                                  )
+                              ),
+                              SizedBox(height: 5),
 
                             ],
                           ),

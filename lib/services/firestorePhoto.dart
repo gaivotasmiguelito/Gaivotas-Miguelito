@@ -13,12 +13,12 @@ Future<void>FirestoreCreatePhoto (String urlFoto) async{
 
 
 
-  CollectionReference users = FirebaseFirestore.instance.collection('Fotos');
-  users
+  CollectionReference photos = FirebaseFirestore.instance.collection('Fotos');
+  photos
       .doc()
       .set({'Email':uemail,'Nome':uname,'Id_utilizador':uid,'Criado':udateCreation,'Url':urlFoto, 'Valido':'Nao'})
-      .then((value) => print("Utilizador criado no Firestore"))
-      .catchError((error) => print("Falha a criar utilizador no Firestore: $error"));
+      .then((value) => print("Foto criada no Firestore com sucesso!"))
+      .catchError((error) => print("Falha a criar foto no Firestore: $error"));
 
   //users.add({'Email':email,'Nome':displayName,'Id':uid});
   return;
@@ -32,8 +32,8 @@ Future<void>FirestorePhotoDelete(String uid) async{
   return photo
       .doc(uid)
       .delete()
-      .then((value) => print("Foto apagada!"))
-      .catchError((error) => print("Failed to delete user: $error"));
+      .then((value) => print("Foto apagada com sucesso!"))
+      .catchError((error) => print("Falha a apagar a foto: $error"));
 
 }
 
@@ -43,8 +43,8 @@ Future<void>FirestorePhotoValidar(String uid) async{
   return photo
       .doc(uid)
       .update({'Valido':'Sim'})
-      .then((value) => print("Review atualizada"))
-      .catchError((error) => print("Falha a atualizar. Não existe review: $error"));
+      .then((value) => print("Review validada com sucesso!"))
+      .catchError((error) => print("Falha a validar a foto!: $error"));
 
 }
 
@@ -54,7 +54,7 @@ Future<void>FirestorePhotoNaoValidar(String uid) async{
   return photo
       .doc(uid)
       .update({'Valido':'Nao'})
-      .then((value) => print("Foto não validada"))
-      .catchError((error) => print("Falha a atualizar. Não existe review: $error"));
+      .then((value) => print("Foto não validada com sucesso!"))
+      .catchError((error) => print("Falha a não validar a foto!: $error"));
 
 }

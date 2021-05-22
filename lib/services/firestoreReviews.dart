@@ -40,7 +40,7 @@ Future<void>FirestoreReviewDelete(String uid) async{
       .doc(uid)
       .delete()
       .then((value) => print("Review apagada!"))
-      .catchError((error) => print("Failed to delete user: $error"));
+      .catchError((error) => print("Falha a apagar a review: $error"));
 
 }
 

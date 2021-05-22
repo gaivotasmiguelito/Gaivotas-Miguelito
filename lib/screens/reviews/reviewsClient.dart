@@ -12,9 +12,10 @@ class ReviewsClient extends StatefulWidget {
   @override
   _ReviewsClientState createState() => _ReviewsClientState();
 }
+enum Opcoes {Editar, Apagar }
 
 class _ReviewsClientState extends State<ReviewsClient> {
-
+  var selecao;
   CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
   CollectionReference reviews = FirebaseFirestore.instance.collection('Reviews');
   String uid = FirebaseAuth.instance.currentUser.uid;
@@ -50,92 +51,56 @@ class _ReviewsClientState extends State<ReviewsClient> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Padding	(
-            padding: const EdgeInsets.only(left: 2.0, bottom: 2.0),
-            child:  IconButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> AddReview()));
-              },
-              icon: Icon(Icons.add,
-                size: 38,
-                color: Colors.blueAccent,),
-            ),
-          ),
-          Center(child: Text(
-            'Gaivotas Miguelito',
-            style: TextStyle(
-              fontFamily: 'Source Sans Pro',
-              fontSize: 40.0,
-              color: Colors.blueAccent,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          ),
-
-
-          Padding(
-            padding: const EdgeInsets.only(bottom: 35.0),
-            child: Container(
-              height: 90,
-              width: MediaQuery.of(context).size.width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-
-                  FutureBuilder<DocumentSnapshot>(
-                    future: utilizadores.doc(uid).get(),
-                    builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-
-                      if (snapshot.hasError) {
-                      return Text("Something went wrong");
-                      }
-
-                      if (snapshot.hasData && !snapshot.data.exists) {
-                      return Text("Sem nenhuma review de momento!");
-                      }
-
-                      if (snapshot.connectionState == ConnectionState.done) {
-                      Map<String, dynamic> data = snapshot.data.data();
-                      return Container(
-                        child: Column(
-                          children: [
-                            Icon(Icons.person, size: 40, color: Colors.blue),
-                            SizedBox(width: 5),
-                            Text("${data.length}", style: TextStyle(fontSize: 30, color: Colors.blue, fontWeight: FontWeight.bold),),
-                          ],
-                        ),
-                      );
-                      }
-
-                      return Text("Aguarde");
-                    },
-                  ),
-                ],
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> AddReview()));
+                },
+                icon: Icon(Icons.add,
+                  size: 38,
+                  color: Colors.blueAccent,),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.only(bottom:20.0, top: 10),
+                child: Center(
+                  child: Container(
+                    child: Image(
+                      image: AssetImage(
+                        'assets/images/logo.png',
+                      ),
+                    ),
+                    width: MediaQuery.of(context).size.width / 1.5 ,
+                  ),
+                ),
+              ),
+              SizedBox(),
+              SizedBox(),
+              SizedBox(),
+              SizedBox(),
+            ],
           ),
+          Flexible(
+            child: FutureBuilder<DocumentSnapshot>(
+              future: reviews.doc(uid).get(),
+              builder:
+                  (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
 
-          FutureBuilder<DocumentSnapshot>(
-            future: reviews.doc(uid).get(),
-            builder:
-                (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text("Algo correu mal!");
+                }
 
-              if (snapshot.hasError) {
-                return Text("Something went wrong");
-              }
+                if (snapshot.hasData && !snapshot.data.exists) {
+                  return Text("Sem nenhuma review");
+                }
 
-              if (snapshot.hasData && !snapshot.data.exists) {
-                return Text("Sem nenhuma review");
-              }
-
-              if (snapshot.connectionState == ConnectionState.done) {
-                Map<String, dynamic> data = snapshot.data.data();
-                return SafeArea(
-                  child:  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height / 10,
+                if (snapshot.connectionState == ConnectionState.done) {
+                  Map<String, dynamic> data = snapshot.data.data();
+                  return SafeArea(
+                    child:  Container(
+                      height: MediaQuery.of(context).size.height/ 6,
                       width: MediaQuery.of(context).size.width,
                       // color: Colors.green,
                       child: Row(
@@ -156,57 +121,73 @@ class _ReviewsClientState extends State<ReviewsClient> {
                               ),
                             ),
                           ),
-                          Container(
+                          Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(data['Nome'], style:
-                                    TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(data['Nome'], style:
+                                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+                                        ),
+                                        Text(data['Data']+' '+data['Hora'], style: TextStyle(fontSize: 16, color: Colors.black54),
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(data['Conteudo'], style: TextStyle(fontSize: 18, color: Colors.black),),
+                                      ],
                                     ),
-
-
+                                    PopupMenuButton(
+                                      onSelected: (Opcoes result) { setState(() { selecao = result; }); },
+                                      itemBuilder: (BuildContext context) => <PopupMenuEntry<Opcoes>>[
+                                        const PopupMenuItem(
+                                          value: Opcoes.Editar,
+                                          child: Center(child: Text('Editar')),
+                                        ),
+                                        const PopupMenuItem(
+                                          value: Opcoes.Apagar,
+                                          child: MaterialButton(
+                                              child: Center(child: Text('Apagar'))),
+                                        ),
                                   ],
                                 ),
-                                SizedBox(height: 5),
-                                Text(data['Data']+' '+data['Hora'], style: TextStyle(fontSize: 16, color: Colors.black),),
-                                SizedBox(height: 5),
-                                Text(data['Conteudo'], style: TextStyle(fontSize: 16, color: Colors.black),),
+                            ],
+                                ),
                               ],
                             ),
                           ),
                         ],
                       ),
                     ),
+                  );
+                }
 
-                  ),
-                );
-              }
+                return Text("loading");
+              },
+            ),
 
-              return Text("loading");
-            },
           ),
-          SizedBox(height: 20,),
-
           Divider(height: 10,thickness: 1, color: Colors.black,),
 
+
+          //TODAS AS REVIEWS
           Flexible(
-            child: new StreamBuilder<QuerySnapshot>(
+            child:  StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance.collection('Reviews').snapshots(),
               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (!snapshot.hasData) return Center(child: new Text('A carregar Reviews...'));
-                return new ListView(
+                if (!snapshot.hasData) return Center(child: Text('A carregar Reviews...'));
+                return ListView(
 
                   children: snapshot.data.docs.map((DocumentSnapshot document) {
-                    return new SafeArea(
+                    return SafeArea(
                       child:  Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 8.0),
                         child: Container(
-
                           width: MediaQuery.of(context).size.width,
                           // color: Colors.green,
                           child: Row(
@@ -228,26 +209,30 @@ class _ReviewsClientState extends State<ReviewsClient> {
                                 ),
                               ),
                               Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Text(document['Nome'], style:
-                                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-                                        ),
+                                child: Expanded(
+                                  child: Column(
+
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Text(document['Nome'], style:
+                                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+                                          ),
 
 
-                                      ],
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(document['Data']+' '+document['Hora'], style: TextStyle(fontSize: 16, color: Colors.black),),
-                                    SizedBox(height: 5),
-                                    Text(document['Conteudo'], style: TextStyle(fontSize: 16, color: Colors.black),),
-                                  ],
+                                        ],
+                                      ),
+                                      SizedBox(height: 5),
+                                      Text(document['Data']+' '+document['Hora'], style: TextStyle(fontSize: 16, color: Colors.black54),),
+                                      SizedBox(height: 5),
+                                      Text(document['Conteudo'], style: TextStyle(fontSize: 18, color: Colors.black),),
+                                      SizedBox(height: 25),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
@@ -261,8 +246,6 @@ class _ReviewsClientState extends State<ReviewsClient> {
               },
             ),
           ),
-
-
         ],
       ),
     );

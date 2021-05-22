@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app/screens/auth/signup.dart';
 import 'package:flutter_app/screens/auth/login.dart';
 
@@ -11,6 +12,8 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeState extends State<Welcome> {
+
+
 
 
   @override
@@ -31,13 +34,10 @@ class _WelcomeState extends State<Welcome> {
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             // even space distribution
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
 
-              SizedBox(
-                height: 100,
-              ),
 
               Container(
                 height: MediaQuery.of(context).size.height / 3,
@@ -99,10 +99,6 @@ class _WelcomeState extends State<Welcome> {
 
                 ],
               ),
-              SizedBox(
-                height: 100,
-              ),
-
 
 
             ],
@@ -111,4 +107,5 @@ class _WelcomeState extends State<Welcome> {
       ),
     );
   }
+
 }
