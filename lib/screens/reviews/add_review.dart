@@ -1,12 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/home/home.dart';
-import 'package:flutter_app/screens/reviews/reviews.dart';
 import 'package:flutter_app/screens/reviews/reviewsClient.dart';
 import 'package:intl/intl.dart';
-
 
 
 class AddReview extends StatefulWidget {

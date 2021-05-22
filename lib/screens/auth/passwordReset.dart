@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/services/firestoreUsers.dart';
 
 class PasswordReset extends StatefulWidget {
   const PasswordReset({Key key}) : super(key: key);

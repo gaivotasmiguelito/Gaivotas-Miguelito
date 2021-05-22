@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/home/homeClient.dart';
 import 'package:flutter_app/screens/photo/uploadFoto.dart';
 import 'package:flutter_app/services/firestorePhoto.dart';
 

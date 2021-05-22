@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class UsersAdmin extends StatefulWidget {
 
 
-  CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
+
 
 
   @override

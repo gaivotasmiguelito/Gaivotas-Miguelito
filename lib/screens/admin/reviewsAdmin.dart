@@ -81,7 +81,6 @@ class _ReviewsAdminState extends State<ReviewsAdmin> {
 
                                   //FirestoreReviewDelete(_id);
 
-                                  //Navigator.of(context).pushReplacementNamed('/home');
                                 },
                                 child: Text('Apagar'),
 

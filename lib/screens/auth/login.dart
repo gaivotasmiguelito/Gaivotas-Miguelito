@@ -5,9 +5,7 @@ import 'package:flutter_app/screens/auth/passwordReset.dart';
 import 'package:flutter_app/screens/auth/signup.dart';
 import 'package:flutter_app/screens/home/home.dart';
 import 'package:flutter_app/screens/home/homeClient.dart';
-import 'package:flutter_app/screens/profile/profile.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
-import 'package:flutter_app/services/firestorePhoto.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);

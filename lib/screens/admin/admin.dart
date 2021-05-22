@@ -3,7 +3,7 @@ import 'package:flutter_app/screens/admin/photosAdmin.dart';
 import 'package:flutter_app/screens/admin/reviewsAdmin.dart';
 import 'package:flutter_app/screens/admin/sosAdmin.dart';
 import 'package:flutter_app/screens/admin/usersAdmin.dart';
-import 'package:flutter_app/screens/photo/photoPage.dart';
+
 
 class AdminPage extends StatefulWidget {
   const AdminPage({Key key}) : super(key: key);
