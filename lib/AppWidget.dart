@@ -6,7 +6,7 @@ import 'package:flutter_app/screens/home/home.dart';
 import 'package:flutter_app/screens/auth/login.dart';
 import 'package:flutter_app/screens/auth/signup.dart';
 import 'package:flutter_app/screens/home/homeClient.dart';
-import 'package:flutter_app/screens/upload/uploadFoto.dart';
+import 'package:flutter_app/screens/photo/uploadFoto.dart';
 import 'package:flutter_app/screens/welcome.dart';
 
 class MyApp extends StatelessWidget {

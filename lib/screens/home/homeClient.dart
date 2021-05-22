@@ -3,13 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/map/map.dart';
 import 'package:flutter_app/screens/map/mapClient.dart';
+import 'package:flutter_app/screens/photo/uploadFoto.dart';
 import 'package:flutter_app/screens/profile/editProfile.dart';
 import 'package:flutter_app/screens/profile/profile.dart';
 import 'package:flutter_app/screens/reviews/add_review.dart';
 import 'package:flutter_app/screens/reviews/reviews.dart';
 import 'package:flutter_app/screens/reviews/reviewsClient.dart';
 import 'package:flutter_app/screens/sos/sosClient.dart';
-import 'package:flutter_app/screens/upload/uploadFoto.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
 import 'package:intl/intl.dart';
 

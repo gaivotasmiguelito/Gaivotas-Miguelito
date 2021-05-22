@@ -149,9 +149,7 @@ class _ProfileState extends State<Profile> {
                     return Text("A carregar...");
                   },
                 ),
-                SizedBox(
-                  height: 20,
-                ),
+
                 Text(
                   uname,
                   style: kLargeTextStyle,
@@ -163,47 +161,7 @@ class _ProfileState extends State<Profile> {
                   uemail,
                   style: kTitleTextStyle,
                 ),
-                SizedBox(
-                  height: 50,
-                ),
 
-                Padding(
-                  padding:  EdgeInsets.only(top: 3),
-                  child: Text("Meu álbum", style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20
-                  ),),
-                ),
-                SizedBox(
-                  height: 40,
-                ),
-                GridView.count(
-                  crossAxisCount: 3,
-                  shrinkWrap: true,
-                  crossAxisSpacing: 15,
-                  mainAxisSpacing: 10,
-                  children: <Widget>[
-                    GalleryImage(
-                      imagePath: 'assets/images/logo1.png',
-                    ),
-                    GalleryImage(
-                      imagePath: 'assets/images/logo1.png',
-                    ),
-                    GalleryImage(
-                      imagePath: 'assets/images/logo1.png',
-                    ),
-                    GalleryImage(
-                      imagePath: 'assets/images/logo1.png',
-                    ),
-                    GalleryImage(
-                      imagePath: 'assets/images/logo1.png',
-                    ),
-                    GalleryImage(
-                      imagePath: 'assets/images/logo1.png',
-                    ),
-                  ],
-                ),
               ],
             ),
           ),
@@ -213,44 +171,3 @@ class _ProfileState extends State<Profile> {
   }
 }
 
-class GalleryImage extends StatelessWidget {
-  final String imagePath;
-
-  GalleryImage({@required this.imagePath});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        image: DecorationImage(
-          image: AssetImage(imagePath),
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
-  }
-}
-
-class PostFollower extends StatelessWidget {
-  final int number;
-  final String title;
-
-  PostFollower({@required this.number, @required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Text(
-          number.toString(),
-          style: kLargeTextStyle,
-        ),
-        Text(
-          title,
-          style: kSmallTextStyle,
-        ),
-      ],
-    );
-  }
-}

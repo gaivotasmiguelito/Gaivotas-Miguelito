@@ -213,11 +213,11 @@ void _onMapCreated (GoogleMapController controller) {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.blue,
+
       body: Column(
         children: [
           Container(
-          height: MediaQuery.of(context).size.height / 1.45,
+          height: MediaQuery.of(context).size.height / 1.50,
             child: GoogleMap(
               //mapType: MapType.hybrid,
               onMapCreated: _onMapCreated,
@@ -235,38 +235,45 @@ void _onMapCreated (GoogleMapController controller) {
               markers: markers,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0),
-            child: Row(
-              children: [
-                TimePage(),
-                Padding(
-                  padding: const EdgeInsets.only(top:24.0, left: 7),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      alignment: Alignment.centerRight,
-                        shape: CircleBorder(),
-                        primary: Colors.red
-                    ),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width/3.6,
-                      height: MediaQuery.of(context).size.height/11,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(shape: BoxShape.circle),
-                      child: Text(
-                        'SOS',
-                        style: TextStyle(fontSize: 24),
+          Row(
+            children: [
+              TimePage(),
+            ],
+          ),
+          Row(
+           mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top:10.0, left: 5),
+                child: MaterialButton(
+                  color: Colors.red,
+                  shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(20),),
+                  onPressed: () {
+                    _showDialog();
+                  },
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.add_alert,
+                        color: Colors.white,
+                        size: 35,
                       ),
-                    ),
-                    onPressed: () {
-                      _showDialog();
-                    },
+                      Padding(
+                        padding: const EdgeInsets.only (bottom: 8),
+                        child: Text(
+                          'SOS',
+                          style: TextStyle(fontSize:25, color:Colors.white),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          )
+              ),
+            ],
+          ),
+
         ],
+
       )
     );
   }

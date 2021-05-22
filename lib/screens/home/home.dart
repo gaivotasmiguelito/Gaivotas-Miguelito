@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/admin/admin.dart';
 import 'package:flutter_app/screens/admin/reviewsAdmin.dart';
 import 'package:flutter_app/screens/map/map.dart';
+import 'package:flutter_app/screens/photo/uploadFoto.dart';
 import 'package:flutter_app/screens/profile/editProfile.dart';
 import 'package:flutter_app/screens/profile/profile.dart';
 import 'package:flutter_app/screens/reviews/add_review.dart';
 import 'package:flutter_app/screens/reviews/reviews.dart';
 import 'package:flutter_app/screens/reviews/reviewsClient.dart';
-import 'package:flutter_app/screens/upload/uploadFoto.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
 import 'package:intl/intl.dart';
 

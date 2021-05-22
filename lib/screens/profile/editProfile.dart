@@ -40,6 +40,35 @@ class _SettingsUIState extends State<SettingsUI> {
   var file;
   final _firebaseStorage = FirebaseStorage.instance;
 
+
+  //ALERTA de BEM SUCEDIDO
+  Future<void> _showDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Operação Bem-Sucedida!'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Os seus dados foram atualizados com sucesso!'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Center(child: const Text('OK')),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   uploadImage() async {
     final _imagePicker = ImagePicker();
     PickedFile image;
@@ -50,7 +79,7 @@ class _SettingsUIState extends State<SettingsUI> {
 
     if (permissionStatus.isGranted) {
 
-      //Select Image
+      //Selecionar Imagem
       image = await _imagePicker.getImage(source: ImageSource.gallery);
       file = File(image.path);
     }
@@ -64,17 +93,20 @@ class _SettingsUIState extends State<SettingsUI> {
     });
     if (imageUrl!=null){
 
+
       //Atualizar foto da review
       FirestoreReviewFoto(imageUrl);
 
       //Atualizar foto do pedido de sos
       FirestoreSosFoto(imageUrl);
 
-      return utilizadores
+          utilizadores
           .doc(uid)
           .update({'Foto': imageUrl})
           .then((value) => print("Foto atualizada com sucesso"))
           .catchError((error) => print("Falha a atualizar a foto: $error"));
+     return _showDialog();
+
 
     }
 
@@ -105,12 +137,12 @@ class _SettingsUIState extends State<SettingsUI> {
 
       //await FirebaseAuth.instance.currentUser.reload();
 
-      return utilizadores
+          utilizadores
           .doc(uid)
           .update({'Nome': _name, 'Email':_email})
           .then((value) => print("Utilizador atualizado"))
           .catchError((error) => print("Falha a atualizar: $error"));
-
+          return _showDialog();
     }
 
   }
@@ -301,8 +333,6 @@ class _SettingsUIState extends State<SettingsUI> {
 
                           TextFormField(
                             initialValue: uemail,
-
-
                             validator: (input){
                               if(input.isEmpty){
                                 return 'Nome inválido!';

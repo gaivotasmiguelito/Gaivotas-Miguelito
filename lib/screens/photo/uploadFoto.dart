@@ -1,8 +1,13 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/home/homeClient.dart';
+import 'package:flutter_app/screens/photo/photoPage.dart';
+import 'package:flutter_app/services/firestorePhoto.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import 'albumClient.dart';
 
 class UploadFoto extends StatefulWidget {
   @override
@@ -12,7 +17,7 @@ class UploadFoto extends StatefulWidget {
 class UploadFotoState extends State<UploadFoto> {
   String imageUrl;
   var file;
-  File _mostrafoto;
+  File _mostrarFoto;
   final _firebaseStorage = FirebaseStorage.instance;
 
   uploadImage() async {
@@ -29,13 +34,14 @@ class UploadFotoState extends State<UploadFoto> {
       file = File(image.path);
 
       setState(() {
-        _mostrafoto = file;
+        _mostrarFoto = file;
+
       });
     }
   }
   Widget _ImageView ()  {
-    if (_mostrafoto == null) return Text ("Não foi selecionada nenhuma imagem");
-    return SafeArea(child: Image.file(_mostrafoto, height: 350, width: 350));
+    if (_mostrarFoto == null) return Text ("Não foi selecionada nenhuma imagem");
+    return SafeArea(child: Image.file(_mostrarFoto, height: 350, width: 350));
   }
 
   sendImage() async {
@@ -45,6 +51,7 @@ class UploadFotoState extends State<UploadFoto> {
    var downloadUrl = await snapshot.ref.getDownloadURL();
    setState(() {
      imageUrl = downloadUrl;
+     FirestoreCreatePhoto(imageUrl);
    });
 
    Future<void> _showDialog() async {
@@ -92,10 +99,12 @@ class UploadFotoState extends State<UploadFoto> {
             child: Center(
               child: IconButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => HomePageClient()));
+
                 },
                 icon: Icon(Icons.arrow_back_ios,
-                  size: 20,
+
                   color: Colors.black,
                 ),
               ),
@@ -194,9 +203,49 @@ class UploadFotoState extends State<UploadFoto> {
                       child: Icon(Icons.check, color: Colors.green),
                     ),
                   ),
+
                 ],
               ),
+
             ),
+          ),
+          Column(
+            children: [
+              MaterialButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => PhotoPage(),
+                    ),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                          'Ver todas as fotos'
+                      ),
+
+
+                    ],
+                  )
+              ),
+              MaterialButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => AlbumClient(),
+                    ),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                          'Ver as minhas fotos'
+                      ),
+
+
+                    ],
+                  )
+              ),
+            ],
           ),
         ],
       ),

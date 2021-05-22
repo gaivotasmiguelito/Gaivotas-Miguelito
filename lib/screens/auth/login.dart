@@ -7,7 +7,7 @@ import 'package:flutter_app/screens/home/home.dart';
 import 'package:flutter_app/screens/home/homeClient.dart';
 import 'package:flutter_app/screens/profile/profile.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
-import 'package:flutter_app/services/firestore_service.dart';
+import 'package:flutter_app/services/firestorePhoto.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -61,11 +61,6 @@ class _LoginPageState extends State<LoginPage> {
 
           }
           // use ds as a snapshot
-
-          print(data['Funcao']);
-          String name = data['Funcao'];
-          print('String'+name);
-
 
         });
 

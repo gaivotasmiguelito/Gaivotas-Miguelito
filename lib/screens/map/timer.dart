@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class TimePage extends StatefulWidget {
@@ -35,62 +36,67 @@ class _State extends State<TimePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        StreamBuilder<int>(
-          stream: _stopWatchTimer.rawTime,
-          initialData: _stopWatchTimer.rawTime.value,
-          builder: (context, snap) {
-            final value = snap.data;
-            final displayTime =
-            StopWatchTimer.getDisplayTime(value, hours: _isHours);
-            return Row(
-              children: <Widget>[
-                Text(
-                  displayTime,
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right:8.0),
+            child: MaterialButton(
+              color: Colors.white70,
+              shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(20),),
+              onPressed: () async {
+                _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+              },
+              child:Icon(
+                Icons.play_arrow,
+                color: Colors.green,
+                size: 30,
+              ),
+            ),
+          ),
+
+          Icon(
+            Icons.access_alarm,
+            color: Colors.black,
+            size: 25,
+          ),
+          StreamBuilder<int>(
+            stream: _stopWatchTimer.rawTime,
+            initialData: _stopWatchTimer.rawTime.value,
+            builder: (context, snap) {
+              final value = snap.data;
+              final displayTime =
+              StopWatchTimer.getDisplayTime(value, hours: _isHours);
+              return Padding(
+                padding: const EdgeInsets.only(top:5.0),
+                child: Text(displayTime,
                   style: TextStyle(
-                      fontSize: 22,
+                      fontSize: 23,
                       fontFamily: 'Roboto Mono',
                       fontWeight: FontWeight.bold),
                 ),
-              ],
-            );
-          },
-        ),
-
-        Padding(
-          padding: const EdgeInsets.only(left: 20,top: 10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              MaterialButton(
-                color: Colors.lightBlue,
-                shape: StadiumBorder(),
-                onPressed: () async {
-                  _stopWatchTimer.onExecute.add(StopWatchExecute.start);
-                },
-                child: Text(
-                  'Começar',
-                  style: TextStyle(color: Colors.white, fontSize: 15),
-                ),
-              ),
-
-              MaterialButton(
-                color: Colors.red,
-                shape: StadiumBorder(),
-                onPressed: () async {
-                  _stopWatchTimer.onExecute
-                      .add(StopWatchExecute.reset);
-                },
-                child: Text(
-                  'Reset',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ],
+              );
+            },
           ),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.only(left:8.0),
+            child: MaterialButton(
+              color: Colors.white70,
+              shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(20),),
+              onPressed: () async {
+                _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
+              },
+              child:Icon(
+                Icons.stop,
+                color: Colors.red,
+                size: 30,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
