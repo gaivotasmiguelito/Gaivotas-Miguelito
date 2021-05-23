@@ -32,12 +32,13 @@ class _HomePageState extends State<HomePage> {
               onPressed: (){
                 _logoutuser();
               },
-              child:Text('Sair')
+              child:Text('Sim')
           ),
           MaterialButton(
               onPressed: (){
-                Navigator.of(context).pop();
-
+                //Navigator.of(context).pop();
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => HomePage()));
               },
               child:Text('Cancelar')
           ),
