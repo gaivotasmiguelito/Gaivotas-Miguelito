@@ -10,6 +10,44 @@ class SosAdmin extends StatefulWidget {
 }
 
 class _SosAdminState extends State<SosAdmin> {
+
+  //Confirmação de Apagar
+  var idSos;
+  Future<void> _showDialog(idSos) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Tem a certeza que pretende eliminar?'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('O SOS será apagado permanentemente do sistema.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Center(child: Text('Sim')),
+              onPressed: () {
+                FirestoreSosDelete(idSos);
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Center(child: const Text('Cancelar')),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,6 +65,7 @@ class _SosAdminState extends State<SosAdmin> {
                 return new ListView(
 
                   children: snapshot.data.docs.map((DocumentSnapshot document) {
+
                     return new SafeArea(
                       child:  Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -80,20 +119,20 @@ class _SosAdminState extends State<SosAdmin> {
                               ),
                               MaterialButton(
                                   onPressed: () {
-
-                                    String idSos= '${document.id}';
-                                    FirestoreSosDelete(idSos);
-
-
+                                    _showDialog('${document.id}');
                                   },
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                          'Apagar'
-                                      ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 90.0, top: 8.0),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                            Icons.delete,
+                                            color: Colors.grey,
+                                            size: 35),
 
 
-                                    ],
+                                      ],
+                                    ),
                                   )
                               ),
                               SizedBox(height: 5),

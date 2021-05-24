@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/home/homeClient.dart';
+import 'package:flutter_app/services/firestoreReviews.dart';
 
 
 import 'add_review.dart';
@@ -19,6 +20,43 @@ class _ReviewsClientState extends State<ReviewsClient> {
   CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
   CollectionReference reviews = FirebaseFirestore.instance.collection('Reviews');
   String uid = FirebaseAuth.instance.currentUser.uid;
+
+
+  // Confirmar o Apagar
+  var idReview;
+  Future<void> _showDialog(idReview) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Tem a certeza que pretende apagar permanentemente?'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('A sua review será apagada e não será possível aceder à mesma!'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Center(child: Text('Sim')),
+              onPressed: () {
+                FirestoreReviewDelete(idReview);
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Center(child: Text('Cancelar')),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
 
   @override
@@ -100,9 +138,8 @@ class _ReviewsClientState extends State<ReviewsClient> {
                   Map<String, dynamic> data = snapshot.data.data();
                   return SafeArea(
                     child:  Container(
-                      height: MediaQuery.of(context).size.height/ 6,
+                      height: MediaQuery.of(context).size.height/5,
                       width: MediaQuery.of(context).size.width,
-                      // color: Colors.green,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -130,28 +167,28 @@ class _ReviewsClientState extends State<ReviewsClient> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(data['Nome'], style:
-                                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-                                        ),
-                                        Text(data['Data']+' '+data['Hora'], style: TextStyle(fontSize: 16, color: Colors.black54),
-                                        ),
-                                        SizedBox(height: 5),
-                                        Text(data['Conteudo'], style: TextStyle(fontSize: 18, color: Colors.black),),
-                                      ],
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(data['Nome'], style:
+                                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+                                          ),
+                                          Text(data['Data']+' '+data['Hora'], style: TextStyle(fontSize: 16, color: Colors.black54),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Text(data['Conteudo'], style: TextStyle(fontSize: 16, color: Colors.black),),
+                                        ],
+                                      ),
                                     ),
                                     PopupMenuButton(
                                       onSelected: (Opcoes result) { setState(() { selecao = result; }); },
                                       itemBuilder: (BuildContext context) => <PopupMenuEntry<Opcoes>>[
-                                        const PopupMenuItem(
-                                          value: Opcoes.Editar,
-                                          child: Center(child: Text('Editar')),
-                                        ),
-                                        const PopupMenuItem(
+                                        PopupMenuItem(
                                           value: Opcoes.Apagar,
-                                          child: MaterialButton(
+                                          child: MaterialButton(onPressed: (){
+                                              _showDialog(data['id']);
+                                          },
                                               child: Center(child: Text('Apagar'))),
                                         ),
                                   ],
@@ -211,7 +248,6 @@ class _ReviewsClientState extends State<ReviewsClient> {
                               Container(
                                 child: Expanded(
                                   child: Column(
-
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [

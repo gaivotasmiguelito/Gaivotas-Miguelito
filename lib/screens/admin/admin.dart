@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/admin/photosAdmin.dart';
+import 'package:flutter_app/screens/admin/photosAdmin/naoValido.dart';
+import 'package:flutter_app/screens/admin/photosAdmin/valido.dart';
 import 'package:flutter_app/screens/admin/reviewsAdmin.dart';
 import 'package:flutter_app/screens/admin/sosAdmin.dart';
 import 'package:flutter_app/screens/admin/usersAdmin.dart';
@@ -13,8 +15,6 @@ class AdminPage extends StatefulWidget {
 }
 
 class _AdminPageState extends State<AdminPage> {
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -36,15 +36,13 @@ class _AdminPageState extends State<AdminPage> {
               ),
             ),
             bottom: TabBar(
-              //controller: _tabControler,
+              //controller: _tabController,
               isScrollable: true,
               tabs: [
                 Tab(icon: Icon(Icons.warning_amber_outlined), text: 'Pedidos de SOS'),
                 Tab(icon: Icon(Icons.account_circle_outlined), text: 'Utilizadores',),
                 Tab(icon: Icon(Icons.rate_review_outlined), text: 'Reviews'),
                 Tab(icon: Icon(Icons.photo_camera_outlined), text: 'Fotos'),
-
-
 
               ],
             ),
@@ -65,17 +63,15 @@ class _AdminPageState extends State<AdminPage> {
                     appBar: AppBar(
                       toolbarHeight: 50,
                       toolbarTextStyle: TextStyle(color: Colors.black),
-                      backgroundColor: Colors.blue,
+                      backgroundColor: Colors.blue.shade300,
 
 
                       bottom: TabBar(
-                        //controller: _tabControler,
                         isScrollable: true,
                         tabs: [
                           Tab( text: 'Online'),
                           Tab( text: 'Offline'),
-                          Tab( text: 'Total'),
-
+                          Tab( text: 'Todos'),
                         ],
                       ),
                     ),
@@ -116,17 +112,15 @@ class _AdminPageState extends State<AdminPage> {
                       appBar: AppBar(
                         toolbarHeight: 50,
                         toolbarTextStyle: TextStyle(color: Colors.black),
-                        backgroundColor: Colors.blue,
+                        backgroundColor: Colors.blue.shade300,
 
 
                         bottom: TabBar(
-                          //controller: _tabControler,
                           isScrollable: true,
                           tabs: [
-                            Tab( text: 'Não validas'),
-                            Tab( text: 'Validas'),
-                            Tab( text: 'Total'),
-
+                            Tab( text: 'Não validadas'),
+                            Tab( text: 'Validadas'),
+                            Tab( text: 'Todas'),
                           ],
                         ),
                       ),

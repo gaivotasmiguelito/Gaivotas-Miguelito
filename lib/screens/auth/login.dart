@@ -68,15 +68,43 @@ class _LoginPageState extends State<LoginPage> {
 
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
-          print('Nenhum utilizador encontrado para esse e-mail.');
+          _showDialog('Nenhum utilizador encontrado para esse e-mail.');
         } else if (e.code == 'wrong-password') {
-          print('Password incorreta para este utilizador');
+          _showDialog('Password incorreta para este utilizador');
 
         }
       }
 
     }
 
+  }
+
+  // Confirmar o Apagar
+  Future<void> _showDialog(String erro) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Erro ao iniciar sessão!'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(erro),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Center(child: Text('OK')),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
 

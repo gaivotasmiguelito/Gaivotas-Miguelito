@@ -111,7 +111,6 @@ class _MapPageState extends State<MapPageClient> {
                         ),
                         ),
                         Icon(
-
                             Icons.fire_extinguisher,
                             size: 40),
 
@@ -190,7 +189,6 @@ class _MapPageState extends State<MapPageClient> {
 
 void _onMapCreated (GoogleMapController controller) {
   mapController = controller;
- ;
   LatLng porto = LatLng(40.451351526181575, -8.801396302878857);
   final Marker marker = Marker(
     markerId: new MarkerId("porto"),

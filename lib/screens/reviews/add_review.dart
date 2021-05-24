@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app/screens/reviews/reviewsClient.dart';
 import 'package:intl/intl.dart';
 
@@ -121,20 +122,21 @@ class _AddReviewState extends State<AddReview> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height / 3,
                     child: TextFormField(
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(150),
+                      ],
                       keyboardType: TextInputType.text,
                       validator: (input){
                         if(input.isEmpty){
-
                           return 'Insira a sua mensagem!';
                         }
                       } ,
                       onSaved: (input) => _review =input,
-                     // minLines: 4,
                       maxLines: 20,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        hintText: "Descreva a sua viagem",
-                        hintStyle: TextStyle(fontSize: 20, color: Colors.black),
+                        hintText: "Descreva a sua viagem [max. 150 caracteres]",
+                        hintStyle: TextStyle(fontSize: 20, color: Colors.black54),
                       ),
                     ),
                   ),

@@ -56,30 +56,32 @@ class _UsersAdminState extends State<UsersAdmin> {
                                 ),
                               ),
                               Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
+                                child: Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
 
-                                        Text(document['Nome'], style:
-                                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),
-                                        ),
+                                          Text(document['Nome'], style:
+                                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),
+                                          ),
 
 
-                                      ],
-                                    ),
-                                    SizedBox(height: 5,),
-                                    Text(document['Email'], style: TextStyle(fontSize: 15, color: Colors.black),),
-                                    SizedBox(height: 5,),
-                                    Text('Criado a '+document['Criado'], style: TextStyle(fontSize: 15, color: Colors.black),),
-                                    SizedBox(height: 5,),
-                                    Text(document['Estado'], style: TextStyle(fontSize: 15, color: Colors.black),),
-
-                                  ],
+                                        ],
+                                      ),
+                                      SizedBox(height: 5,),
+                                      Text(document['Email'], style: TextStyle(fontSize: 15, color: Colors.black),),
+                                      SizedBox(height: 5,),
+                                      Text('Criado a '+document['Criado'], style: TextStyle(fontSize: 15, color: Colors.black),),
+                                      SizedBox(height: 5,),
+                                      if(document['Estado'] == 'Online') Text(document['Estado'], style: TextStyle(fontSize: 15, color: Colors.green),),
+                                      if (document['Estado'] == 'Offline')Text(document['Estado'], style: TextStyle(fontSize: 15, color: Colors.red),),
+                                    ],
+                                  ),
                                 ),
                               ),
 
@@ -166,7 +168,7 @@ Widget OnlineUsers(){
                                   SizedBox(height: 5,),
                                   Text('Criado a '+document['Criado'], style: TextStyle(fontSize: 15, color: Colors.black),),
                                   SizedBox(height: 5,),
-                                  Text(document['Estado'], style: TextStyle(fontSize: 15, color: Colors.black),),
+                                  Text(document['Estado'], style: TextStyle(fontSize: 15, color: Colors.green),),
 
                                 ],
                               ),
@@ -234,30 +236,32 @@ Widget OfflineUsers(){
                               ),
                             ),
                             Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
+                              child: Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
 
-                                      Text(document['Nome'], style:
-                                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),
-                                      ),
+                                        Text(document['Nome'], style:
+                                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),
+                                        ),
 
 
-                                    ],
-                                  ),
-                                  SizedBox(height: 5,),
-                                  Text(document['Email'], style: TextStyle(fontSize: 15, color: Colors.black),),
-                                  SizedBox(height: 5,),
-                                  Text('Criado a '+document['Criado'], style: TextStyle(fontSize: 15, color: Colors.black),),
-                                  SizedBox(height: 5,),
-                                  Text(document['Estado'], style: TextStyle(fontSize: 15, color: Colors.black),),
+                                      ],
+                                    ),
+                                    SizedBox(height: 5,),
+                                    Text(document['Email'], style: TextStyle(fontSize: 15, color: Colors.black),),
+                                    SizedBox(height: 5,),
+                                    Text('Criado a '+document['Criado'], style: TextStyle(fontSize: 15, color: Colors.black),),
+                                    SizedBox(height: 5,),
+                                    Text(document['Estado'], style: TextStyle(fontSize: 15, color: Colors.red),),
 
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
 
