@@ -23,13 +23,11 @@ class _MapPageState extends State<MapPage> {
 
 
 
-
-
-
 void _onMapCreated (GoogleMapController controller) {
   mapController = controller;
- ;
+
   LatLng porto = LatLng(40.451351526181575, -8.801396302878857);
+  LatLng users= LatLng(40.45162170910973, -8.799650520086288);
   final Marker marker = Marker(
     markerId: new MarkerId("porto"),
     position: porto,
@@ -38,16 +36,60 @@ void _onMapCreated (GoogleMapController controller) {
       snippet: "Ponto de Partida",
     )
   );
+
+  final Marker user = Marker(
+      markerId: new MarkerId("user"),
+      position: users,
+      infoWindow: InfoWindow(
+        title: "Rafael",
+        snippet: "Rafael",
+      )
+  );
   setState(() {
     markers.add(marker);
+    markers.add(user);
   });
 }
+  void _addMarker(double lat, double lng) {
+    var _marker = Marker(
+      markerId: MarkerId(UniqueKey().toString()),
+      position: LatLng(lat, lng),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
+    );
+    setState(() {
+      markers.add(_marker);
+    });
+  }
 
 
+  Future<void> _MarkerUpadte() async {
+    FirebaseFirestore.instance
+        .collection('Localizacoes')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        _addMarker(doc['Latitude'] , doc['Longitude'] );
+        print("Chegou a base de dados!");
+      });
+    });
+
+
+
+
+  }
+
+  changed(value) {
+    setState(() {
+      markers.clear();
+    });
+  }
 
 
   @override
   Widget build(BuildContext context) {
+
+    _MarkerUpadte();
+
     return Scaffold(
       body: Column(
         children: [
@@ -68,6 +110,7 @@ void _onMapCreated (GoogleMapController controller) {
                 target:LatLng(lat, long),
                 zoom:15.50,
               ),
+
               markers: markers,
             ),
           ),

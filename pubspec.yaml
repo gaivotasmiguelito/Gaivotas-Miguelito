@@ -47,6 +47,7 @@ dependencies:
   line_awesome_flutter: ^1.0.1
   flutter_screenutil: ^1.0.2
   animated_theme_switcher: ^1.0.5
+  geoflutterfire: ^3.0.0-nullsafety.4
 
   rating_dialog: ^2.0.0
   flutter_rating_bar: ^4.0.0

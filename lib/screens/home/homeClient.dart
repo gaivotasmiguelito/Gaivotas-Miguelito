@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/map/map.dart';
 import 'package:flutter_app/screens/map/mapClient.dart';
+import 'package:flutter_app/screens/map/mapa.dart';
 import 'package:flutter_app/screens/photo/uploadFoto.dart';
 import 'package:flutter_app/screens/profile/profile.dart';
 import 'package:flutter_app/screens/reviews/reviewsClient.dart';

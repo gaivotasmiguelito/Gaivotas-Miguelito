@@ -1,11 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/map/timer.dart';
+import 'package:flutter_app/services/FirestoreLocalions.dart';
 import 'package:flutter_app/services/firestoreSos.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 
 
 
@@ -20,10 +22,7 @@ class _MapPageState extends State<MapPageClient> {
   final _isHours = true;
 
 
-  GoogleMapController mapController;
-  Set<Marker> markers = new Set<Marker>();
-  double lat = 40.45055321730234;
-  double long = -8.797889649868011;
+
 
   String _uname = FirebaseAuth.instance.currentUser.displayName;
 
@@ -111,6 +110,7 @@ class _MapPageState extends State<MapPageClient> {
                         ),
                         ),
                         Icon(
+
                             Icons.fire_extinguisher,
                             size: 40),
 
@@ -185,10 +185,16 @@ class _MapPageState extends State<MapPageClient> {
       },
     );
   }
-
+  GoogleMapController mapController;
+  Set<Marker> markers = new Set<Marker>();
+  double lat = 40.45055321730234;
+  double long = -8.797889649868011;
 
 void _onMapCreated (GoogleMapController controller) {
+
+
   mapController = controller;
+
   LatLng porto = LatLng(40.451351526181575, -8.801396302878857);
   final Marker marker = Marker(
     markerId: new MarkerId("porto"),
@@ -204,7 +210,22 @@ void _onMapCreated (GoogleMapController controller) {
 }
 
 
-
+  void _addMarker(double lat, double lng) {
+    var _marker = Marker(
+      markerId: MarkerId(UniqueKey().toString()),
+      position: LatLng(lat, lng),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
+    );
+    setState(() {
+      markers.add(_marker);
+    });
+  }
+  void _updateMarkers(List<DocumentSnapshot> documentList) {
+    documentList.forEach((DocumentSnapshot document) {
+      GeoPoint point = document['position']['geopoint'];
+      _addMarker(point.latitude, point.longitude);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -215,20 +236,27 @@ void _onMapCreated (GoogleMapController controller) {
           Container(
           height: MediaQuery.of(context).size.height / 1.50,
             child: GoogleMap(
-              //mapType: MapType.hybrid,
-              onMapCreated: _onMapCreated,
+
+
               onCameraMove: (data) {
-                print(data);
+                //print(data);
+
               },
               onTap: (position) {
                 print(position);
-                print("hello");
+                print("Estou na localização");
+                FirestoreLocation(position.latitude, position.longitude);
               },
               initialCameraPosition: CameraPosition(
                 target:LatLng(lat, long),
                 zoom:15.50,
               ),
+
               markers: markers,
+              onMapCreated: _onMapCreated,
+              myLocationEnabled: true,
+
+
             ),
           ),
           Row(
