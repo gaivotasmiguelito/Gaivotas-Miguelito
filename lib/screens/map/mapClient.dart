@@ -210,23 +210,6 @@ void _onMapCreated (GoogleMapController controller) {
 }
 
 
-  void _addMarker(double lat, double lng) {
-    var _marker = Marker(
-      markerId: MarkerId(UniqueKey().toString()),
-      position: LatLng(lat, lng),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
-    );
-    setState(() {
-      markers.add(_marker);
-    });
-  }
-  void _updateMarkers(List<DocumentSnapshot> documentList) {
-    documentList.forEach((DocumentSnapshot document) {
-      GeoPoint point = document['position']['geopoint'];
-      _addMarker(point.latitude, point.longitude);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

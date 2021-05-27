@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_app/screens/admin/admin.dart';
 import 'package:flutter_app/screens/map/map.dart';
 import 'package:flutter_app/screens/profile/profile.dart';
+import 'package:flutter_app/screens/sos/sos.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
 
 
@@ -149,6 +150,22 @@ class _HomePageState extends State<HomePage> {
               },
               trailing: Icon(Icons.arrow_forward_ios_outlined),
             ),
+            ListTile(
+              leading: Icon(Icons.admin_panel_settings_rounded),
+              title: Text('Pedidos de SOS',style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),),
+              onTap: () async {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => SosPage()));
+
+                print('Pedidos de SOS');
+
+              },
+              trailing: Icon(Icons.arrow_forward_ios_outlined),
+            ),
+
 
             ListTile(
               leading: Icon(Icons.admin_panel_settings_rounded),

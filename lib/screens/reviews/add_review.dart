@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/screens/reviews/reviewsClient.dart';
 import 'package:intl/intl.dart';
+import 'package:rating_dialog/rating_dialog.dart';
 
 
 class AddReview extends StatefulWidget {
@@ -22,7 +23,7 @@ class _AddReviewState extends State<AddReview> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
 
-  Future<void> CreateReview() async {
+  Future<void> CreateReviews() async {
     final formState = _formKey.currentState;
 
     if(formState.validate()){
@@ -145,7 +146,7 @@ class _AddReviewState extends State<AddReview> {
             ),
             MaterialButton(
                     onPressed: () async {
-                  await CreateReview();
+                  //await CreateReview();
                   if (_review.isNotEmpty) return Navigator.push(context, MaterialPageRoute(builder: (context)=> ReviewsClient()));
                 },
               child: Container( // BOTÃO TEMPLATE
@@ -161,7 +162,7 @@ class _AddReviewState extends State<AddReview> {
                       minWidth: double.infinity,
                       height: 60,
                       onPressed: () async {
-                          await CreateReview();
+                          await CreateReviews();
                           if (_review.isNotEmpty) return Navigator.push(context, MaterialPageRoute(builder: (context)=> ReviewsClient()));
                       },
                       color: Color(0xff0095FF),

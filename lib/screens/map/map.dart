@@ -50,7 +50,11 @@ void _onMapCreated (GoogleMapController controller) {
     markers.add(user);
   });
 }
+
+
+
   void _addMarker(double lat, double lng) {
+   // markers.clear();
     var _marker = Marker(
       markerId: MarkerId(UniqueKey().toString()),
       position: LatLng(lat, lng),
@@ -62,7 +66,7 @@ void _onMapCreated (GoogleMapController controller) {
   }
 
 
-  Future<void> _MarkerUpadte() async {
+  Future<void> _MarkerUpdate() async {
 
     FirebaseFirestore.instance
         .collection('Localizacoes')
@@ -72,24 +76,31 @@ void _onMapCreated (GoogleMapController controller) {
         _addMarker(doc['Latitude'] , doc['Longitude'] );
         print("Esta a atualizar a posição dos clientes!");
 
-
-
       });
     });
 
   }
 
+
   changed(value) {
     setState(() {
+
       markers.clear();
     });
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _MarkerUpdate();
+
+  }
 
   @override
   Widget build(BuildContext context) {
 
-    _MarkerUpadte();
+
 
     return Scaffold(
       body: Column(
@@ -98,6 +109,8 @@ void _onMapCreated (GoogleMapController controller) {
           height: MediaQuery.of(context).size.height / 1.7,
 
             child: GoogleMap(
+              compassEnabled: true,
+              trafficEnabled: true,
               //mapType: MapType.hybrid,
               onMapCreated: _onMapCreated,
               onCameraMove: (data) {
