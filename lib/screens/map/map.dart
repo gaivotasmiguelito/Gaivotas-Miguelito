@@ -63,18 +63,19 @@ void _onMapCreated (GoogleMapController controller) {
 
 
   Future<void> _MarkerUpadte() async {
+
     FirebaseFirestore.instance
         .collection('Localizacoes')
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
         _addMarker(doc['Latitude'] , doc['Longitude'] );
-        print("Chegou a base de dados!");
+        print("Esta a atualizar a posição dos clientes!");
+
+
+
       });
     });
-
-
-
 
   }
 
