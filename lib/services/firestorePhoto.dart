@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 Future<void>FirestoreCreatePhoto (String urlFoto) async{
@@ -9,19 +8,19 @@ Future<void>FirestoreCreatePhoto (String urlFoto) async{
   String uid = auth.currentUser.uid;
   String uemail = auth.currentUser.email;
   String uname = auth.currentUser.displayName;
-  String udateCreation = DateFormat('dd-MM-yyyy  kk:mm').format(FirebaseAuth.instance.currentUser.metadata.creationTime);
 
+  var today = new DateTime.now();
+  var dateTimeNow = today.add(new Duration(hours: 1));
+
+  String _dateCreation = DateFormat('dd-MM-yyyy HH:mm').format(dateTimeNow);
 
 
   CollectionReference photos = FirebaseFirestore.instance.collection('Fotos');
   photos
       .doc()
-      .set({'Email':uemail,'Nome':uname,'Id_utilizador':uid,'Criado':udateCreation,'Url':urlFoto, 'Valido':'Nao'})
+      .set({'Email':uemail,'Nome':uname,'Id_utilizador':uid,'Criado':_dateCreation,'Url':urlFoto, 'Valido':'Nao'})
       .then((value) => print("Foto criada no Firestore com sucesso!"))
       .catchError((error) => print("Falha a criar foto no Firestore: $error"));
-
-  //users.add({'Email':email,'Nome':displayName,'Id':uid});
-  return;
 
 }
 

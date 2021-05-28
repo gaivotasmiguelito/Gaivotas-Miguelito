@@ -76,123 +76,121 @@ class _AllPhotosState extends State<AllPhotos> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          child: Expanded(
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> UploadFoto()));
-                      },
-                      icon: Icon(Icons.add,
-                        size: 38,
-                        color: Colors.blueAccent,),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom:20.0, top: 10),
-                      child: Center(
-                        child: Container(
-                          width: 130,
-                          height: 130,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 2,
-                                  color: Theme.of(context).backgroundColor
-                              ),
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: AssetImage("assets/images/logo1.png"),
-                              )
-                          ),
+          child: Column(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> UploadFoto()));
+                    },
+                    icon: Icon(Icons.add,
+                      size: 38,
+                      color: Colors.blueAccent,),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom:20.0, top: 10),
+                    child: Center(
+                      child: Container(
+                        width: 130,
+                        height: 130,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 2,
+                                color: Theme.of(context).backgroundColor
+                            ),
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage("assets/images/logo1.png"),
+                            )
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: 40,
-                    ),
+                  ),
+                  SizedBox(
+                    width: 40,
+                  ),
 
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  "Gaivotas Miguelito",
-                  style: kLargeTextStyle,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "+351 913 958 257",
-                  style: kTitleTextStyle,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "gaivotasmiguelito@gmail.com",
-                  style: kTitleTextStyle,
-                ),
-                SizedBox(
-                  height: 40,
-                ),
-                Divider(
-                  height: 2,
-                  thickness: 2,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Flexible(
-                  child: StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance.collection('Fotos').where('Valido', isEqualTo: 'Sim').snapshots(),
-                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (!snapshot.hasData) return Center(child: Text('A carregar fotos...'));
-                      return new GridView(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3),
-                        children: snapshot.data.docs.map((DocumentSnapshot document) {
-                          return new SafeArea(
-                            child:  Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                // color: Colors.green,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-                                      child: Container(
-                                        width: 110,
-                                        height: 110,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.rectangle,
-                                            image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: NetworkImage("${document['Url']}"),
-                                            )
-                                        ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                "Gaivotas Miguelito",
+                style: kLargeTextStyle,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "+351 913 958 257",
+                style: kTitleTextStyle,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "gaivotasmiguelito@gmail.com",
+                style: kTitleTextStyle,
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              Divider(
+                height: 2,
+                thickness: 2,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Flexible(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance.collection('Fotos').where('Valido', isEqualTo: 'Sim').snapshots(),
+                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (!snapshot.hasData) return Center(child: Text('A carregar fotos...'));
+                    return new GridView(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3),
+                      children: snapshot.data.docs.map((DocumentSnapshot document) {
+                        return new SafeArea(
+                          child:  Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              // color: Colors.green,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+                                    child: Container(
+                                      width: 110,
+                                      height: 110,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.rectangle,
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage("${document['Url']}"),
+                                          )
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
-                          );
-                        }).toList(),
-                      );
-                    },
-                  ),
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

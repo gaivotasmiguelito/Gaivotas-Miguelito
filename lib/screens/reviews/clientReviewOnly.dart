@@ -26,11 +26,11 @@ class _ClientReviewOnlyState extends State<ClientReviewOnly> {
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Pedido de SOS'),
+            title: const Text('Apagar Review?'),
             content: SingleChildScrollView(
               child: ListBody(
                 children: const <Widget>[
-                  Text('O pedido de SOS será cancelado! Tem a certeza?'),
+                  Text('A sua review será apagada permanentemente do sistema.'),
                 ],
               ),
             ),

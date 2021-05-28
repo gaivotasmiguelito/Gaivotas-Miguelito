@@ -177,6 +177,10 @@ class _ProfileState extends State<Profile> {
                   stream: FirebaseFirestore.instance.collection('Fotos').where('Id_utilizador', isEqualTo:uid).snapshots(),
                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (!snapshot.hasData) return Center(child: Text('A carregar fotos...'));
+                    if (snapshot.hasData && snapshot.data.docs.length == 0) {
+                      return Center(child:Text("Ainda sem fotografias"));
+                    }
+
                     return new GridView(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3),

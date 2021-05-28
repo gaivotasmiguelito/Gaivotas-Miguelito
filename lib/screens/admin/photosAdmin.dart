@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/services/firestorePhoto.dart';
 
-import '../../services/firestorePhoto.dart';
 
 class PhotosAdmin extends StatefulWidget {
   const PhotosAdmin({Key key}) : super(key: key);
