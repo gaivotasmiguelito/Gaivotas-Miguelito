@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/home/homeClient.dart';
+import 'package:flutter_app/screens/reviews/clientReviewOnly.dart';
 import 'package:flutter_app/services/firestoreReviews.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -57,9 +58,7 @@ class _ReviewsClientState extends State<ReviewsClient> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               IconButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> AddReview()));
-                },
+                onPressed: _showRatingAppDialog,
                 icon: Icon(Icons.add,
                   size: 38,
                   color: Colors.blueAccent,),
@@ -68,137 +67,42 @@ class _ReviewsClientState extends State<ReviewsClient> {
               SizedBox(),
               SizedBox(),
 
-              Container(
-               child: Center(
-                child: MaterialButton(
-                  shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-                  color: Colors.cyan,
-                  padding: EdgeInsets.only(left: 30,right: 30),
-                  child: Text('Review',style: TextStyle
-                  (color: Colors.white,fontSize: 15),
-                  ),
-                  onPressed: _showRatingAppDialog,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                 child: Center(
+                  child: MaterialButton(
+                    shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                    color: Colors.blueAccent,
+                    padding: EdgeInsets.only(left: 30,right: 30),
+                    child: Text('Minha Review',style: TextStyle
+                    (color: Colors.white,fontSize: 15),
+                    ),
+                      onPressed: () {
+                        //_homeNavigation();
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) =>ClientReviewOnly()));
+                      }
+                    ),
                   ),
                 ),
               ),
 
             ],
           ),
-          Flexible(
-            child: FutureBuilder<DocumentSnapshot>(
-              future: reviews.doc(uid).get(),
-              builder:
-                  (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-
-                if (snapshot.hasError) {
-                  return Text("Algo correu mal!");
-                }
-
-                if (snapshot.hasData && !snapshot.data.exists) {
-                  return Text("Sem nenhuma review");
-                }
-
-                if (snapshot.connectionState == ConnectionState.done) {
-
-                  Map<String, dynamic> data = snapshot.data.data();
-
-                  return SafeArea(
-                    child:  Padding(
-                      padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 8.0),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height/4,
-                        // color: Colors.green,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5.0, right: 15.0),
-                              child: Container(
-                                width: 70,
-                                height: 70,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage("${data['Foto']}"),
-                                    )
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: Expanded(
-                                child: Column(
-
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-
-                                    Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Text(data['Nome'], style:
-                                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-                                        ),
-
-
-                                      ],
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(data['Data']+' '+data['Hora'], style: TextStyle(fontSize: 16, color: Colors.black54),),
-                                    SizedBox(height: 15),
-                                    RatingBarIndicator(
-
-                                      direction: Axis.horizontal,
-                                      rating: data['Avaliacao'],
-
-                                      itemCount: 5,
-                                      itemSize: 20,
-                                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                                      itemBuilder: (context, _) => Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
-                                      ),
-
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(data['Conteudo'], style: TextStyle(fontSize: 18, color: Colors.black),),
-                                    SizedBox(height: 25),
-
-
-                                  ],
-                                ),
-                              ),
-                            ),
-                            PopupMenuButton(
-                              onSelected: (Opcoes result) { setState(() { selecao = result; }); },
-                              itemBuilder: (BuildContext context) => <PopupMenuEntry<Opcoes>>[
-                                const PopupMenuItem(
-                                  value: Opcoes.Editar,
-                                  child: Center(child: Text('Editar')),
-                                ),
-                                const PopupMenuItem(
-                                  value: Opcoes.Apagar,
-                                  child: MaterialButton(
-                                      child: Center(child: Text('Apagar'))),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-
-                    ),
-                  );
-                }
-
-                return Text("loading");
-              },
+          Padding(
+            padding: const EdgeInsets.only(bottom:10.0, top: 10),
+            child: Center(
+              child: Container(
+                child: Image(
+                  image: AssetImage(
+                    'assets/images/logo.png',
+                  ),
+                ),
+                width: MediaQuery.of(context).size.width / 1.2 ,
+              ),
             ),
-
           ),
           Divider(height: 10,thickness: 1, color: Colors.black,),
 
@@ -260,7 +164,6 @@ class _ReviewsClientState extends State<ReviewsClient> {
                                       SizedBox(height: 5),
                                       Text(document['Data']+' '+document['Hora'], style: TextStyle(fontSize: 16, color: Colors.black54),),
                                       SizedBox(height: 5),
-                                      SizedBox(height: 15),
                                       RatingBarIndicator(
 
                                         direction: Axis.horizontal,
@@ -275,7 +178,7 @@ class _ReviewsClientState extends State<ReviewsClient> {
                                         ),
 
                                       ),
-                                      SizedBox(height: 5),
+                                      SizedBox(height: 15),
                                       Text(document['Conteudo'], style: TextStyle(fontSize: 18, color: Colors.black),),
                                       SizedBox(height: 25),
 
@@ -314,6 +217,8 @@ class _ReviewsClientState extends State<ReviewsClient> {
 
 
           CreateReview(response.comment,response.rating.toDouble());
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => ReviewsClient()));
 
 
       },

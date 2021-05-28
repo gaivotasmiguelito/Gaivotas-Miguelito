@@ -95,129 +95,127 @@ class _ProfileState extends State<Profile> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          child: Expanded(
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: FutureBuilder<DocumentSnapshot>(
-                    future: utilizadores.doc(uid).get(),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: FutureBuilder<DocumentSnapshot>(
+                  future: utilizadores.doc(uid).get(),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
 
-                      if (snapshot.hasError) {
-                        return Text("Something went wrong");
-                      }
+                    if (snapshot.hasError) {
+                      return Text("Something went wrong");
+                    }
 
-                      if (snapshot.hasData && !snapshot.data.exists) {
-                        return Text("Document does not exist");
-                      }
+                    if (snapshot.hasData && !snapshot.data.exists) {
+                      return Text("Document does not exist");
+                    }
 
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        Map<String, dynamic> data = snapshot.data.data();
-                        return Center(
-                          child: Stack(
-                            children: [
-                              Container(
-                                width: 130,
-                                height: 130,
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 2,
-                                        color: Theme.of(context).backgroundColor
-                                    ),
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      Map<String, dynamic> data = snapshot.data.data();
+                      return Center(
+                        child: Stack(
+                          children: [
+                            Container(
+                              width: 130,
+                              height: 130,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 2,
+                                      color: Theme.of(context).backgroundColor
+                                  ),
 
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage("${data['Foto']}"),
-                                    )
-                                ),
-                              ),
-
-                            ],
-                          ),
-                        );
-                      }
-
-                      return Text("A carregar...");
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  uname,
-                  style: kLargeTextStyle,
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  uemail,
-                  style: kTitleTextStyle,
-                ),
-                SizedBox(
-                  height: 50,
-                ),
-
-                Padding(
-                  padding:  EdgeInsets.only(top: 3),
-                  child: Text("Meu álbum", style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20
-                  ),),
-                ),
-                SizedBox(
-                  height: 40,
-                ),
-                Flexible(
-                  child: StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance.collection('Fotos').where('Id_utilizador', isEqualTo:uid).snapshots(),
-                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (!snapshot.hasData) return Center(child: Text('A carregar fotos...'));
-                      return new GridView(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3),
-                        children: snapshot.data.docs.map((DocumentSnapshot document) {
-                          return new SafeArea(
-                            child:  Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                // color: Colors.green,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-                                      child: Container(
-                                        width: 110,
-                                        height: 110,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.rectangle,
-                                            image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: NetworkImage("${document['Url']}"),
-                                            )
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage("${data['Foto']}"),
+                                  )
                               ),
                             ),
-                          );
-                        }).toList(),
+
+                          ],
+                        ),
                       );
-                    },
-                  ),
+                    }
+
+                    return Text("A carregar...");
+                  },
                 ),
-              ],
-            ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                uname,
+                style: kLargeTextStyle,
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                uemail,
+                style: kTitleTextStyle,
+              ),
+              SizedBox(
+                height: 50,
+              ),
+
+              Padding(
+                padding:  EdgeInsets.only(top: 3),
+                child: Text("Meu álbum", style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20
+                ),),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              Flexible(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance.collection('Fotos').where('Id_utilizador', isEqualTo:uid).snapshots(),
+                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (!snapshot.hasData) return Center(child: Text('A carregar fotos...'));
+                    return new GridView(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3),
+                      children: snapshot.data.docs.map((DocumentSnapshot document) {
+                        return new SafeArea(
+                          child:  Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              // color: Colors.green,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+                                    child: Container(
+                                      width: 110,
+                                      height: 110,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.rectangle,
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage("${document['Url']}"),
+                                          )
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ),

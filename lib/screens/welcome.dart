@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_app/screens/auth/signup.dart';
 import 'package:flutter_app/screens/auth/login.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class Welcome extends StatefulWidget {
@@ -37,6 +38,37 @@ class _WelcomeState extends State<Welcome> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              Container(
+                //height: MediaQuery.of(context).size.height - 2,
+
+
+
+                child:Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      onPressed: ()async {
+                        const url = 'https://www.facebook.com/gaivotasmiguelito';
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        }else {
+                          throw 'Could not launch $url';
+                        }
+
+                      },
+                      icon: FaIcon(FontAwesomeIcons.facebook,size: 40,color: Colors.blue,),
+                    ),
+                    IconButton(
+                      onPressed: () {
+
+                      },
+                      icon: FaIcon(FontAwesomeIcons.instagram,size: 40,color: Colors.pinkAccent,),
+                    ),
+                  ],
+                ),
+
+              ),
 
 
               Container(
