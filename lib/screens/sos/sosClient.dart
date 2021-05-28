@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/home/homeClient.dart';
 import 'package:flutter_app/services/firestoreSos.dart';
 
 class SosClientPage extends StatefulWidget {
@@ -69,7 +70,8 @@ class _SosClientPageState extends State<SosClientPage> {
         elevation: 1,
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => HomePageClient()));
           },
           icon: Icon(Icons.arrow_back_ios,
 

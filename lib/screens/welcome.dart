@@ -23,25 +23,15 @@ class _WelcomeState extends State<Welcome> {
 
       body: SafeArea(
         child: Container(
-          // we will give media query height
-          // double.infinity make it big as my parent allows
-          // while MediaQuery make it big as per the screen
-
-          //color: Colors.black.withOpacity(1.0),
-
 
           width: double.infinity,
           height: MediaQuery.of(context).size.height,
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
-            // even space distribution
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
-                //height: MediaQuery.of(context).size.height - 2,
-
-
 
                 child:Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -68,6 +58,9 @@ class _WelcomeState extends State<Welcome> {
                   ],
                 ),
 
+              ),
+              SizedBox(
+                height: 100,
               ),
 
 

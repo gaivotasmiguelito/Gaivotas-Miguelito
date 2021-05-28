@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Privacy extends StatefulWidget {
@@ -17,10 +18,14 @@ class _PrivacyState extends State<Privacy> {
           onPressed: () {
             Navigator.pop(context);
           },
+
           icon: Icon(Icons.arrow_back_ios,
             color: Colors.black,
           ),
-        ),
+        ), centerTitle: true,
+        title: Text(
+          "Privacidade e Segurança", style: TextStyle(color: Colors.white, fontSize: 24),),
+
       ),
       body: Scaffold(
 
@@ -37,21 +42,11 @@ class _PrivacyState extends State<Privacy> {
               children: <Widget>[
 
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    SizedBox(height: 10,),
+
                     SizedBox(height: 20,),
-                    Text(
-                      'Privacidade e Segurança',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-
-                      ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-
-
                   ],
                 ),
 

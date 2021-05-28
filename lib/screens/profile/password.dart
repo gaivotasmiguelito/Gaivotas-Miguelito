@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'settings.dart';
+
 class UPassword extends StatefulWidget {
   const UPassword({Key key}) : super(key: key);
 
@@ -41,13 +43,49 @@ class _UPasswordState extends State<UPassword> {
       user.updatePassword(_password);
 
 
-
-
     }
 
   }
-  bool showPassword = false;
+  bool showPassword = true;
+  bool showConfirmPassword = true;
 
+
+  Future<void> _showDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Editar Password?"),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('A sua palavra-passe será alterada.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Center(child: Text('Sim')),
+              onPressed: () {
+                _updatePassword();
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => SettingsPage()));
+              },
+            ),
+            TextButton(
+              child: Center(child: const Text('Cancelar')),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  bool hidePassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +101,9 @@ class _UPasswordState extends State<UPassword> {
             color: Colors.black,
           ),
         ),
+        centerTitle: true,
+        title: Text(
+          "Alterar Password", style: TextStyle(color: Colors.white, fontSize: 24),),
 
       ),
       body: Scaffold(
@@ -79,22 +120,6 @@ class _UPasswordState extends State<UPassword> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
 
-                Column(
-                  children: <Widget>[
-                    Text(
-                      'Alterar Password',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-
-                      ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-
-                  ],
-                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -123,7 +148,7 @@ class _UPasswordState extends State<UPassword> {
                           ),
 
                           TextFormField(
-                            obscureText: true,
+                            obscureText: showPassword,
                             controller: passwordText,
 
                             validator: (input){
@@ -133,6 +158,10 @@ class _UPasswordState extends State<UPassword> {
                             } ,
                             //onSaved: (input) => _email =input,
                             decoration: InputDecoration(
+                                suffixIcon: IconButton(
+                                    onPressed: () => setState(() {
+                                      showPassword = !showPassword;
+                                    }),icon: Icon(Icons.visibility)),
                                 contentPadding: EdgeInsets.symmetric(vertical: 0,
                                     horizontal: 10),
                                 enabledBorder: OutlineInputBorder(
@@ -166,7 +195,7 @@ class _UPasswordState extends State<UPassword> {
 
                           TextFormField(
 
-                            obscureText: true,
+                            obscureText: showConfirmPassword,
 
                             validator: (input){
                               if(input.length<6){
@@ -178,6 +207,10 @@ class _UPasswordState extends State<UPassword> {
                             } ,
                             onSaved: (input) => _password =input,
                             decoration: InputDecoration(
+                                suffixIcon: IconButton(
+                                    onPressed: () => setState(() {
+                                      showConfirmPassword = !showConfirmPassword;
+                                    }),icon: Icon(Icons.visibility)),
                                 contentPadding: EdgeInsets.symmetric(vertical: 0,
                                     horizontal: 10),
                                 enabledBorder: OutlineInputBorder(
@@ -212,7 +245,7 @@ class _UPasswordState extends State<UPassword> {
                     minWidth: double.infinity,
                     height: 60,
                     onPressed: () {
-                      _updatePassword();
+                    _showDialog();
 
 
                     },

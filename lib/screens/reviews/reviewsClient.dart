@@ -14,10 +14,10 @@ class ReviewsClient extends StatefulWidget {
   @override
   _ReviewsClientState createState() => _ReviewsClientState();
 }
-enum Opcoes {Editar, Apagar }
+
 
 class _ReviewsClientState extends State<ReviewsClient> {
-  var selecao;
+
   CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
   CollectionReference reviews = FirebaseFirestore.instance.collection('Reviews');
   String uid = FirebaseAuth.instance.currentUser.uid;
@@ -47,50 +47,64 @@ class _ReviewsClientState extends State<ReviewsClient> {
             padding: const EdgeInsets.all(12.0),
             child: Icon(Icons.help, size: 30),
           ),
+
         ],
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
+
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              IconButton(
-                onPressed: _showRatingAppDialog,
-                icon: Icon(Icons.add,
-                  size: 38,
-                  color: Colors.blueAccent,),
-              ),
+          SizedBox(height: 20,),
+          Container(
 
-              SizedBox(),
-              SizedBox(),
+            child:Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FutureBuilder<DocumentSnapshot>(
+                  future: reviews.doc(uid).get(),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
 
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                 child: Center(
-                  child: MaterialButton(
-                    shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-                    color: Colors.blueAccent,
-                    padding: EdgeInsets.only(left: 30,right: 30),
-                    child: Text('Minha Review',style: TextStyle
-                    (color: Colors.white,fontSize: 15),
-                    ),
-                      onPressed: () {
-                        //_homeNavigation();
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) =>ClientReviewOnly()));
-                      }
-                    ),
-                  ),
+                    if (snapshot.hasError) {
+                      return Text("Algo correu mal!");
+                    }
+
+                    if (snapshot.hasData && !snapshot.data.exists) {
+                      return IconButton(
+                        onPressed: _showRatingAppDialog,
+                        icon: Icon(Icons.add,
+                          size: 38,
+                          color: Colors.blueAccent,),
+                      );
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.done) {
+
+                      Map<String, dynamic> data = snapshot.data.data();
+                      return Text('');
+
+                    }
+                    return Center(child: Text("A carregar..."));
+                  },
                 ),
-              ),
-
-            ],
+                MaterialButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                    color: Colors.blueAccent,
+                    padding: EdgeInsets.only(left: 10,right: 10),
+                    child: Text('Minha Review',style: TextStyle
+                      (color: Colors.white,fontSize: 15),
+                    ),
+                    onPressed: () {
+                      //_homeNavigation();
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) =>ClientReviewOnly()));
+                    }
+                ),
+              ],
+            ),
           ),
+
           Padding(
             padding: const EdgeInsets.only(bottom:10.0, top: 10),
             child: Center(
@@ -104,6 +118,9 @@ class _ReviewsClientState extends State<ReviewsClient> {
               ),
             ),
           ),
+          SizedBox(height: 20,),
+
+
           Divider(height: 10,thickness: 1, color: Colors.black,),
 
 

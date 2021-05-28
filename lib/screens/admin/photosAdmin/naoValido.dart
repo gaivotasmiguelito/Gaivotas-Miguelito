@@ -84,8 +84,8 @@ class _NaoValidoState extends State<NaoValido> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 5.0, right: 5.0),
                                 child: Container(
-                                  width: 120,
-                                  height: 120,
+                                  width: 110,
+                                  height: 110,
                                   decoration: BoxDecoration(
                                       shape: BoxShape.rectangle,
                                       image: DecorationImage(
@@ -96,6 +96,32 @@ class _NaoValidoState extends State<NaoValido> {
 
                                   ),
                                 ),
+                              ),
+                              Column(
+
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+
+                                  SizedBox(height: 15),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(document['Nome'], style:
+                                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+                                      ),
+
+
+                                    ],
+                                  ),
+                                  SizedBox(height: 5),
+                                  SizedBox(height: 5),
+                                  Text(document['Criado'], style: TextStyle(fontSize: 15, color: Colors.black),),
+                                  SizedBox(height: 25),
+
+
+                                ],
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(right:20.0),

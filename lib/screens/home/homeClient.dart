@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/home/ficha.dart';
 import 'package:flutter_app/screens/map/mapClient.dart';
 import 'package:flutter_app/screens/photo/allPhotos.dart';
 import 'package:flutter_app/screens/profile/profile.dart';
@@ -197,12 +198,39 @@ class _HomePageClientState extends State<HomePageClient> {
               },
               trailing: Icon(Icons.arrow_forward_ios_outlined),
             ),
+            SizedBox(height: 70,),
+            ListTile(
+
+              title: Text('Desenvolvido por: Marta Simões, Miguel Lopes e Pedro Rafael Santos',style: TextStyle(
+                fontSize: 15, color: Colors.black54,
+                //fontWeight: FontWeight.w500,
+              ),),
+              subtitle: Text('Coimbra Business School ISCAC'),
+
+            ),
           ],
         ),
       ),
       appBar: AppBar(
-        title: Text('Gaivotas Miguelito'),
+          centerTitle: true,
+          title: Text("Gaivotas Miguelito",
+            style: TextStyle(color: Colors.white, fontSize: 24),),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right:8.0),
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => Ficha()));
+
+              },
+              icon: Icon(Icons.info_outline, size: 30 ,
+              ),
+            ),
+          ),
+        ],
       ),
+
       body: MapPageClient(),
 
     );

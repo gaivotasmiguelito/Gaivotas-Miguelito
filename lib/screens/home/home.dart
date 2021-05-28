@@ -2,10 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_app/screens/admin/admin.dart';
 import 'package:flutter_app/screens/map/map.dart';
-import 'package:flutter_app/screens/profile/profile.dart';
+import 'package:flutter_app/screens/profile/profileAdmin.dart';
 import 'package:flutter_app/screens/sos/sos.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
 
@@ -145,13 +144,13 @@ class _HomePageState extends State<HomePage> {
               subtitle: Text('Perfil e definições de conta'),
               onTap: (){
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => Profile()));
+                    builder: (BuildContext context) => ProfileAdmin()));
                 print('Conta');
               },
               trailing: Icon(Icons.arrow_forward_ios_outlined),
             ),
             ListTile(
-              leading: Icon(Icons.admin_panel_settings_rounded),
+              leading: Icon(Icons.warning_amber_outlined),
               title: Text('Pedidos de SOS',style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
@@ -197,12 +196,24 @@ class _HomePageState extends State<HomePage> {
               },
               trailing: Icon(Icons.arrow_forward_ios_outlined),
             ),
+            SizedBox(height: 70,),
+            ListTile(
+
+              title: Text('Desenvolvido por: Marta Simões, Miguel Lopes e Pedro Rafael Santos',style: TextStyle(
+                fontSize: 15, color: Colors.black54,
+                //fontWeight: FontWeight.w500,
+              ),),
+              subtitle: Text('Coimbra Business School ISCAC'),
+
+            ),
 
           ],
         ),
       ),
       appBar: AppBar(
-        title: Text('GM - Administração'),
+        centerTitle: true,
+        title: Text("GM - Administração",
+          style: TextStyle(color: Colors.white, fontSize: 24),),
       ),
       body: MapPage(),
     );

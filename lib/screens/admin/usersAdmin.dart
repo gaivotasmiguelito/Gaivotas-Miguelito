@@ -78,6 +78,8 @@ class _UsersAdminState extends State<UsersAdmin> {
                                       SizedBox(height: 5,),
                                       Text('Criado a '+document['Criado'], style: TextStyle(fontSize: 15, color: Colors.black),),
                                       SizedBox(height: 5,),
+                                      Text('Último acesso a '+document['ultimoLogin'], style: TextStyle(fontSize: 15, color: Colors.black),),
+                                      SizedBox(height: 5,),
                                       if(document['Estado'] == 'Online') Text(document['Estado'], style: TextStyle(fontSize: 15, color: Colors.green),),
                                       if (document['Estado'] == 'Offline')Text(document['Estado'], style: TextStyle(fontSize: 15, color: Colors.red),),
                                     ],
@@ -168,6 +170,8 @@ Widget OnlineUsers(){
                                   SizedBox(height: 5,),
                                   Text('Criado a '+document['Criado'], style: TextStyle(fontSize: 15, color: Colors.black),),
                                   SizedBox(height: 5,),
+                                  Text('Último acesso a '+document['ultimoLogin'], style: TextStyle(fontSize: 15, color: Colors.black),),
+                                  SizedBox(height: 5,),
                                   Text(document['Estado'], style: TextStyle(fontSize: 15, color: Colors.green),),
 
                                 ],
@@ -206,7 +210,7 @@ Widget OfflineUsers(){
           child: new StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance.collection('Utilizadores').where('Estado',isEqualTo: 'Offline').snapshots(),
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (!snapshot.hasData) return Center(child: new Text('A carregar Reviews...'));
+              if (!snapshot.hasData) return Center(child: new Text('A carregar Utilizadores...'));
               return new ListView(
 
                 children: snapshot.data.docs.map((DocumentSnapshot document) {
@@ -257,6 +261,8 @@ Widget OfflineUsers(){
                                     Text(document['Email'], style: TextStyle(fontSize: 15, color: Colors.black),),
                                     SizedBox(height: 5,),
                                     Text('Criado a '+document['Criado'], style: TextStyle(fontSize: 15, color: Colors.black),),
+                                    SizedBox(height: 5,),
+                                    Text('Último acesso a '+document['ultimoLogin'], style: TextStyle(fontSize: 15, color: Colors.black),),
                                     SizedBox(height: 5,),
                                     Text(document['Estado'], style: TextStyle(fontSize: 15, color: Colors.red),),
 

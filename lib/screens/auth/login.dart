@@ -15,7 +15,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
+  bool hidePassword = true;
   String _email ='';
   String _password='';
 
@@ -215,7 +215,7 @@ class _LoginPageState extends State<LoginPage> {
                             SizedBox(height: 10,),
 
                             TextFormField(
-                              obscureText: true,
+                              obscureText: hidePassword,
                               validator: (input){
                                 if(input.length<6){
                                   return 'A password deve ter no minimo 6 caracteres.';
@@ -226,6 +226,10 @@ class _LoginPageState extends State<LoginPage> {
 
                                 },
                               decoration: InputDecoration(
+                                suffixIcon: IconButton(
+                                    onPressed: () => setState(() {
+                                      hidePassword = !hidePassword;
+                                    }),icon: Icon(Icons.visibility)),
                                   contentPadding: EdgeInsets.symmetric(vertical: 0,
                                       horizontal: 10),
                                   enabledBorder: OutlineInputBorder(
@@ -361,3 +365,4 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+

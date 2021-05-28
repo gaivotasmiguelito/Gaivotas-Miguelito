@@ -60,6 +60,10 @@ class _SignupPageState extends State<SignupPage> {
 
   }
 
+  bool hidePassword = true;
+  bool hideConfirmPassword = true;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -209,7 +213,7 @@ class _SignupPageState extends State<SignupPage> {
 
                         TextFormField(
                           controller: passwordText,
-                          obscureText: true,
+                          obscureText: hidePassword,
                           validator: (input){
                             if(input.length<6){
                               return 'A password deve ter no minimo 6 caracteres.';
@@ -217,6 +221,10 @@ class _SignupPageState extends State<SignupPage> {
                           } ,
                           onSaved: (input) => _password =input,
                           decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                  onPressed: () => setState(() {
+                                    hidePassword = !hidePassword;
+                                  }),icon: Icon(Icons.visibility)),
                               contentPadding: EdgeInsets.symmetric(vertical: 0,
                                   horizontal: 10),
                               enabledBorder: OutlineInputBorder(
@@ -247,7 +255,7 @@ class _SignupPageState extends State<SignupPage> {
                         SizedBox(height: 10,),
 
                         TextFormField(
-                          obscureText: true,
+                          obscureText: hideConfirmPassword,
 
                           validator: (input){
                             if(input.length<6){
@@ -259,6 +267,10 @@ class _SignupPageState extends State<SignupPage> {
                           } ,
                           //onSaved: (input) => _password=input,
                           decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                  onPressed: () => setState(() {
+                                    hideConfirmPassword = !hideConfirmPassword;
+                                  }),icon: Icon(Icons.visibility)),
                               contentPadding: EdgeInsets.symmetric(vertical: 0,
                                   horizontal: 10),
                               enabledBorder: OutlineInputBorder(
@@ -336,7 +348,7 @@ class _SignupPageState extends State<SignupPage> {
                       },
                       child: Row(
                         children: [
-                          Text("Já têm uma conta?"),
+                          Text("Já tem uma conta?"),
                           Text(" Iniciar sessão", style:TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 18

@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/profile/password.dart';
 import 'package:flutter_app/screens/profile/privacy.dart';
 import 'package:flutter_app/screens/profile/profile.dart';
+import 'package:flutter_app/screens/profile/profileAdmin.dart';
 import 'editProfile.dart';
+import 'profile.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -11,6 +15,29 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+
+  Future<void> _homeNavigation() async {
+
+    try {
+      FirebaseFirestore.instance
+          .collection("Utilizadores")
+          .doc(FirebaseAuth.instance.currentUser.uid.toString())
+          .get()
+          .then((DocumentSnapshot snapshot) {
+        if (snapshot['Funcao'] == "Admin") {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) =>ProfileAdmin()));
+        } else {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => Profile()));
+        }
+      });
+    } catch (e) {
+      print(e.message);
+
+    }
+  }
+
 
 
   @override
@@ -20,14 +47,16 @@ class _SettingsPageState extends State<SettingsPage> {
         elevation: 1,
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => Profile()));
+            _homeNavigation();
           },
           icon: Icon(
             Icons.arrow_back_ios,
             color: Colors.black,
           ),
         ),
+        centerTitle: true,
+        title: Text(
+          "Definições", style: TextStyle(color: Colors.white, fontSize: 24),),
       ),
       body: Container(
 
@@ -36,10 +65,6 @@ class _SettingsPageState extends State<SettingsPage> {
           children: [
             SizedBox(
               height: 20,
-            ),
-            Text(
-              "Definições",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
             ),
             SizedBox(
               height: 40,

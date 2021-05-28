@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/map/timer.dart';
-import 'package:flutter_app/services/FirestoreLocalions.dart';
+import 'package:flutter_app/services/FirestoreLocations.dart';
 import 'package:flutter_app/services/firestoreSos.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';

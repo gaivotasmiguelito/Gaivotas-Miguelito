@@ -113,12 +113,7 @@ class UploadFotoState extends State<UploadFoto> {
         centerTitle: true,
         title: Text("Carregar Foto",
           style: TextStyle(color: Colors.white, fontSize: 24),),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Icon(Icons.help, size: 30),
-          ),
-        ],
+
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_app/screens/profile/settings.dart';
-import 'package:flutter_app/services/FirestoreLocalions.dart';
+import 'package:flutter_app/services/FirestoreLocations.dart';
 import 'package:flutter_app/services/firestoreReviews.dart';
 import 'package:flutter_app/services/firestoreSos.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
@@ -216,6 +216,9 @@ class _SettingsUIState extends State<SettingsUI> {
             color: Colors.black,
           ),
         ),
+        centerTitle: true,
+        title: Text(
+          "Dados Pessoais", style: TextStyle(color: Colors.white, fontSize: 24),),
       ),
       body: Scaffold(
 
@@ -233,14 +236,6 @@ class _SettingsUIState extends State<SettingsUI> {
 
                 Column(
                   children: <Widget>[
-                    Text(
-                      'Dados Pessoais',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-
-                      ),
-                    ),
                     SizedBox(
                       height: 30,
                     ),
@@ -250,11 +245,11 @@ class _SettingsUIState extends State<SettingsUI> {
                           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
 
                         if (snapshot.hasError) {
-                          return Text("Something went wrong");
+                          return Text("Algo correu mal");
                         }
 
                         if (snapshot.hasData && !snapshot.data.exists) {
-                          return Text("Document does not exist");
+                          return Text("Não existe nenhum dado");
                         }
 
                         if (snapshot.connectionState == ConnectionState.done) {
