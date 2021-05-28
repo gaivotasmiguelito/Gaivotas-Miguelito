@@ -37,28 +37,20 @@ void _onMapCreated (GoogleMapController controller) {
     )
   );
 
-  final Marker user = Marker(
-      markerId: new MarkerId("user"),
-      position: users,
-      infoWindow: InfoWindow(
-        title: "Rafael",
-        snippet: "Rafael",
-      )
-  );
   setState(() {
     markers.add(marker);
-    markers.add(user);
   });
 }
 
-
-
-  void _addMarker(double lat, double lng) {
+  void _addMarker(double lat, double lng, String Uname ) {
    // markers.clear();
     var _marker = Marker(
       markerId: MarkerId(UniqueKey().toString()),
       position: LatLng(lat, lng),
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
+        infoWindow: InfoWindow(
+          title: Uname,
+        ),
     );
     setState(() {
       markers.add(_marker);
@@ -73,8 +65,8 @@ void _onMapCreated (GoogleMapController controller) {
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
-        _addMarker(doc['Latitude'] , doc['Longitude'] );
-        print("Esta a atualizar a posição dos clientes!");
+        _addMarker(doc['Latitude'] , doc['Longitude'] , doc['Nome']);
+        print("A atualizar a posição dos clientes!");
 
       });
     });
@@ -84,7 +76,6 @@ void _onMapCreated (GoogleMapController controller) {
 
   changed(value) {
     setState(() {
-
       markers.clear();
     });
   }

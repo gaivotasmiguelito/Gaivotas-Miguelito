@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_app/screens/home/home.dart';
 import 'package:flutter_app/screens/home/homeClient.dart';
-import 'package:flutter_app/screens/profile/settings.dart';
+import 'package:flutter_app/screens/photo/uploadFoto.dart';
 
 
 const kLargeTextStyle = TextStyle(
@@ -18,23 +18,16 @@ const kTitleTextStyle = TextStyle(
 const kSmallTextStyle = TextStyle(
   fontSize: 16,
 );
-class Profile extends StatefulWidget {
-  const Profile({Key key}) : super(key: key);
+class AllPhotos extends StatefulWidget {
+  const AllPhotos({Key key}) : super(key: key);
 
   @override
-  _ProfileState createState() => _ProfileState();
+  _AllPhotosState createState() => _AllPhotosState();
 }
 
-class _ProfileState extends State<Profile> {
+class _AllPhotosState extends State<AllPhotos> {
 
 
-  String uname = FirebaseAuth.instance.currentUser.displayName;
-  String uemail = FirebaseAuth.instance.currentUser.email;
-  String uid = FirebaseAuth.instance.currentUser.uid;
-
-
-
-  CollectionReference utilizadores = FirebaseFirestore.instance.collection('Utilizadores');
 
   Future<void> _homeNavigation() async {
 
@@ -78,19 +71,7 @@ class _ProfileState extends State<Profile> {
         ),
         centerTitle: true,
         title: Text(
-          "Meu Perfil", style: TextStyle(color: Colors.white, fontSize: 24),),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.settings,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => SettingsPage()));
-            },
-          ),
-        ],
+          "Álbum de Fotos", style: TextStyle(color: Colors.white, fontSize: 24),),
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -98,84 +79,78 @@ class _ProfileState extends State<Profile> {
           child: Expanded(
             child: Column(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: FutureBuilder<DocumentSnapshot>(
-                    future: utilizadores.doc(uid).get(),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-
-                      if (snapshot.hasError) {
-                        return Text("Something went wrong");
-                      }
-
-                      if (snapshot.hasData && !snapshot.data.exists) {
-                        return Text("Document does not exist");
-                      }
-
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        Map<String, dynamic> data = snapshot.data.data();
-                        return Center(
-                          child: Stack(
-                            children: [
-                              Container(
-                                width: 130,
-                                height: 130,
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 2,
-                                        color: Theme.of(context).backgroundColor
-                                    ),
-
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage("${data['Foto']}"),
-                                    )
-                                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> UploadFoto()));
+                      },
+                      icon: Icon(Icons.add,
+                        size: 38,
+                        color: Colors.blueAccent,),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom:20.0, top: 10),
+                      child: Center(
+                        child: Container(
+                          width: 130,
+                          height: 130,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  width: 2,
+                                  color: Theme.of(context).backgroundColor
                               ),
-
-                            ],
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage("assets/images/logo1.png"),
+                              )
                           ),
-                        );
-                      }
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 40,
+                    ),
 
-                      return Text("A carregar...");
-                    },
-                  ),
+                  ],
                 ),
                 SizedBox(
                   height: 20,
                 ),
                 Text(
-                  uname,
+                  "Gaivotas Miguelito",
                   style: kLargeTextStyle,
                 ),
                 SizedBox(
-                  height: 5,
+                  height: 10,
                 ),
                 Text(
-                  uemail,
+                  "+351 913 958 257",
                   style: kTitleTextStyle,
                 ),
                 SizedBox(
-                  height: 50,
+                  height: 10,
                 ),
-
-                Padding(
-                  padding:  EdgeInsets.only(top: 3),
-                  child: Text("Meu álbum", style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20
-                  ),),
+                Text(
+                  "gaivotasmiguelito@gmail.com",
+                  style: kTitleTextStyle,
                 ),
                 SizedBox(
                   height: 40,
                 ),
+                Divider(
+                  height: 2,
+                  thickness: 2,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
                 Flexible(
                   child: StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance.collection('Fotos').where('Id_utilizador', isEqualTo:uid).snapshots(),
+                    stream: FirebaseFirestore.instance.collection('Fotos').where('Valido', isEqualTo: 'Sim').snapshots(),
                     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (!snapshot.hasData) return Center(child: Text('A carregar fotos...'));
                       return new GridView(

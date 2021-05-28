@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/map/map.dart';
 import 'package:flutter_app/screens/map/mapClient.dart';
-import 'package:flutter_app/screens/map/mapa.dart';
-import 'package:flutter_app/screens/photo/uploadFoto.dart';
+import 'package:flutter_app/screens/photo/allPhotos.dart';
 import 'package:flutter_app/screens/profile/profile.dart';
 import 'package:flutter_app/screens/reviews/reviewsClient.dart';
 import 'package:flutter_app/screens/sos/sosClient.dart';
@@ -28,6 +26,29 @@ class _HomePageClientState extends State<HomePageClient> {
 
   //String _dateLastSigned = DateFormat('MM-dd-yyyy – kk:mm').format(FirebaseAuth.instance.currentUser.metadata.lastSignInTime);
 
+
+  Future<void>exitDialog(){
+    return showDialog(context: context,
+      builder: (context) => new AlertDialog(title: Text('Tem a certeza que pretende sair?'),
+        actions: [
+          MaterialButton(
+              onPressed: (){
+                _logoutuser();
+              },
+              child:Text('Sim')
+          ),
+          MaterialButton(
+              onPressed: (){
+                Navigator.of(context).pop();
+              },
+              child:Text('Cancelar')
+          ),
+
+        ],
+      ),
+    );
+
+  }
 
   Future<void> _logoutuser() async {
 
@@ -146,8 +167,7 @@ class _HomePageClientState extends State<HomePageClient> {
               ),),
               onTap: (){
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => UploadFoto()));
-                print('SOS');
+                    builder: (BuildContext context) => AllPhotos()));
               },
               trailing: Icon(Icons.arrow_forward_ios_outlined),
             ),
@@ -161,7 +181,6 @@ class _HomePageClientState extends State<HomePageClient> {
               onTap: (){
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => SosClientPage()));
-                print('Conta');
               },
               trailing: Icon(Icons.arrow_forward_ios_outlined),
             ),
@@ -174,7 +193,7 @@ class _HomePageClientState extends State<HomePageClient> {
               subtitle: Text('Finalizar sessão'),
               onTap: () async {
                 print('Sair');
-                _logoutuser();
+                exitDialog();
               },
               trailing: Icon(Icons.arrow_forward_ios_outlined),
             ),

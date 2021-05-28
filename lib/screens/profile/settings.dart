@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/profile/password.dart';
 import 'package:flutter_app/screens/profile/privacy.dart';
 import 'package:flutter_app/screens/profile/profile.dart';
-
 import 'editProfile.dart';
 
 class SettingsPage extends StatefulWidget {

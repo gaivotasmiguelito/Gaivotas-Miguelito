@@ -4,8 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_app/screens/profile/settings.dart';
+import 'package:flutter_app/services/FirestoreLocalions.dart';
 import 'package:flutter_app/services/firestoreReviews.dart';
 import 'package:flutter_app/services/firestoreSos.dart';
+import 'package:flutter_app/services/firestoreUsers.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -146,7 +149,56 @@ class _SettingsUIState extends State<SettingsUI> {
     }
 
   }
+  Future<void> _deleteUser() async {
 
+    try {
+
+      //Apagar no Firebase Auth
+      await FirebaseAuth.instance.currentUser.delete();
+
+      //Apagar Utilizador no Firestore
+      FirestoreUserDelete(uid);
+
+      //Apagar Localizacao no Firestore
+      FirestoreLocationDelete(uid);
+
+      //Apagar Pedido SOS no Firestore
+      FirestoreSosDelete(uid);
+
+
+      Navigator.of(context).pushReplacementNamed('/welcome');
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        print('The user must reauthenticate before this operation can be executed.');
+      }
+    }
+
+  }
+
+  Future<void>deleteDialog(){
+    return showDialog(context: context,
+      builder: (context) => new AlertDialog(title: Text('Tem a certeza que pretende apagar a conta?'),
+        actions: [
+          MaterialButton(
+              onPressed: (){
+                _deleteUser();
+              },
+              child:Text('Sim')
+          ),
+          MaterialButton(
+              onPressed: (){
+                //Navigator.of(context).pop();
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => SettingsUI()));
+              },
+              child:Text('Cancelar')
+          ),
+
+        ],
+      ),
+    );
+
+  }
 
 
   @override
@@ -157,7 +209,8 @@ class _SettingsUIState extends State<SettingsUI> {
         elevation: 1,
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => SettingsPage()));
           },
           icon: Icon(Icons.arrow_back_ios,
             color: Colors.black,
@@ -363,6 +416,7 @@ class _SettingsUIState extends State<SettingsUI> {
 
                   ],
                 ),
+                SizedBox(height: 20,),
                 Container(
                   decoration:
                   BoxDecoration(
@@ -393,8 +447,22 @@ class _SettingsUIState extends State<SettingsUI> {
 
                   ),
 
+                ),
+                SizedBox(height: 30,),
+
+                MaterialButton(
+                  onPressed: () {
+                    deleteDialog();
+                  },
+                  child: Text(
+                    "Apagar conta", style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15,
+                    color: Colors.black,
 
 
+                  ),
+                  ),
                 ),
 
               ],

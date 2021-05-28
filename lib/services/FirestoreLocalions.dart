@@ -18,3 +18,15 @@ Future<void>FirestoreLocation (double Latitude, double Longitude) async{
       .catchError((error) => print("Falha a criar no Firestore: $error"));
 
 }
+
+Future<void>FirestoreLocationDelete(String uid) async{
+
+
+  CollectionReference reviews = FirebaseFirestore.instance.collection('Localizacoes');
+  return reviews
+      .doc(uid)
+      .delete()
+      .then((value) => print("Localização apagada!"))
+      .catchError((error) => print("Falha a apagar a localizacao: $error"));
+
+}

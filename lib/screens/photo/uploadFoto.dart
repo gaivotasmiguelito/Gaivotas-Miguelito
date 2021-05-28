@@ -1,13 +1,11 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/home/homeClient.dart';
-import 'package:flutter_app/screens/photo/photoPage.dart';
+import 'package:flutter_app/screens/photo/allPhotos.dart';
 import 'package:flutter_app/services/firestorePhoto.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'albumClient.dart';
 
 class UploadFoto extends StatefulWidget {
   @override
@@ -100,7 +98,7 @@ class UploadFotoState extends State<UploadFoto> {
               child: IconButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => HomePageClient()));
+                      builder: (BuildContext context) => AllPhotos()));
 
                 },
                 icon: Icon(Icons.arrow_back_ios,
@@ -203,49 +201,9 @@ class UploadFotoState extends State<UploadFoto> {
                       child: Icon(Icons.check, color: Colors.green),
                     ),
                   ),
-
                 ],
               ),
-
             ),
-          ),
-          Column(
-            children: [
-              MaterialButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => PhotoPage(),
-                    ),
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      Text(
-                          'Ver todas as fotos'
-                      ),
-
-
-                    ],
-                  )
-              ),
-              MaterialButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => AlbumClient(),
-                    ),
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      Text(
-                          'Ver as minhas fotos'
-                      ),
-
-
-                    ],
-                  )
-              ),
-            ],
           ),
         ],
       ),

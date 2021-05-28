@@ -31,6 +31,68 @@ class _MapPageState extends State<MapPageClient> {
     bool res = await FlutterPhoneDirectCaller.callNumber(number);
   }
 
+  Future<void> _Confirmar() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Pedido de Socorro'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Tem a certeza que pretende pedir socorro? Peça apenas em caso de emergência!'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Center(child: const Text('SIM')),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _showDialog();
+
+              },
+            ),
+            TextButton(
+              child: Center(child: const Text('Voltar')),
+              onPressed: () {
+                Navigator.of(context).pop();
+
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  Future<void> _Sucesso() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Pedido de Socorro enviado!'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('A nossa equipa irá assisti-lo o mais breve possível!'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Center(child: const Text('OK')),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 
   Future<void> _showDialog() async {
     return showDialog<void>(
@@ -77,7 +139,6 @@ class _MapPageState extends State<MapPageClient> {
                         ),
                         ),
                         Icon(
-
                             Icons.local_police,
                             size: 40),
 
@@ -121,7 +182,9 @@ class _MapPageState extends State<MapPageClient> {
                 MaterialButton(
                     height: 60,
                     onPressed: () {
-                      FirestoreCreateSos(_uname,);
+                      FirestoreCreateSos(_uname);
+                      Navigator.of(context).pop();
+                      _Sucesso();
 
 
                     },
@@ -210,6 +273,23 @@ void _onMapCreated (GoogleMapController controller) {
 }
 
 
+  void _addMarker(double lat, double lng) {
+    var _marker = Marker(
+      markerId: MarkerId(UniqueKey().toString()),
+      position: LatLng(lat, lng),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
+    );
+    setState(() {
+      markers.add(_marker);
+    });
+  }
+  void _updateMarkers(List<DocumentSnapshot> documentList) {
+    documentList.forEach((DocumentSnapshot document) {
+      GeoPoint point = document['position']['geopoint'];
+      _addMarker(point.latitude, point.longitude);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -256,7 +336,7 @@ void _onMapCreated (GoogleMapController controller) {
                   color: Colors.red,
                   shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(20),),
                   onPressed: () {
-                    _showDialog();
+                    _Confirmar();
                   },
                   child: Column(
                     children: [

@@ -49,5 +49,17 @@ Future<void>OfflineUser() async{
 
 }
 
+Future<void>FirestoreUserDelete(String uid) async{
+
+
+  CollectionReference sos = FirebaseFirestore.instance.collection('Utilizadores');
+  return sos
+      .doc(uid)
+      .delete()
+      .then((value) => print("Utilizador apagado com sucesso!"))
+      .catchError((error) => print("Falha a apagar o utilizador: $error"));
+
+}
+
 
 
