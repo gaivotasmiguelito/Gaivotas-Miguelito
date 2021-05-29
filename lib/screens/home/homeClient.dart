@@ -7,6 +7,7 @@ import 'package:flutter_app/screens/photo/allPhotos.dart';
 import 'package:flutter_app/screens/profile/profile.dart';
 import 'package:flutter_app/screens/reviews/reviewsClient.dart';
 import 'package:flutter_app/screens/sos/sosClient.dart';
+import 'package:flutter_app/screens/welcome.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
 
 
@@ -56,7 +57,12 @@ class _HomePageClientState extends State<HomePageClient> {
     //Firestore offline
     OfflineUser();
     await FirebaseAuth.instance.signOut();
-    Navigator.of(context).pushReplacementNamed('/welcome');
+
+    //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext contex) => Welcome()));
+    //Navigator.popUntil(context, ModalRoute.withName('/welcome'));
+    Navigator.pushNamedAndRemoveUntil(context, "/welcome", (Route<dynamic> route) => false);
+
+
 
   }
 

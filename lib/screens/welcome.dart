@@ -1,3 +1,4 @@
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/auth/signup.dart';
 import 'package:flutter_app/screens/auth/login.dart';
@@ -60,7 +61,7 @@ class _WelcomeState extends State<Welcome> {
 
               ),
               SizedBox(
-                height: 100,
+                height: 150,
               ),
 
 
@@ -120,7 +121,22 @@ class _WelcomeState extends State<Welcome> {
                           fontSize: 18
                       ),
                     ),
-                  )
+                  ),
+                DoubleBackToCloseApp(
+                        snackBar: const SnackBar(
+                          content: Text('Pressione novamente para sair!'),
+                        ),
+                        child: Center(
+                          child: MaterialButton(
+
+                            onPressed:(){
+
+                              WidgetsBinding.instance.handlePopRoute;
+
+                          }
+                          ),
+                        ),
+                      ),
 
                 ],
               ),

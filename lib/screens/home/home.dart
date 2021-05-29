@@ -54,7 +54,8 @@ class _HomePageState extends State<HomePage> {
     //Firestore offline
     OfflineUser();
     await FirebaseAuth.instance.signOut();
-    Navigator.of(context).pushReplacementNamed('/welcome');
+    //Navigator.of(context).pushReplacementNamed('/welcome');
+    Navigator.pushNamedAndRemoveUntil(context, "/welcome", (Route<dynamic> route) => false);
 
   }
 

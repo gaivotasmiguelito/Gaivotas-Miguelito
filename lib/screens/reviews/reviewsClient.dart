@@ -6,7 +6,7 @@ import 'package:flutter_app/screens/reviews/clientReviewOnly.dart';
 import 'package:flutter_app/services/firestoreReviews.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'add_review.dart';
+
 
 class ReviewsClient extends StatefulWidget {
   const ReviewsClient({Key key}) : super(key: key);
