@@ -8,6 +8,7 @@ import 'package:flutter_app/screens/profile/profile.dart';
 import 'package:flutter_app/screens/reviews/reviewsClient.dart';
 import 'package:flutter_app/screens/sos/sosClient.dart';
 import 'package:flutter_app/screens/welcome.dart';
+import 'package:flutter_app/services/FirestoreLocations.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
 
 
@@ -56,7 +57,12 @@ class _HomePageClientState extends State<HomePageClient> {
 
     //Firestore offline
     OfflineUser();
+
+    //Sair FirebaseAuth
     await FirebaseAuth.instance.signOut();
+
+    //Apagar Localização
+    FirestoreLocationDelete(uid);
 
     //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext contex) => Welcome()));
     //Navigator.popUntil(context, ModalRoute.withName('/welcome'));

@@ -51,7 +51,13 @@ class _WelcomeState extends State<Welcome> {
                       icon: FaIcon(FontAwesomeIcons.facebook,size: 40,color: Colors.blue,),
                     ),
                     IconButton(
-                      onPressed: () {
+                      onPressed: ()async {
+                        const url = 'https://www.instagram.com/gaivotasmiguelito/';
+                        if (await canLaunch(url)) {
+                        await launch(url);
+                        }else {
+                        throw 'Could not launch $url';
+                        }
 
                       },
                       icon: FaIcon(FontAwesomeIcons.instagram,size: 40,color: Colors.pinkAccent,),

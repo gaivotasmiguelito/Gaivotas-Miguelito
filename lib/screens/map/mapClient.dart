@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +11,7 @@ import 'package:flutter_app/services/firestoreSos.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 
 
@@ -253,42 +257,95 @@ class _MapPageState extends State<MapPageClient> {
   double lat = 40.45055321730234;
   double long = -8.797889649868011;
 
-void _onMapCreated (GoogleMapController controller) {
+
+  void updateMarkerAndCircle(LocationData newLocalData, Uint8List imageData) {
+    LatLng latlng = LatLng(newLocalData.latitude, newLocalData.longitude);
+    this.setState(() {
+      marker = Marker(
+          markerId: MarkerId("home"),
+          position: latlng,
+          rotation: newLocalData.heading,
+          draggable: false,
+          zIndex: 2,
+          flat: true,
+          anchor: Offset(0.5, 0.5),
+          icon: BitmapDescriptor.fromBytes(imageData));
+      circle = Circle(
+          circleId: CircleId("boat"),
+          radius: newLocalData.accuracy,
+          zIndex: 1,
+          strokeColor: Colors.blue,
+          center: latlng,
+          fillColor: Colors.blue.withAlpha(70));
+    }
+    );
+  }
+
+  StreamSubscription _locationSubscription;
+  Location _locationTracker = Location();
+  Marker marker;
+  Circle circle;
+  GoogleMapController _controller;
+
+  Future<Uint8List> getMarker() async {
+    ByteData byteData = await DefaultAssetBundle.of(context).load("assets/images/logo1.png");
+    return byteData.buffer.asUint8List();
+  }
+  @override
+  void dispose() {
+    if (_locationSubscription != null) {
+      _locationSubscription.cancel();
+    }
+    super.dispose();
+  }
+  void getCurrentLocation() async {
+
+    Uint8List imageData = await getMarker();
+    var location = await _locationTracker.getLocation();
+
+    updateMarkerAndCircle(location, imageData);
 
 
-  mapController = controller;
-
-  LatLng porto = LatLng(40.451351526181575, -8.801396302878857);
-  final Marker marker = Marker(
-    markerId: new MarkerId("porto"),
-    position: porto,
-    infoWindow: InfoWindow(
-      title: "Gaivotas Miguelito",
-      snippet: "Ponto de Partida",
-    )
-  );
-  setState(() {
-    markers.add(marker);
-  });
-}
 
 
-  void _addMarker(double lat, double lng) {
-    var _marker = Marker(
-      markerId: MarkerId(UniqueKey().toString()),
-      position: LatLng(lat, lng),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
+      if (_locationSubscription != null) {
+        _locationSubscription.cancel();
+      }
+
+
+      _locationSubscription = _locationTracker.onLocationChanged.listen((newLocalData) {
+        if (_controller != null) {
+          _controller.animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
+              target: LatLng(newLocalData.latitude, newLocalData.longitude),
+              zoom: 16.00)));
+          FirestoreLocation(newLocalData.latitude, newLocalData.longitude);
+          //updateMarkerAndCircle(newLocalData, imageData);
+          print(LatLng(newLocalData.latitude, newLocalData.longitude));
+        }
+      });
+
+
+  }
+
+  void _onMapCreated (GoogleMapController controller) {
+
+
+    mapController = controller;
+
+    LatLng porto = LatLng(40.451351526181575, -8.801396302878857);
+    final Marker marker = Marker(
+        markerId: new MarkerId("porto"),
+        position: porto,
+        infoWindow: InfoWindow(
+          title: "Gaivotas Miguelito",
+          snippet: "Ponto de Partida",
+        )
     );
     setState(() {
-      markers.add(_marker);
+      markers.add(marker);
     });
   }
-  void _updateMarkers(List<DocumentSnapshot> documentList) {
-    documentList.forEach((DocumentSnapshot document) {
-      GeoPoint point = document['position']['geopoint'];
-      _addMarker(point.latitude, point.longitude);
-    });
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -308,7 +365,7 @@ void _onMapCreated (GoogleMapController controller) {
               onTap: (position) {
                 print(position);
                 print("Estou na localização");
-                FirestoreLocation(position.latitude, position.longitude);
+                //FirestoreLocation(position.latitude, position.longitude);
               },
               initialCameraPosition: CameraPosition(
                 target:LatLng(lat, long),
@@ -316,8 +373,12 @@ void _onMapCreated (GoogleMapController controller) {
               ),
 
               markers: markers,
-              onMapCreated: _onMapCreated,
+              onMapCreated: (GoogleMapController controller) {
+                _controller = controller;
+                _onMapCreated(controller);
+              },
               myLocationEnabled: true,
+              myLocationButtonEnabled: false,
 
 
             ),
@@ -325,6 +386,7 @@ void _onMapCreated (GoogleMapController controller) {
           Row(
             children: [
               TimePage(),
+
             ],
           ),
           Row(
@@ -352,16 +414,33 @@ void _onMapCreated (GoogleMapController controller) {
                           style: TextStyle(fontSize:25, color:Colors.white),
                         ),
                       ),
+
                     ],
                   ),
                 ),
               ),
+
             ],
           ),
 
+
+
         ],
 
-      )
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(top:25.0),
+        child: Align(
+          alignment: Alignment.topRight,
+          child: FloatingActionButton(
+              child: Icon(Icons.location_searching),
+              onPressed: () {
+                //FirestoreLocation(position.latitude, position.longitude);
+                getCurrentLocation();
+
+              }),
+        ),
+      ),
     );
   }
 }

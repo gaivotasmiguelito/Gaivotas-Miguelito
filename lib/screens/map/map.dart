@@ -117,6 +117,8 @@ void _onMapCreated (GoogleMapController controller) {
               ),
 
               markers: markers,
+              myLocationEnabled: true,
+              myLocationButtonEnabled: true,
             ),
           ),
 

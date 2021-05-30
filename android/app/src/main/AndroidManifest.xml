@@ -7,7 +7,7 @@
     <!-- Fim Camera e Galeria -->
 
    <application
-        android:label="flutter_app"
+        android:label="Miguelito"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true">
 
