@@ -9,7 +9,6 @@ import 'package:flutter_app/screens/map/timer.dart';
 import 'package:flutter_app/services/FirestoreLocations.dart';
 import 'package:flutter_app/services/firestoreSos.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 

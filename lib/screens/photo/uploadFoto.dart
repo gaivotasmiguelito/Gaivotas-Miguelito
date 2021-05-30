@@ -70,7 +70,8 @@ class UploadFotoState extends State<UploadFoto> {
              TextButton(
                child: Center(child: const Text('OK')),
                onPressed: () {
-                 Navigator.of(context).pop();
+                 MaterialPageRoute(builder: (context) => AllPhotos());
+                 
                },
              ),
            ],
