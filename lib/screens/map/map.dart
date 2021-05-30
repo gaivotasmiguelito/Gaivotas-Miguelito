@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/admin/admin.dart';
+import 'package:flutter_app/screens/home/home.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
@@ -131,7 +132,8 @@ void _onMapCreated (GoogleMapController controller) {
                   height: 30,
                   onPressed: () {
 
-                    //Navigator.of(context).pushReplacementNamed('/home');
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context) => HomePage()));
                   },
                   color: Colors.black12,
                   elevation: 0,
