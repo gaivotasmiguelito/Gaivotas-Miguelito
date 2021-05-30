@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/admin/admin.dart';
 import 'package:flutter_app/screens/map/map.dart';
 import 'package:flutter_app/screens/profile/profileAdmin.dart';
-import 'package:flutter_app/screens/sos/sos.dart';
 import 'package:flutter_app/services/firestoreUsers.dart';
 
 
@@ -115,12 +114,14 @@ class _HomePageState extends State<HomePage> {
                   'Bem-vindo '+_userName,style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
+                color: Colors.black,
               ),
 
               ),
-              accountEmail: Text('Administração'),
+              accountEmail: Text('Administração',style: TextStyle(
+                color: Colors.black,
+              ),),
             ),
-
 
             ListTile(
               leading: Icon(Icons.home),
@@ -150,22 +151,6 @@ class _HomePageState extends State<HomePage> {
               },
               trailing: Icon(Icons.arrow_forward_ios_outlined),
             ),
-            ListTile(
-              leading: Icon(Icons.warning_amber_outlined),
-              title: Text('Pedidos de SOS',style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-              ),),
-              onTap: () async {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => SosPage()));
-
-                print('Pedidos de SOS');
-
-              },
-              trailing: Icon(Icons.arrow_forward_ios_outlined),
-            ),
-
 
             ListTile(
               leading: Icon(Icons.admin_panel_settings_rounded),
@@ -197,9 +182,11 @@ class _HomePageState extends State<HomePage> {
               },
               trailing: Icon(Icons.arrow_forward_ios_outlined),
             ),
-            SizedBox(height: 70,),
-            ListTile(
 
+            //Espaço responsivo
+            SizedBox(height: MediaQuery.of(context).size.height/4,),
+
+            ListTile(
               title: Text('Desenvolvido por: Marta Simões, Miguel Lopes e Pedro Rafael Santos',style: TextStyle(
                 fontSize: 15, color: Colors.black54,
                 //fontWeight: FontWeight.w500,
@@ -213,8 +200,9 @@ class _HomePageState extends State<HomePage> {
       ),
       appBar: AppBar(
         centerTitle: true,
+        iconTheme: IconThemeData(color: Colors.black),
         title: Text("GM - Administração",
-          style: TextStyle(color: Colors.white, fontSize: 24),),
+          style: TextStyle(color: Colors.black, fontSize: 24),),
       ),
       body: MapPage(),
     );

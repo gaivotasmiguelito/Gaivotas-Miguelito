@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_app/screens/home/home.dart';
 import 'package:flutter_app/screens/home/homeClient.dart';
+import 'package:flutter_app/screens/photo/photoCliente.dart';
 import 'package:flutter_app/screens/photo/uploadFoto.dart';
 
 
@@ -71,27 +72,50 @@ class _AllPhotosState extends State<AllPhotos> {
         ),
         centerTitle: true,
         title: Text(
-          "Álbum de Fotos", style: TextStyle(color: Colors.white, fontSize: 24),),
+          "Fotografias Gaivotas Miguelito", style: TextStyle(color: Colors.black, fontSize: 20),),
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
           child: Column(
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   IconButton(
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> UploadFoto()));
-                    },
+                  onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> UploadFoto()));
+                  },
                     icon: Icon(Icons.add,
                       size: 38,
                       color: Colors.blueAccent,),
                   ),
+                  MaterialButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      color: Colors.blueAccent,
+                      padding: EdgeInsets.only(left: 10,right: 10),
+                      child: Text('Minhas fotografias',style: TextStyle
+                        (color: Colors.white,fontSize: 15),
+                      ),
+                      onPressed: () {
+                        //_homeNavigation();
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) =>PhotoClient()));
+                      }
+                  ),
+                ],
+              ),
+              SizedBox(height: 30,),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+
+                children: [
+
                   Padding(
-                    padding: const EdgeInsets.only(bottom:20.0, top: 10),
+                    padding: const EdgeInsets.only(bottom:10.0, top: 10),
                     child: Center(
                       child: Container(
                         width: 130,

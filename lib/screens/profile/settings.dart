@@ -56,18 +56,16 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
         centerTitle: true,
         title: Text(
-          "Definições", style: TextStyle(color: Colors.white, fontSize: 24),),
+          "Definições", style: TextStyle(color: Colors.black, fontSize: 24),),
       ),
       body: Container(
 
         padding: EdgeInsets.symmetric(vertical:20,horizontal: 25),
         child: ListView(
           children: [
+
             SizedBox(
               height: 20,
-            ),
-            SizedBox(
-              height: 40,
             ),
             Row(
               children: [

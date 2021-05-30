@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_app/screens/profile/settings.dart';
@@ -218,7 +219,7 @@ class _SettingsUIState extends State<SettingsUI> {
         ),
         centerTitle: true,
         title: Text(
-          "Dados Pessoais", style: TextStyle(color: Colors.white, fontSize: 24),),
+          "Dados Pessoais", style: TextStyle(color: Colors.black, fontSize: 24),),
       ),
       body: Scaffold(
 
@@ -443,7 +444,7 @@ class _SettingsUIState extends State<SettingsUI> {
                   ),
 
                 ),
-                SizedBox(height: 30,),
+                SizedBox(height: MediaQuery.of(context).size.height/10,),
 
                 MaterialButton(
                   onPressed: () {
@@ -454,6 +455,7 @@ class _SettingsUIState extends State<SettingsUI> {
                     fontWeight: FontWeight.w500,
                     fontSize: 15,
                     color: Colors.black,
+                    decoration: TextDecoration.underline,
 
 
                   ),

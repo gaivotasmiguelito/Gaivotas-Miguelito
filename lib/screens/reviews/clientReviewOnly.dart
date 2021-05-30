@@ -74,7 +74,7 @@ class _ClientReviewOnlyState extends State<ClientReviewOnly> {
         ),
         centerTitle: true,
         title: Text(
-          "A minha Review", style: TextStyle(color: Colors.white, fontSize: 24),),
+          "A minha review", style: TextStyle(color: Colors.black, fontSize: 24),),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

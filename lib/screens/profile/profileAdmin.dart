@@ -82,7 +82,7 @@ class _ProfileAdminState extends State<ProfileAdmin> {
         ),
         centerTitle: true,
         title: Text(
-          "Meu Perfil", style: TextStyle(color: Colors.white, fontSize: 24),),
+          "Meu Perfil", style: TextStyle(color: Colors.black, fontSize: 24),),
         actions: [
           IconButton(
             icon: Icon(
@@ -176,11 +176,13 @@ class _ProfileAdminState extends State<ProfileAdmin> {
                   },
                 ),
               ),
+              Divider(height: 10,thickness: 1, color: Colors.black,),
+              SizedBox(height: 15,),
 
 
               Padding(
                 padding:  EdgeInsets.only(top: 3),
-                child: Text("Álbum da Empresa", style: TextStyle(
+                child: Text("Fotografias Gaivotas Miguelito", style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 20

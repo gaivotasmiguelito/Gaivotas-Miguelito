@@ -121,8 +121,44 @@ void _onMapCreated (GoogleMapController controller) {
               myLocationButtonEnabled: true,
             ),
           ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
 
-          SizedBox(height: 20,),
+            children: [
+              Center(
+                child: MaterialButton(
+
+                  height: 30,
+                  onPressed: () {
+
+                    //Navigator.of(context).pushReplacementNamed('/home');
+                  },
+                  color: Colors.black12,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+
+                  ),
+                  child: Text(
+                    "Atualizar Mapa", style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                    color: Colors.black,
+
+                  ),
+                  ),
+
+                ),
+
+              ),
+
+            ],
+
+
+          ),
+
+
+          SizedBox(height: 10,),
           Text('Pedidos de SOS', style:
           TextStyle(fontSize: 25, color: Colors.black)),
 

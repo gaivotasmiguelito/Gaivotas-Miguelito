@@ -24,7 +24,7 @@ class _PrivacyState extends State<Privacy> {
           ),
         ), centerTitle: true,
         title: Text(
-          "Privacidade e Segurança", style: TextStyle(color: Colors.white, fontSize: 24),),
+          "Privacidade e Segurança", style: TextStyle(color: Colors.black, fontSize: 24),),
 
       ),
       body: Scaffold(

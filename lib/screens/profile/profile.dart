@@ -78,7 +78,7 @@ class _ProfileState extends State<Profile> {
         ),
         centerTitle: true,
         title: Text(
-          "Meu Perfil", style: TextStyle(color: Colors.white, fontSize: 24),),
+          "Meu Perfil", style: TextStyle(color: Colors.black, fontSize: 24),),
         actions: [
           IconButton(
             icon: Icon(
@@ -160,10 +160,12 @@ class _ProfileState extends State<Profile> {
               SizedBox(
                 height: 50,
               ),
+              Divider(height: 10,thickness: 1, color: Colors.black,),
+              SizedBox(height: 15,),
 
               Padding(
                 padding:  EdgeInsets.only(top: 3),
-                child: Text("Meu álbum", style: TextStyle(
+                child: Text("Minhas Fotografias", style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 20

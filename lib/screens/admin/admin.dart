@@ -36,6 +36,8 @@ class _AdminPageState extends State<AdminPage> {
               ),
             ),
             bottom: TabBar(
+              indicatorColor: Colors.black,
+              labelColor: Colors.black,
               //controller: _tabController,
               isScrollable: true,
               tabs: [
@@ -46,7 +48,8 @@ class _AdminPageState extends State<AdminPage> {
 
               ],
             ),
-            title: Text('Administração'),
+            centerTitle: true,
+            title: Text('Administração', style: TextStyle(color: Colors.black,),),
           ),
           body: TabBarView(
             children: [
@@ -68,14 +71,19 @@ class _AdminPageState extends State<AdminPage> {
 
                       bottom: TabBar(
                         isScrollable: true,
+                        indicatorColor: Colors.black,
+                        labelColor: Colors.black,
+
                         tabs: [
-                          Tab( text: 'Online'),
+
+                          Tab( text: 'Online',),
                           Tab( text: 'Offline'),
                           Tab( text: 'Todos'),
                         ],
                       ),
                     ),
                     body: TabBarView(
+
                       children: [
                         Container(
                           child: OnlineUsers(),
@@ -116,6 +124,8 @@ class _AdminPageState extends State<AdminPage> {
 
 
                         bottom: TabBar(
+                          indicatorColor: Colors.black,
+                          labelColor: Colors.black,
                           isScrollable: true,
                           tabs: [
                             Tab( text: 'Não validadas'),

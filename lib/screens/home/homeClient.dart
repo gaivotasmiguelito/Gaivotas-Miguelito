@@ -126,6 +126,7 @@ class _HomePageClientState extends State<HomePageClient> {
                 'Bem-vindo '+_userName,style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
+                color: Colors.black,
               ),
 
               ),
@@ -210,9 +211,10 @@ class _HomePageClientState extends State<HomePageClient> {
               },
               trailing: Icon(Icons.arrow_forward_ios_outlined),
             ),
-            SizedBox(height: 70,),
-            ListTile(
+            //Espaço responsivo
+            SizedBox(height: MediaQuery.of(context).size.height/10,),
 
+            ListTile(
               title: Text('Desenvolvido por: Marta Simões, Miguel Lopes e Pedro Rafael Santos',style: TextStyle(
                 fontSize: 15, color: Colors.black54,
                 //fontWeight: FontWeight.w500,
@@ -224,9 +226,11 @@ class _HomePageClientState extends State<HomePageClient> {
         ),
       ),
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
           centerTitle: true,
+
           title: Text("Gaivotas Miguelito",
-            style: TextStyle(color: Colors.white, fontSize: 24),),
+            style: TextStyle(color: Colors.black, fontSize: 24),),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right:8.0),

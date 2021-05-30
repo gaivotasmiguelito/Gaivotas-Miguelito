@@ -24,7 +24,7 @@ class _FichaState extends State<Ficha> {
           ),
         ), centerTitle: true,
         title: Text(
-         "Ficha Técnica", style: TextStyle(color: Colors.white, fontSize: 24),),
+         "Ficha Técnica", style: TextStyle(color: Colors.black, fontSize: 24),),
 
       ),
       body: Scaffold(

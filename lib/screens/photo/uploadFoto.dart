@@ -70,8 +70,9 @@ class UploadFotoState extends State<UploadFoto> {
              TextButton(
                child: Center(child: const Text('OK')),
                onPressed: () {
-                 MaterialPageRoute(builder: (context) => AllPhotos());
-                 
+                 Navigator.of(context).push(MaterialPageRoute(
+                     builder: (BuildContext context) => AllPhotos()));
+
                },
              ),
            ],
@@ -112,8 +113,8 @@ class UploadFotoState extends State<UploadFoto> {
         ),
 
         centerTitle: true,
-        title: Text("Carregar Foto",
-          style: TextStyle(color: Colors.white, fontSize: 24),),
+        title: Text("Carregar fotografia",
+          style: TextStyle(color: Colors.black, fontSize: 24),),
 
       ),
       body: Column(
@@ -156,7 +157,7 @@ class UploadFotoState extends State<UploadFoto> {
                   onPressed: () {
                     uploadImage();
                   },
-                  child: Text("Carregar Imagem", style: TextStyle(fontSize: 21),),
+                  child: Text("Carregar fotografia", style: TextStyle(fontSize: 21),),
                 ),
               )
             ],
@@ -168,7 +169,7 @@ class UploadFotoState extends State<UploadFoto> {
               height: 50,
               width: 250,
               decoration: BoxDecoration(
-                color: Colors.teal,
+                color: Colors.teal[300],
                 borderRadius: BorderRadius.circular(30.0),
               ),
               child: Row(
@@ -179,7 +180,7 @@ class UploadFotoState extends State<UploadFoto> {
                     onPressed: () {
                       sendImage();
                       },
-                    child: Text("Enviar Fotografia", style: TextStyle(color: Colors.white,
+                    child: Text("Enviar fotografia", style: TextStyle(color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                     ),

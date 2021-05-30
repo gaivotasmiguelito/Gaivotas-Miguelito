@@ -69,8 +69,7 @@ class _UPasswordState extends State<UPassword> {
               child: Center(child: Text('Sim')),
               onPressed: () {
                 _updatePassword();
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => SettingsPage()));
+                Navigator.pop(context);
               },
             ),
             TextButton(
@@ -103,7 +102,7 @@ class _UPasswordState extends State<UPassword> {
         ),
         centerTitle: true,
         title: Text(
-          "Alterar Password", style: TextStyle(color: Colors.white, fontSize: 24),),
+          "Alterar Password", style: TextStyle(color: Colors.black, fontSize: 24),),
 
       ),
       body: Scaffold(

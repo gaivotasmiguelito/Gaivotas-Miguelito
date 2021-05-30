@@ -58,16 +58,9 @@ class _LoginPageState extends State<LoginPage> {
           }else{
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) => HomePageClient()));
-            print('Estou aqui');
-
           }
           // use ds as a snapshot
-
         });
-
-
-        //Navigator.of(context).pushReplacementNamed('/home');
-
 
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
@@ -82,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
 
   }
 
-  // Confirmar o Apagar
+
   Future<void> _showDialog(String erro) async {
     return showDialog<void>(
       context: context,

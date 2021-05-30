@@ -41,13 +41,8 @@ class _ReviewsClientState extends State<ReviewsClient> {
         ),
         centerTitle: true,
         title: Text(
-          "Reviews", style: TextStyle(color: Colors.white, fontSize: 24),),
+          "Reviews", style: TextStyle(color: Colors.black, fontSize: 24),),
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Icon(Icons.help, size: 30),
-          ),
-
         ],
       ),
       body: Column(
@@ -57,7 +52,7 @@ class _ReviewsClientState extends State<ReviewsClient> {
           Container(
 
             child:Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               //crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 FutureBuilder<DocumentSnapshot>(

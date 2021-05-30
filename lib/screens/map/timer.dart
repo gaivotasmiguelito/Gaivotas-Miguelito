@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class TimePage extends StatefulWidget {
@@ -62,6 +61,7 @@ class _State extends State<TimePage> {
             color: Colors.black,
             size: 25,
           ),
+          SizedBox(width: 5,),
           StreamBuilder<int>(
             stream: _stopWatchTimer.rawTime,
             initialData: _stopWatchTimer.rawTime.value,

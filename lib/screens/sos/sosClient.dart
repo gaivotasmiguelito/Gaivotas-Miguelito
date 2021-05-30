@@ -57,16 +57,13 @@ class _SosClientPageState extends State<SosClientPage> {
 
 
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Pedido de Socorro", style: TextStyle(color: Colors.white, fontSize: 24),),
+          "Pedido de Socorro", style: TextStyle(color: Colors.black, fontSize: 24),),
         elevation: 1,
         leading: IconButton(
           onPressed: () {
