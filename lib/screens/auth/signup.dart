@@ -47,6 +47,9 @@ class _SignupPageState extends State<SignupPage> {
         //Firestore online
         OnlineUser();
 
+        //Firestore ultimo acesso
+        FirestoreUpdateLastLogin();
+
         //Definir rota
         Navigator.of(context).push(MaterialPageRoute(
             builder: (BuildContext context) => HomePageClient()));

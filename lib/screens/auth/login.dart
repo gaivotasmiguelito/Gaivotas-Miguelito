@@ -43,6 +43,9 @@ class _LoginPageState extends State<LoginPage> {
         //Firestore online
         OnlineUser();
 
+        //Firestore Ultimo Acesso
+        FirestoreUpdateLastLogin();
+
         FirebaseAuth auth = FirebaseAuth.instance;
 
         String _uid = auth.currentUser.uid;
