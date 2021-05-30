@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/services/firestoreUsers.dart';
 
 
 class UsersAdmin extends StatefulWidget {
@@ -13,6 +14,42 @@ class UsersAdmin extends StatefulWidget {
 }
 
 class _UsersAdminState extends State<UsersAdmin> {
+
+  var idUser;
+  Future<void> _showDialog(idReview) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Tem a certeza que pretende eliminar?'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('A Review será apagada permanentemente do sistema.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Center(child: Text('Sim')),
+              onPressed: () {
+                FirestoreUserDelete(idUser);
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Center(child: const Text('Cancelar')),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,6 +123,7 @@ class _UsersAdminState extends State<UsersAdmin> {
                                   ),
                                 ),
                               ),
+
 
                             ],
                           ),

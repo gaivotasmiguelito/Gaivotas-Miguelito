@@ -184,7 +184,7 @@ class _HomePageState extends State<HomePage> {
             ),
 
             //Espaço responsivo
-            SizedBox(height: MediaQuery.of(context).size.height/4,),
+            SizedBox(height: 130,),
 
             ListTile(
               title: Text('Desenvolvido por: Marta Simões, Miguel Lopes e Pedro Rafael Santos',style: TextStyle(

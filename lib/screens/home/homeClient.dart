@@ -187,7 +187,7 @@ class _HomePageClientState extends State<HomePageClient> {
             ),
             ListTile(
               leading: Icon(Icons.warning_amber_outlined),
-              title: Text('Sos',style: TextStyle(
+              title: Text('SOS',style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
               ),),
@@ -212,7 +212,7 @@ class _HomePageClientState extends State<HomePageClient> {
               trailing: Icon(Icons.arrow_forward_ios_outlined),
             ),
             //Espaço responsivo
-            SizedBox(height: MediaQuery.of(context).size.height/10,),
+            SizedBox(height: 60,),
 
             ListTile(
               title: Text('Desenvolvido por: Marta Simões, Miguel Lopes e Pedro Rafael Santos',style: TextStyle(
