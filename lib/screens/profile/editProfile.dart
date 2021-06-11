@@ -167,7 +167,7 @@ class _SettingsUIState extends State<SettingsUI> {
       FirestoreSosDelete(uid);
 
 
-      Navigator.of(context).pushReplacementNamed('/welcome');
+      Navigator.pushNamedAndRemoveUntil(context, "/welcome", (Route<dynamic> route) => false);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'requires-recent-login') {
         print('The user must reauthenticate before this operation can be executed.');

@@ -211,17 +211,6 @@ class _HomePageClientState extends State<HomePageClient> {
               },
               trailing: Icon(Icons.arrow_forward_ios_outlined),
             ),
-            //Espaço responsivo
-            SizedBox(height: 60,),
-
-            ListTile(
-              title: Text('Desenvolvido por: Marta Simões, Miguel Lopes e Pedro Rafael Santos',style: TextStyle(
-                fontSize: 15, color: Colors.black54,
-                //fontWeight: FontWeight.w500,
-              ),),
-              subtitle: Text('Coimbra Business School ISCAC'),
-
-            ),
           ],
         ),
       ),
